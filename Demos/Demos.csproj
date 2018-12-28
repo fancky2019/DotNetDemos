@@ -46,6 +46,7 @@
     <Compile Include="Demos\AdoTest.cs" />
     <Compile Include="Common\Config.cs" />
     <Compile Include="Common\DataSetExtention.cs" />
+    <Compile Include="Demos\BlockingCollectionDemo.cs" />
     <Compile Include="Demos\DelegateDemo.cs" />
     <Compile Include="Demos\LambdaTest.cs" />
     <Compile Include="Demos\LockDemo.cs" />
