@@ -14,7 +14,7 @@ namespace Demos
         [STAThread]
         static void Main(string[] args)
         {
-            Console.WriteLine(Thread.CurrentThread.ManagedThreadId);
+            //Console.WriteLine(Thread.CurrentThread.ManagedThreadId);
 
             //new ParamsDemo().Test();
             // string str = Test().Result;
