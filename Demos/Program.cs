@@ -23,6 +23,8 @@ namespace Demos
             //new TClassTest<Product>().Test();
             //new LockDemo().Test();
 
+            #region SynchronizationDemo
+            #endregion
             new BlockingCollectionDemo().Test();
 
             int m = 0;
