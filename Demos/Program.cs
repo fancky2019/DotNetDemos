@@ -25,6 +25,7 @@ namespace Demos
 
             #region SynchronizationDemo
             #endregion
+
             new BlockingCollectionDemo().Test();
 
             int m = 0;
