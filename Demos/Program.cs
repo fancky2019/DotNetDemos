@@ -1,5 +1,7 @@
 ﻿using Demos.Demos;
+using Demos.Demos.SynchronizationDemo;
 using Demos.Model;
+using ManualResetEventDemo;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,8 +26,11 @@ namespace Demos
             //new LockDemo().Test();
 
             #region SynchronizationDemo
+            //   new AutoResetEventTest().Test();
+            // new ManualResetEventTest().Test();
+            new ProducerConsumer(100).Test();
             #endregion
-            new BlockingCollectionDemo().Test();
+            //  new BlockingCollectionDemo().Test();
 
             int m = 0;
             Console.ReadLine();
