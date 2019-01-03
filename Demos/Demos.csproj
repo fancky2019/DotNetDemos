@@ -50,6 +50,14 @@
     <Compile Include="Demos\DelegateDemo.cs" />
     <Compile Include="Demos\LambdaTest.cs" />
     <Compile Include="Demos\LockDemo.cs" />
+    <Compile Include="Demos\SynchronizationDemo\AutoResetEventTest.cs" />
+    <Compile Include="Demos\SynchronizationDemo\InterlockedTest.cs" />
+    <Compile Include="Demos\SynchronizationDemo\LockTest.cs" />
+    <Compile Include="Demos\SynchronizationDemo\ManualResetEventTest.cs" />
+    <Compile Include="Demos\SynchronizationDemo\MonitorTest.cs" />
+    <Compile Include="Demos\SynchronizationDemo\MutexTest.cs" />
+    <Compile Include="Demos\SynchronizationDemo\ProducerConsumer.cs" />
+    <Compile Include="Demos\SynchronizationDemo\SemaphoreTest.cs" />
     <Compile Include="Model\Product.cs" />
     <Compile Include="Demos\ParamsDemo.cs" />
     <Compile Include="Program.cs" />
