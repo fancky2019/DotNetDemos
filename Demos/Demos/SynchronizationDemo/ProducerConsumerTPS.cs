@@ -8,12 +8,15 @@ using System.Threading.Tasks;
 
 namespace Demos.Demos.SynchronizationDemo
 {
-    class ProducerConsumer
+    class ProducerConsumerTPS
     {
-
         public readonly int MaxLength;
-
-
+        /// <summary>
+        /// 
+        /// </summary>
+        public int TPS { get; set; }
+        
+        private Queue<DateTime> executeTimeList = new Queue<DateTime>();
         AutoResetEvent _produceAutoResetEvent = new AutoResetEvent(false);
         AutoResetEvent _consumerAutoResetEvent = new AutoResetEvent(false);
 
@@ -25,10 +28,18 @@ namespace Demos.Demos.SynchronizationDemo
 
         object _lockObj = new object();
 
-        public ProducerConsumer(int maxLength)
+        //this串联构造函数
+        public ProducerConsumerTPS(int maxLength) : this(maxLength, 0)
+        {
+
+        }
+
+        public ProducerConsumerTPS(int maxLength, int tps)
         {
             MaxLength = maxLength;
+            this.TPS = tps;
         }
+
 
         public void Test()
         {
@@ -47,7 +58,7 @@ namespace Demos.Demos.SynchronizationDemo
                 while (true)
                 {
                     Cunsumer();
-                    Thread.Sleep(800);
+                    Thread.Sleep(100);
                 }
             });
 
@@ -119,10 +130,24 @@ namespace Demos.Demos.SynchronizationDemo
             {
                 _consumerAutoResetEvent.WaitOne();
             }
+   
+            //如果执行等于TPS
+            if (executeTimeList.Count >= this.TPS)
+            {
+                DateTime firstTime = executeTimeList.Dequeue();
+                TimeSpan ts = DateTime.Now - firstTime;
+                //执行间隔小于1s，等待
+                if(ts.Seconds<1)
+                {   
+                    //多睡1ms
+                    Thread.Sleep(1000-ts.Milliseconds+1);
+                }
+            }
 
             int result = 0;
             _queue.TryDequeue(out result);
-            Console.WriteLine($"TryDequeue : {result}");
+            this.executeTimeList.Enqueue(DateTime.Now);
+            Console.WriteLine($"TryDequeue : {result} time:{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}");
             _produceAutoResetEvent.Set();
 
 

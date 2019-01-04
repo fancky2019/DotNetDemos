@@ -28,7 +28,9 @@ namespace Demos
             #region SynchronizationDemo
             //   new AutoResetEventTest().Test();
             // new ManualResetEventTest().Test();
-            new ProducerConsumer(100).Test();
+          //  new ProducerConsumer(100).Test();
+
+            new ProducerConsumerTPS(100,5).Test();
             #endregion
 
             //  new BlockingCollectionDemo().Test();
