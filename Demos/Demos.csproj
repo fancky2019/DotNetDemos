@@ -51,6 +51,12 @@
     <Compile Include="Demos\LambdaTest.cs" />
     <Compile Include="Demos\LockDemo.cs" />
     <Compile Include="Demos\QueueDemo.cs" />
+    <Compile Include="Demos\Reflection\AttributeDemo.cs" />
+    <Compile Include="Demos\Reflection\IJob.cs" />
+    <Compile Include="Demos\Reflection\Job1.cs" />
+    <Compile Include="Demos\Reflection\Job2.cs" />
+    <Compile Include="Demos\Reflection\Job3.cs" />
+    <Compile Include="Demos\Reflection\JobAttribute.cs" />
     <Compile Include="Demos\SynchronizationDemo\AutoResetEventTest.cs" />
     <Compile Include="Demos\SynchronizationDemo\InterlockedTest.cs" />
     <Compile Include="Demos\SynchronizationDemo\LockTest.cs" />

@@ -1,4 +1,5 @@
 ﻿using Demos.Demos;
+using Demos.Demos.Reflection;
 using Demos.Demos.SynchronizationDemo;
 using Demos.Model;
 using ManualResetEventDemo;
@@ -28,14 +29,14 @@ namespace Demos
             #region SynchronizationDemo
             //   new AutoResetEventTest().Test();
             // new ManualResetEventTest().Test();
-          //  new ProducerConsumer(100).Test();
+            //  new ProducerConsumer(100).Test();
 
-            new ProducerConsumerTPS(100,5).Test();
+            //new ProducerConsumerTPS(100,5).Test();
             #endregion
 
             //  new BlockingCollectionDemo().Test();
 
-
+            new AttributeDemo().Test();
             int m = 0;
             Console.ReadLine();
         }
