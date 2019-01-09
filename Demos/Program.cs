@@ -36,7 +36,8 @@ namespace Demos
 
             //  new BlockingCollectionDemo().Test();
 
-            new AttributeDemo().Test();
+            // new AttributeDemo().Test();
+            new ImplicitExplicitDemo().Test();
             int m = 0;
             Console.ReadLine();
         }
