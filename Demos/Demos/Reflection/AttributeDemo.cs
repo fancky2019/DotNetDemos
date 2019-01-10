@@ -16,12 +16,22 @@ namespace Demos.Demos.Reflection
             });
         }
 
+        
+        private T Get<T>()
+        {
+            //创建泛型对象
+            Type type = typeof(T);
+            type.Assembly.CreateInstance(type.FullName);
+            T t = Activator.CreateInstance<T>();
+            return t;
+        }
+
         private List<IJob> GetJobs()
         {
             //Type iJobType = typeof(IJob);
             //Type job1Type = typeof(Job1);
             ////反射判断Type是否实现了接口，或继承
-           // typeof(IJob).IsAssignableFrom(job1Type);
+            // typeof(IJob).IsAssignableFrom(job1Type);
             //typeof(IJob).IsAssignableFrom(typeof(Job1));
 
             ////反射判断继承
