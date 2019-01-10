@@ -17,8 +17,10 @@ namespace Demos.Demos.Reflection
         }
 
         
-        private T Get<T>()
+        private T Get<T> () where T : class,new()
         {
+            //添加泛型约束就可以
+            T t1 = new T();
             //创建泛型对象
             Type type = typeof(T);
             type.Assembly.CreateInstance(type.FullName);
