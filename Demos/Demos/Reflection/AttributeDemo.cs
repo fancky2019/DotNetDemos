@@ -18,6 +18,15 @@ namespace Demos.Demos.Reflection
 
         private List<IJob> GetJobs()
         {
+            //Type iJobType = typeof(IJob);
+            //Type job1Type = typeof(Job1);
+            ////反射判断Type是否实现了接口，或继承
+           // typeof(IJob).IsAssignableFrom(job1Type);
+            //typeof(IJob).IsAssignableFrom(typeof(Job1));
+
+            ////反射判断继承
+            ////typeof(ChildClass).IsSubclassOf(typeof(ParentClass))
+
             //Assembly assembly = Assembly.Load("Demos");
             Assembly assembly = Assembly.GetExecutingAssembly();
             Type[] types = assembly.GetTypes();
