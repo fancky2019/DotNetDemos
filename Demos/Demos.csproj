@@ -60,12 +60,11 @@
     <Compile Include="Demos2018\QueueDemo.cs" />
     <Compile Include="Demos2018\RabbitMQ\RabbitMQClient\DirectExchange.cs" />
     <Compile Include="Demos2018\RabbitMQ\RabbitMQClient\FanoutExchange.cs" />
-    <Compile Include="Demos2018\RabbitMQ\RabbitMQClient\RabbitMQClientTest.cs" />
     <Compile Include="Demos2018\RabbitMQ\RabbitMQClient\TopicExchange.cs" />
     <Compile Include="Demos2018\RabbitMQ\RabbitMQServer\DirectExchange.cs" />
     <Compile Include="Demos2018\RabbitMQ\RabbitMQServer\FanoutExchange.cs" />
-    <Compile Include="Demos2018\RabbitMQ\RabbitMQServer\RabbitMQServerTest.cs.cs" />
     <Compile Include="Demos2018\RabbitMQ\RabbitMQServer\TopicExchange.cs" />
+    <Compile Include="Demos2018\RabbitMQ\RabbitMQTest.cs" />
     <Compile Include="Demos2018\Reflection\AttributeDemo.cs" />
     <Compile Include="Demos2018\Reflection\IJob.cs" />
     <Compile Include="Demos2018\Reflection\Job1.cs" />
@@ -92,6 +91,8 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Demos2019\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
