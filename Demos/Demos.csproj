@@ -32,6 +32,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Diagnostics.Tracing.EventSource, Version=1.1.28.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Diagnostics.Tracing.EventSource.Redist.1.1.28\lib\net46\Microsoft.Diagnostics.Tracing.EventSource.dll</HintPath>
+    </Reference>
+    <Reference Include="RabbitMQ.Client, Version=5.0.0.0, Culture=neutral, PublicKeyToken=89e7d7c5feba84ce, processorArchitecture=MSIL">
+      <HintPath>..\packages\RabbitMQ.Client.5.1.0\lib\net451\RabbitMQ.Client.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -59,6 +65,7 @@
     <Compile Include="Demos\Reflection\Job3.cs" />
     <Compile Include="Demos\Reflection\JobAttribute.cs" />
     <Compile Include="Demos\SynchronizationDemo\AutoResetEventTest.cs" />
+    <Compile Include="Demos\SynchronizationDemo\GenericDemo.cs" />
     <Compile Include="Demos\SynchronizationDemo\InterlockedTest.cs" />
     <Compile Include="Demos\SynchronizationDemo\LockTest.cs" />
     <Compile Include="Demos\SynchronizationDemo\ManualResetEventTest.cs" />
@@ -75,6 +82,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Demos\RabbitMQ\RabbitMQClient\" />
+    <Folder Include="Demos\RabbitMQ\RabbitMQServer\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
