@@ -1,9 +1,6 @@
-﻿using Demos.Demos.Reflection;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
 
-namespace Demos.Model
+namespace Demos.Demos2018.Model
 {
     public class Product
     {

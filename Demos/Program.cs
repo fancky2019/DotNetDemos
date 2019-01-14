@@ -1,16 +1,8 @@
-﻿using Demos.Demos;
-using Demos.Demos.Reflection;
-using Demos.Demos.SynchronizationDemo;
-using Demos.Model;
-using ManualResetEventDemo;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Demos
+namespace Demos.Demos2018
 {
     class Program
     {
