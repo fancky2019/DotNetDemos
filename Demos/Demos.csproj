@@ -58,6 +58,14 @@
     <Compile Include="Demos\LambdaTest.cs" />
     <Compile Include="Demos\LockDemo.cs" />
     <Compile Include="Demos\QueueDemo.cs" />
+    <Compile Include="Demos\RabbitMQ\RabbitMQClient\DirectExchange.cs" />
+    <Compile Include="Demos\RabbitMQ\RabbitMQClient\FanoutExchange.cs" />
+    <Compile Include="Demos\RabbitMQ\RabbitMQClient\RabbitMQClientTest.cs" />
+    <Compile Include="Demos\RabbitMQ\RabbitMQClient\TopicExchange.cs" />
+    <Compile Include="Demos\RabbitMQ\RabbitMQServer\DirectExchange.cs" />
+    <Compile Include="Demos\RabbitMQ\RabbitMQServer\FanoutExchange.cs" />
+    <Compile Include="Demos\RabbitMQ\RabbitMQServer\RabbitMQServerTest.cs.cs" />
+    <Compile Include="Demos\RabbitMQ\RabbitMQServer\TopicExchange.cs" />
     <Compile Include="Demos\Reflection\AttributeDemo.cs" />
     <Compile Include="Demos\Reflection\IJob.cs" />
     <Compile Include="Demos\Reflection\Job1.cs" />
@@ -84,9 +92,6 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Demos\RabbitMQ\RabbitMQClient\" />
-    <Folder Include="Demos\RabbitMQ\RabbitMQServer\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

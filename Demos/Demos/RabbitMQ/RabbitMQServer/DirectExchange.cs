@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RabbitMQServer
+namespace Demos.Demos.RabbitMQ.RabbitMQServer
 {
     /// <summary>
     /// http://www.rabbitmq.com/tutorials/tutorial-four-dotnet.html
