@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static System.Math;
 
-namespace DemDemos.Demos2018os
+namespace DemDemos.Demos2018
 {
     class ParamsDemo
     {

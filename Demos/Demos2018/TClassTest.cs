@@ -2,7 +2,7 @@
 using System;
 using System.Reflection;
 
-namespace DDemos.Demos2018emos
+namespace DDemos.Demos2018
 {
     class TClassTest<T> where T : new()
     {
