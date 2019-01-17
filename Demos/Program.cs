@@ -1,4 +1,5 @@
 ﻿using Demos.Demos2018.RabbitMQ;
+using Demos.Demos2019;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -32,7 +33,8 @@ namespace Demos.Demos2018
             // new AttributeDemo().Test();
             //   new ImplicitExplicitDemo().Test();
 
-            new RabbitMQTest().Test();
+            // new RabbitMQTest().Test();
+            new TryCatchFinallyReturnDemo().Test();
             int m = 0;
             Console.ReadLine();
         }

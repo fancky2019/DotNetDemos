@@ -24,8 +24,8 @@ namespace Demos.Demos2018.RabbitMQ
 
                 //http://www.rabbitmq.com/tutorials/tutorial-three-dotnet.html
                 //NuGet安装RabbitMQ.Client
-                //new FanoutExchange().Producer();
-                new DirectExchange().Producer();
+                new FanoutExchange().Producer();
+                //new DirectExchange().Producer();
                 //new TopicExchange().Producer();
             });
             Task.Run(() =>
@@ -41,9 +41,9 @@ namespace Demos.Demos2018.RabbitMQ
                 //http://www.rabbitmq.com/tutorials/tutorial-three-dotnet.html
                 //NuGet安装RabbitMQ.Client
 
-                //new FanoutExchange().Consumer();
-                new Demos.Demos2018.RabbitMQ.RabbitMQClient.DirectExchange().Consumer();
-                //new TopicExchange().Consumer();
+                new Demos.Demos2018.RabbitMQ.RabbitMQClient.FanoutExchange().Consumer();
+                //new Demos.Demos2018.RabbitMQ.RabbitMQClient.DirectExchange().Consumer();
+                //new Demos.Demos2018.RabbitMQ.RabbitMQClient.TopicExchange().Consumer();
             });
         }
     }

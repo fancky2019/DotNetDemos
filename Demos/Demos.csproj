@@ -81,6 +81,7 @@
     <Compile Include="Demos2018\SynchronizationDemo\ProducerConsumer.cs" />
     <Compile Include="Demos2018\SynchronizationDemo\ProducerConsumerTPS.cs" />
     <Compile Include="Demos2018\SynchronizationDemo\SemaphoreTest.cs" />
+    <Compile Include="Demos2019\TryCatchFinallyReturnDemo.cs" />
     <Compile Include="Model\Product.cs" />
     <Compile Include="Demos2018\ParamsDemo.cs" />
     <Compile Include="Program.cs" />
@@ -91,8 +92,6 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Demos2019\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
