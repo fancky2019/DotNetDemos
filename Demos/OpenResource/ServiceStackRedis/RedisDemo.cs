@@ -135,6 +135,8 @@ namespace Demos.OpenResource.Redis
 
        void ServiceStackTest()
         {
+
+          // 源码地址： https://github.com/search?q=ServiceStack&type=Repositories
             #region Redis 破解redis每小时只能添加6000次的限制
             /*
              * 1、NuGet安装好ServiceStack.Redis
@@ -142,8 +144,9 @@ namespace Demos.OpenResource.Redis
                 3、移除ServiceStack.Text.dll的引用，用本地Dll目录下的Redis文件夹下的ServiceStack.Text.dll替换debug下的
 
 
-
+                
                 或者直接饮用 ServiceStackRedis里的所有dll
+                或者下载源码按照网上说的修改源码，重新编译
              * */
             #endregion
 
