@@ -1,6 +1,7 @@
 ﻿using Demos.Demos2018.RabbitMQ;
 using Demos.Demos2019;
 using Demos.Demos2019.Collections;
+using Demos.OpenResource.Redis;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -35,9 +36,10 @@ namespace Demos.Demos2018
             //   new ImplicitExplicitDemo().Test();
 
             // new RabbitMQTest().Test();
-           // new TryCatchFinallyReturnDemo().Test();
+            // new TryCatchFinallyReturnDemo().Test();
 
-            new CollectionDemo().Test();
+            // new CollectionDemo().Test();
+            new RedisDemo().Test();
             int m = 0;
             Console.ReadLine();
         }
