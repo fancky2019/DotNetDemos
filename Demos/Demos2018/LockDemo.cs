@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Demos.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,9 +19,9 @@ namespace Demos.Demos2018
 
             //}
             TestLock(20);
-            Person person = new Person() { MyProperty = 20 };
+            Person person = new Person() { Age = 20 };
             TestLock(person);
-            Person tp = new Person() { MyProperty = 10 };
+            Person tp = new Person() { Age = 10 };
             Thread thread1 = new Thread(() =>
             {
                 TwoThreadsRobLock(tp);
@@ -65,15 +66,15 @@ namespace Demos.Demos2018
         {
             lock (i)
             {
-                if (i.MyProperty > 10)
+                if (i.Age > 10)
                 {
-                    Console.WriteLine($"i.MyProperty={i.MyProperty}");
-                    i.MyProperty--;
+                    Console.WriteLine($"i.MyProperty={i.Age}");
+                    i.Age--;
                     TestLock(i);
                 }
                 //Console.WriteLine($" i.MyProperty={i.MyProperty}");
             }
-            Console.WriteLine($" i.MyProperty={i.MyProperty}");
+            Console.WriteLine($" i.MyProperty={i.Age}");
         }
 
         void TwoThreadsRobLock(Person p)
@@ -86,9 +87,9 @@ namespace Demos.Demos2018
                 {
                     //Monitor.Enter(_lock);   //Monitor必须 Exit释放锁，其他线程才能进入
                     Console.WriteLine($"{Thread.CurrentThread.Name} comes in");
-                    Console.WriteLine($" i.MyProperty={p.MyProperty}");
+                    Console.WriteLine($" i.MyProperty={p.Age}");
                     int m = int.Parse("ds");
-                    p.MyProperty--;
+                    p.Age--;
                     //Monitor.Exit(_lock);
                 }
             }
@@ -116,8 +117,5 @@ namespace Demos.Demos2018
             }
         }
     }
-    class Person
-    {
-        public int MyProperty { get; set; }
-    }
+
 }
