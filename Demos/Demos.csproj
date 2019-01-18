@@ -81,12 +81,14 @@
     <Compile Include="Demos2018\SynchronizationDemo\ProducerConsumer.cs" />
     <Compile Include="Demos2018\SynchronizationDemo\ProducerConsumerTPS.cs" />
     <Compile Include="Demos2018\SynchronizationDemo\SemaphoreTest.cs" />
+    <Compile Include="Demos2019\Collections\CollectionDemo.cs" />
     <Compile Include="Demos2019\TryCatchFinallyReturnDemo.cs" />
+    <Compile Include="Model\Person.cs" />
     <Compile Include="Model\Product.cs" />
     <Compile Include="Demos2018\ParamsDemo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Demos2018\TClassTest.cs" />
+    <Compile Include="Demos2018\GenericDemo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
