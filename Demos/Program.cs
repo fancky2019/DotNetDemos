@@ -13,8 +13,9 @@ namespace Demos.Demos2018
         [STAThread]
         static void Main(string[] args)
         {
-            //Console.WriteLine(Thread.CurrentThread.ManagedThreadId);
 
+            //Console.WriteLine(Thread.CurrentThread.ManagedThreadId);
+            #region Demos2018
             //new ParamsDemo().Test();
             // string str = Test().Result;
             //   new AdoTest().Test();
@@ -39,7 +40,12 @@ namespace Demos.Demos2018
             // new TryCatchFinallyReturnDemo().Test();
 
             // new CollectionDemo().Test();
-            new RedisDemo().Test();
+            // new RedisDemo().Test();
+            #endregion
+
+            #region Demos2019
+            new EqualsOperatorDemo().Test();
+            #endregion
             int m = 0;
             Console.ReadLine();
         }
