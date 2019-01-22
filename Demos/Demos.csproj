@@ -112,6 +112,7 @@
     <Compile Include="Demos2018\LambdaTest.cs" />
     <Compile Include="Demos2018\LockDemo.cs" />
     <Compile Include="Demos2018\QueueDemo.cs" />
+    <Compile Include="Demos2019\EqualsOperatorDemo.cs" />
     <Compile Include="OpenResource\RabbitMQ\RabbitMQClient\DirectExchange.cs" />
     <Compile Include="OpenResource\RabbitMQ\RabbitMQClient\FanoutExchange.cs" />
     <Compile Include="OpenResource\RabbitMQ\RabbitMQClient\TopicExchange.cs" />

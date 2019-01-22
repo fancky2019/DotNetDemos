@@ -10,5 +10,17 @@ namespace Demos.Model
     {
         public string Name { get; set; }
         public int Age { get; set; }
+        //public override bool Equals(object obj)
+        //{
+        //   if(obj==null)
+        //    {
+        //        return false;
+        //    }
+        //   if(obj is Person person)
+        //    {
+        //        return this.Name == person.Name && this.Age == person.Age;
+        //    }
+        //    return false;
+        //}
     }
 }
