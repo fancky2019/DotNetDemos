@@ -9,11 +9,17 @@ namespace Demos.Demos2019
 {
     class ThreadDemo
     {
-        public void  Test()
+        public void Test()
         {
             ThreadParameter();
-        }
 
+            //this 参数
+            ThreadDemo1(this);
+        }
+        private void ThreadDemo1(ThreadDemo threadDemo)
+        {
+
+        }
         #region ThreadParameter
         private void ThreadParameter()
         {
@@ -26,14 +32,14 @@ namespace Demos.Demos2019
             {
                 return "ThreadParameterr";
             }, objStr)//向Taskc传参ObjStr
-            .ContinueWith(task=>
+            .ContinueWith(task =>
             {
-              Object param=  task.AsyncState;
+                Object param = task.AsyncState;
                 //如果前一个task 有返回值，则有result
                 string result = task.Result;
             });
 
-        
+
         }
         #endregion
     }
