@@ -113,6 +113,7 @@
     <Compile Include="Demos2018\LockDemo.cs" />
     <Compile Include="Demos2018\QueueDemo.cs" />
     <Compile Include="Demos2019\EqualsOperatorDemo.cs" />
+    <Compile Include="Demos2019\StringInternDemo.cs" />
     <Compile Include="Demos2019\ThreadDemo.cs" />
     <Compile Include="OpenResource\RabbitMQ\RabbitMQClient\DirectExchange.cs" />
     <Compile Include="OpenResource\RabbitMQ\RabbitMQClient\FanoutExchange.cs" />

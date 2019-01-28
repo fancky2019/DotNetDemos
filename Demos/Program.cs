@@ -45,8 +45,8 @@ namespace Demos.Demos2018
 
             #region Demos2019
             //new EqualsOperatorDemo().Test();
-            new ThreadDemo().Test();
-            
+          //  new ThreadDemo().Test();
+            new StringInternDemo().Test();
             #endregion
             int m = 0;
             Console.ReadLine();
