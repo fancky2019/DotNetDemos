@@ -8,9 +8,10 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>Demos</RootNamespace>
     <AssemblyName>Demos</AssemblyName>
-    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -31,7 +32,31 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="HPSocketCS, Version=5.4.3.0, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Dll\HPSocket\HPSocketCS.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Diagnostics.Tracing.EventSource, Version=1.1.28.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Diagnostics.Tracing.EventSource.Redist.1.1.28\lib\net46\Microsoft.Diagnostics.Tracing.EventSource.dll</HintPath>
     </Reference>
@@ -115,6 +140,11 @@
     <Compile Include="Demos2019\EqualsOperatorDemo.cs" />
     <Compile Include="Demos2019\StringInternDemo.cs" />
     <Compile Include="Demos2019\ThreadDemo.cs" />
+    <Compile Include="OpenResource\HPSocket\HPSocketClient\Class1.cs" />
+    <Compile Include="OpenResource\HPSocket\HPSocketClient\HPSocketClient.cs" />
+    <Compile Include="OpenResource\HPSocket\HPSocketServer\ClientInfo.cs" />
+    <Compile Include="OpenResource\HPSocket\HPSocketServer\HPSocketServer.cs" />
+    <Compile Include="OpenResource\HPSocket\HPSocketDemo.cs" />
     <Compile Include="OpenResource\RabbitMQ\RabbitMQClient\DirectExchange.cs" />
     <Compile Include="OpenResource\RabbitMQ\RabbitMQClient\FanoutExchange.cs" />
     <Compile Include="OpenResource\RabbitMQ\RabbitMQClient\TopicExchange.cs" />
@@ -155,6 +185,14 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Dll\HPSocket\HPSocket4C_U.dll" />
+    <Content Include="Dll\HPSocket\HPSocketCS.dll" />
+    <Content Include="Dll\HPSocket\HPSocketCS.pdb" />
+    <Content Include="Dll\HPSocket\HPSocketRelease\X64\HPSocket4C_U.dll" />
+    <Content Include="Dll\HPSocket\HPSocketRelease\X64\HPSocketCS.dll" />
+    <Content Include="Dll\HPSocket\HPSocketRelease\X86\HPSocket4C_U.dll" />
+    <Content Include="Dll\HPSocket\HPSocketRelease\X86\HPSocketCS.dll" />
+    <Content Include="Dll\HPSocket\ReadMe.txt" />
     <Content Include="Dll\Redis\ServiceStack.Common.dll" />
     <Content Include="Dll\Redis\ServiceStack.Common.xml" />
     <Content Include="Dll\Redis\ServiceStack.Interfaces.dll" />

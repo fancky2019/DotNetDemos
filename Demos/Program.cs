@@ -1,6 +1,7 @@
 ﻿using Demos.Demos2018.RabbitMQ;
 using Demos.Demos2019;
 using Demos.Demos2019.Collections;
+using Demos.OpenResource.HPSocket;
 using Demos.OpenResource.Redis;
 using System;
 using System.Threading;
@@ -45,8 +46,10 @@ namespace Demos.Demos2018
 
             #region Demos2019
             //new EqualsOperatorDemo().Test();
-          //  new ThreadDemo().Test();
-            new StringInternDemo().Test();
+            //  new ThreadDemo().Test();
+            //  new StringInternDemo().Test();
+            
+                new HPSocketDemo().Test();
             #endregion
             int m = 0;
             Console.ReadLine();

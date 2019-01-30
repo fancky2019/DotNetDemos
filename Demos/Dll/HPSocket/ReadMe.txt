@@ -1,0 +1,1 @@
+把依赖HPSocket4C_U.dll放到debug目录下。
