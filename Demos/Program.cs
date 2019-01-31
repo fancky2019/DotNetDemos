@@ -48,8 +48,11 @@ namespace Demos.Demos2018
             //new EqualsOperatorDemo().Test();
             //  new ThreadDemo().Test();
             //  new StringInternDemo().Test();
-            
-                new HPSocketDemo().Test();
+
+            // new HPSocketDemo().Test();
+            new CharDemo().Test();
+
+
             #endregion
             int m = 0;
             Console.ReadLine();
