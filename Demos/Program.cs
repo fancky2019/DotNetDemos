@@ -16,6 +16,7 @@ namespace Demos.Demos2018
         {
 
             //Console.WriteLine(Thread.CurrentThread.ManagedThreadId);
+
             #region Demos2018
             //new ParamsDemo().Test();
             // string str = Test().Result;
@@ -40,7 +41,7 @@ namespace Demos.Demos2018
             // new RabbitMQTest().Test();
             // new TryCatchFinallyReturnDemo().Test();
 
-            // new CollectionDemo().Test();
+            new CollectionDemo().Test();
             // new RedisDemo().Test();
             #endregion
 
@@ -50,7 +51,7 @@ namespace Demos.Demos2018
             //  new StringInternDemo().Test();
 
             // new HPSocketDemo().Test();
-            new CharDemo().Test();
+            //   new CharDemo().Test();
 
 
             #endregion
