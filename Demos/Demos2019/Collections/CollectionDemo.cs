@@ -1,5 +1,6 @@
 ﻿using Demos.Model;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -9,7 +10,9 @@ namespace Demos.Demos2019.Collections
     {
         public void Test()
         {
-            Sort();
+            // Sort();
+            //  DictionaryTest();
+            SetTest();
         }
 
         private void Sort()
@@ -45,6 +48,28 @@ namespace Demos.Demos2019.Collections
             list.Sort(comparison);
             list.Sort((Comparison<Person>)((x, y) => x.Age.CompareTo(y.Age)));
             var orderList = list.OrderBy(p => p.Age).ToList();
+        }
+
+        private void DictionaryTest()
+        {
+            Dictionary<string, string> dic = new Dictionary<string, string>();
+            dic.Add("li", "rui");
+            //如果添加了重复Key报错
+           // dic.Add("li", "fancky");
+         //  ConcurrentQueue
+           ConcurrentDictionary<string, string> concurrentDictionary = new ConcurrentDictionary<string, string>();
+          var re=  concurrentDictionary.TryAdd("li", "rui");//true
+          var r1=  concurrentDictionary.TryAdd("li", "fancky");//false
+        }
+
+        private void SetTest()
+        {
+            
+            HashSet<string> hashSet = new HashSet<string>();
+            hashSet.Add("li");
+            hashSet.Add("li");//没有添加进去
+           // SortedSet
+          
         }
     }
 }
