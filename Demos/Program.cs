@@ -41,7 +41,7 @@ namespace Demos.Demos2018
             // new RabbitMQTest().Test();
             // new TryCatchFinallyReturnDemo().Test();
 
-            new CollectionDemo().Test();
+          //  new CollectionDemo().Test();
             // new RedisDemo().Test();
             #endregion
 
@@ -53,6 +53,8 @@ namespace Demos.Demos2018
             // new HPSocketDemo().Test();
             //   new CharDemo().Test();
 
+            new SubjectTest().Test();
+            
 
             #endregion
             int m = 0;

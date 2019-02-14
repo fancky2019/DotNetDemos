@@ -137,9 +137,11 @@
     <Compile Include="Demos2018\LambdaTest.cs" />
     <Compile Include="Demos2018\LockDemo.cs" />
     <Compile Include="Demos2018\QueueDemo.cs" />
+    <Compile Include="Demos2018\Queue\QueueDemo.cs" />
     <Compile Include="Demos2019\CharDemo.cs" />
     <Compile Include="Demos2019\EqualsOperatorDemo.cs" />
     <Compile Include="Demos2019\StringInternDemo.cs" />
+    <Compile Include="Demos2019\SubjectTest.cs" />
     <Compile Include="Demos2019\ThreadDemo.cs" />
     <Compile Include="OpenResource\HPSocket\HPSocketClient\Class1.cs" />
     <Compile Include="OpenResource\HPSocket\HPSocketClient\HPSocketClient.cs" />
@@ -211,5 +213,6 @@
     <Content Include="Dll\Redis\System.Runtime.CompilerServices.Unsafe.dll" />
     <Content Include="Dll\Redis\System.Runtime.CompilerServices.Unsafe.xml" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
