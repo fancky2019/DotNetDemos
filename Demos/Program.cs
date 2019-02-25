@@ -53,9 +53,9 @@ namespace Demos.Demos2018
             // new HPSocketDemo().Test();
             //   new CharDemo().Test();
 
-            new SubjectTest().Test();
+           // new SubjectTest().Test();
+            new DivisionDemo().Test();
             
-
             #endregion
             int m = 0;
             Console.ReadLine();
