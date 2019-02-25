@@ -139,6 +139,7 @@
     <Compile Include="Demos2018\QueueDemo.cs" />
     <Compile Include="Demos2018\Queue\QueueDemo.cs" />
     <Compile Include="Demos2019\CharDemo.cs" />
+    <Compile Include="Demos2019\DevisionDemo.cs" />
     <Compile Include="Demos2019\EqualsOperatorDemo.cs" />
     <Compile Include="Demos2019\StringInternDemo.cs" />
     <Compile Include="Demos2019\SubjectTest.cs" />
