@@ -1,4 +1,5 @@
 ﻿using Demos.Demos2018.RabbitMQ;
+using Demos.Demos2018.SynchronizationDemo;
 using Demos.Demos2019;
 using Demos.Demos2019.Collections;
 using Demos.OpenResource.HPSocket;
@@ -30,7 +31,8 @@ namespace Demos.Demos2018
             // new ManualResetEventTest().Test();
             //  new ProducerConsumer(100).Test();
 
-            //new ProducerConsumerTPS(100,5).Test();
+         //   new ProducerConsumerTPS(int.MaxValue, 10).Test();
+            new ProducerConsumerTPSDemo().Test();
             #endregion
 
             //  new BlockingCollectionDemo().Test();
@@ -55,8 +57,9 @@ namespace Demos.Demos2018
 
             // new SubjectTest().Test();
             //new DivisionDemo().Test();
-            new StackTraceDemo().Test();
+            //   new StackTraceDemo().Test();
             #endregion
+
             int m = 0;
             Console.ReadLine();
         }
