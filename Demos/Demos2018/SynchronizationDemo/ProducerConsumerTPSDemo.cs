@@ -32,6 +32,7 @@ namespace Demos.Demos2018.SynchronizationDemo
                     concurrentQueueTPS.Cunsumer(p =>
                     {
                         Console.WriteLine($"DoWork time:{p.ToString("yyyy-MM-dd HH:mm:ss.fff")}");
+                        Thread.Sleep(3 * 1000);
                     });
 
                     Thread.Sleep(100);
@@ -205,11 +206,9 @@ namespace Demos.Demos2018.SynchronizationDemo
 
             //DoWork 
 
-            callBack?.Invoke(result);
-
-
-
-
+            // callBack?.Invoke(result);
+            //异步执行，不影响生产者消费者队列
+            callBack?.BeginInvoke(result,null,null);
             //while (_queue.IsEmpty)
             //{
             //    _consumerManualResetEvent.WaitOne();
