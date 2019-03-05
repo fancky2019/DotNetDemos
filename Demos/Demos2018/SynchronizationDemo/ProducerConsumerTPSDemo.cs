@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -9,7 +8,41 @@ using System.Threading.Tasks;
 
 namespace Demos.Demos2018.SynchronizationDemo
 {
-    class ProducerConsumerTPS
+    class ProducerConsumerTPSDemo
+    {
+        public void Test()
+        {
+            ConcurrentQueueTPS<DateTime> concurrentQueueTPS = new ConcurrentQueueTPS<DateTime>(100, 8);
+            //生产者线程
+            Task.Run(() =>
+            {
+                for (int i = 1; i <= 1000; i++)
+                {
+                    concurrentQueueTPS.Producer(DateTime.Now);
+                    int next = new Random().Next(80, 300);
+                    Thread.Sleep(next);
+                }
+            });
+
+            //消费者线程
+            Task.Run(() =>
+            {
+                while (true)
+                {
+                    concurrentQueueTPS.Cunsumer(p =>
+                    {
+                        Console.WriteLine($"DoWork time:{p.ToString("yyyy-MM-dd HH:mm:ss.fff")}");
+                    });
+
+                    Thread.Sleep(100);
+                }
+            });
+
+            Console.ReadLine();
+        }
+    }
+
+    class ConcurrentQueueTPS<T>
     {
         public readonly int MaxLength;
         /// <summary>
@@ -25,53 +58,56 @@ namespace Demos.Demos2018.SynchronizationDemo
         //ManualResetEvent _produceManualResetEvent = new ManualResetEvent(false);
         //ManualResetEvent _consumerManualResetEvent = new ManualResetEvent(false);
 
-        ConcurrentQueue<int> _queue = new ConcurrentQueue<int>();
+        ConcurrentQueue<T> _queue = new ConcurrentQueue<T>();
 
-        ConcurrentQueue<string> _content = new ConcurrentQueue<string>();
-        object _lockObj = new object();
+        // object _lockObj = new object();
 
-        //this串联构造函数
-        public ProducerConsumerTPS(int maxLength) : this(maxLength, 0)
+        //public ConcurrentQueueTPS() : this(int.MaxValue, 0)
+        //{
+
+        //}
+        ////this串联构造函数
+        //public ConcurrentQueueTPS(int maxLength) : this(maxLength, 0)
+        //{
+
+        //}
+
+        public ConcurrentQueueTPS(int maxLength = int.MaxValue,int tps=int.MaxValue)
         {
-
-        }
-
-        public ProducerConsumerTPS(int maxLength, int tps)
-        {
+            //if(tps<=0)
+            //{
+            //    throw new Exception("必须设置正确TPS的值(TPS的值为正整数)。");
+            //}
             MaxLength = maxLength;
             this.TPS = tps;
         }
 
 
-        public void Test()
-        {
-            //生产者线程
-            Task.Run(() =>
-            {
-                for (int i = 1; i <= 1000; i++)
-                {
-                    Producer(i);
-                    int next = new Random().Next(80, 300);
-                    Thread.Sleep(next);
-                }
-            });
+        //public void Test()
+        //{
+        //    //生产者线程
+        //    Task.Run(() =>
+        //    {
+        //        for (int i = 1; i <= 1000; i++)
+        //        {
+        //            Producer(i);
+        //        }
+        //    });
 
-            //消费者线程
-            Task.Run(() =>
-            {
-                while (true)
-                {
-                    Cunsumer();
-                    //  Thread.Sleep(100);
-                }
+        //    //消费者线程
+        //    Task.Run(() =>
+        //    {
+        //        while (true)
+        //        {
+        //            Cunsumer();
+        //            Thread.Sleep(100);
+        //        }
+        //    });
 
+        //    Console.ReadLine();
+        //}
 
-            });
-
-            Console.ReadLine();
-        }
-
-        void Producer(int num)
+        public void Producer(T num)
         {
             ////(一)
             ////此处用if Cunsumer()内只能在_queue.Count == MaxLength - 1才能Set,不能每次都Set,
@@ -94,16 +130,14 @@ namespace Demos.Demos2018.SynchronizationDemo
             }
 
             _queue.Enqueue(num);
+            //if (num is DateTime dt)
+            //{
+            //  //  DateTime dt = DateTime.Parse(num.ToString());
+            //    //  
+            //    Console.WriteLine($"Enqueue : {dt.ToString("yyyy-MM-dd HH:mm:ss.fff")}");
+            //}
+            Console.WriteLine($"Enqueue : {num}");
             _consumerAutoResetEvent.Set();
-
-
-            string msg = $"Enqueue : {num} time:{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}";
-            // Console.WriteLine($"Enqueue : {num} time:{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}");
-
-            _content.Enqueue(msg);
-            //  Console.WriteLine(msg);
-            //  WriteLog(msg);
-
 
 
 
@@ -120,22 +154,7 @@ namespace Demos.Demos2018.SynchronizationDemo
 
         }
 
-        void WriteLog(string content)
-        {
-            string fileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "log.txt");
-            using (StreamWriter sWriter = new StreamWriter(File.Open(fileName, FileMode.Append, FileAccess.Write), System.Text.Encoding.ASCII))
-            {
-                while (!_content.IsEmpty)
-                {
-                    if (_content.TryDequeue(out string msg))
-                    {
-                        sWriter.WriteLine(msg);
-                    }
-                }
-            }
-        }
-        int _count = 0;
-        void Cunsumer()
+        public void Cunsumer(Action<T> callBack)
         {
 
             //(一)
@@ -160,6 +179,7 @@ namespace Demos.Demos2018.SynchronizationDemo
                 _consumerAutoResetEvent.WaitOne();
             }
 
+
             //如果执行等于TPS
             if (executeTimeList.Count >= this.TPS)
             {
@@ -173,33 +193,19 @@ namespace Demos.Demos2018.SynchronizationDemo
                 }
             }
 
-            int result = 0;
+
+            T result;
             _queue.TryDequeue(out result);
             DateTime dequeueTime = DateTime.Now;
             this.executeTimeList.Enqueue(dequeueTime);
             _produceAutoResetEvent.Set();
-
-
-
-            string msg = $"TryDequeue : {result} time:{dequeueTime.ToString("yyyy-MM-dd HH:mm:ss.fff")}";
-            //  Console.WriteLine($"TryDequeue : {result} time:{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}");
-            _content.Enqueue(msg);
-            //  Console.WriteLine(msg);
-            //  WriteLog(msg);
-            _count++;
-            if (_count == 1000)
-            {
-                WriteLog("");
-
-                Console.WriteLine("1000");
-            }
-
+            Console.WriteLine($"TryDequeue : {result} time:{dequeueTime.ToString("yyyy-MM-dd HH:mm:ss.fff")}");
 
 
 
             //DoWork 
 
-
+            callBack?.Invoke(result);
 
 
 
@@ -219,5 +225,6 @@ namespace Demos.Demos2018.SynchronizationDemo
 
 
         }
+
     }
 }
