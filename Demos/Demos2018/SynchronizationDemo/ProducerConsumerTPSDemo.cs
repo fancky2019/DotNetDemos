@@ -23,7 +23,7 @@ namespace Demos.Demos2018.SynchronizationDemo
                     Thread.Sleep(next);
                 }
             });
-
+            int threadID1 = Thread.CurrentThread.ManagedThreadId;
             //消费者线程
             Task.Run(() =>
             {
@@ -32,6 +32,8 @@ namespace Demos.Demos2018.SynchronizationDemo
                     concurrentQueueTPS.Cunsumer(p =>
                     {
                         Console.WriteLine($"DoWork time:{p.ToString("yyyy-MM-dd HH:mm:ss.fff")}");
+                        //异步方法内部和调用者的线程ID不一样
+                        int threadID = Thread.CurrentThread.ManagedThreadId;
                         Thread.Sleep(3 * 1000);
                     });
 
@@ -207,7 +209,9 @@ namespace Demos.Demos2018.SynchronizationDemo
             //DoWork 
 
             // callBack?.Invoke(result);
+            //异步方法内部和调用者的线程ID不一样
             //异步执行，不影响生产者消费者队列
+            int threadID = Thread.CurrentThread.ManagedThreadId;
             callBack?.BeginInvoke(result,null,null);
             //while (_queue.IsEmpty)
             //{
