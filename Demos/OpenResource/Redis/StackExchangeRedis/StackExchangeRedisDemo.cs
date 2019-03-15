@@ -10,6 +10,11 @@ using System.Threading.Tasks;
 
 namespace Demos.OpenResource.Redis.StackExchangeRedis
 {
+    /// <summary>
+    /// StackExchange.Redis:github:https://github.com/ServiceStack/ServiceStack.Redis
+    /// Distributed locks with Redis:https://redis.io/topics/distlock
+    /// Redlock:github:https://github.com/kidfashion/redlock-cs
+    /// </summary>
     public class StackExchangeRedisDemo
     {
         //StackExchange.Redis
