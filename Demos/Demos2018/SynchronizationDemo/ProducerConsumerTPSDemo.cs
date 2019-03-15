@@ -178,8 +178,13 @@ namespace Demos.Demos2018.SynchronizationDemo
 
 
             while (_queue.IsEmpty)
-            {
+            { 
                 _consumerAutoResetEvent.WaitOne();
+                //对于高并发用上面的,下面问题不会发生
+                //会存在生产者已经通知还没执行WaitOne(),生产者后续没有生产
+                //这样就死锁且生产者队列有一个无法消费，这样用下面WaitOne(10)补救，
+                //如果并发量不是太大改用BlockingCollection<T>
+                // _consumerAutoResetEvent.WaitOne(10);
             }
 
 

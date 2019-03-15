@@ -55,9 +55,21 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Gallio, Version=3.4.0.0, Culture=neutral, PublicKeyToken=eb9cfa67ee6ab36e, processorArchitecture=MSIL">
+      <HintPath>..\packages\mbunit.3.4.14.0\lib\net40\Gallio.dll</HintPath>
+    </Reference>
+    <Reference Include="Gallio40, Version=3.4.0.0, Culture=neutral, PublicKeyToken=eb9cfa67ee6ab36e, processorArchitecture=MSIL">
+      <HintPath>..\packages\mbunit.3.4.14.0\lib\net40\Gallio40.dll</HintPath>
+    </Reference>
     <Reference Include="HPSocketCS, Version=5.4.3.0, Culture=neutral, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Dll\HPSocket\HPSocketCS.dll</HintPath>
+    </Reference>
+    <Reference Include="MbUnit, Version=3.4.0.0, Culture=neutral, PublicKeyToken=eb9cfa67ee6ab36e, processorArchitecture=MSIL">
+      <HintPath>..\packages\mbunit.3.4.14.0\lib\net40\MbUnit.dll</HintPath>
+    </Reference>
+    <Reference Include="MbUnit40, Version=3.4.0.0, Culture=neutral, PublicKeyToken=eb9cfa67ee6ab36e, processorArchitecture=MSIL">
+      <HintPath>..\packages\mbunit.3.4.14.0\lib\net40\MbUnit40.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Diagnostics.Tracing.EventSource, Version=1.1.28.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Diagnostics.Tracing.EventSource.Redist.1.1.28\lib\net46\Microsoft.Diagnostics.Tracing.EventSource.dll</HintPath>
@@ -70,6 +82,10 @@
     </Reference>
     <Reference Include="RabbitMQ.Client, Version=5.0.0.0, Culture=neutral, PublicKeyToken=89e7d7c5feba84ce, processorArchitecture=MSIL">
       <HintPath>..\packages\RabbitMQ.Client.5.1.0\lib\net451\RabbitMQ.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Redlock.CSharp, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Dll\StackExchangeRedis\Redlock.CSharp.dll</HintPath>
     </Reference>
     <Reference Include="ServiceStack.Common, Version=5.0.0.0, Culture=neutral, PublicKeyToken=02c12cbda47e6587, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -144,6 +160,11 @@
     <Compile Include="Demos2019\CharDemo.cs" />
     <Compile Include="Demos2019\DevisionDemo.cs" />
     <Compile Include="Demos2019\EqualsOperatorDemo.cs" />
+    <Compile Include="Demos2019\Proxy\IProxy.cs" />
+    <Compile Include="Demos2019\Proxy\Proxy.cs" />
+    <Compile Include="Demos2019\Proxy\ProxyDemo.cs" />
+    <Compile Include="Demos2019\Proxy\DynamicProxy.cs" />
+    <Compile Include="Demos2019\Proxy\ProxyFactory.cs" />
     <Compile Include="Demos2019\StackTraceDemo.cs" />
     <Compile Include="Demos2019\StringInternDemo.cs" />
     <Compile Include="Demos2019\SubjectTest.cs" />
@@ -181,9 +202,10 @@
     <Compile Include="Model\Person.cs" />
     <Compile Include="Model\Product.cs" />
     <Compile Include="Demos2018\ParamsDemo.cs" />
-    <Compile Include="OpenResource\ServiceStackRedis\RedisDemo.cs" />
-    <Compile Include="OpenResource\ServiceStackRedis\RedisHelper.cs" />
-    <Compile Include="OpenResource\ServiceStackRedis\ServiceStackRedis.cs" />
+    <Compile Include="OpenResource\Redis\StackExchangeRedis\RedisDemo.cs" />
+    <Compile Include="OpenResource\Redis\StackExchangeRedis\RedisHelper.cs" />
+    <Compile Include="OpenResource\Redis\ServiceStackRedis\ServiceStackRedisDemo.cs" />
+    <Compile Include="OpenResource\Redis\StackExchangeRedis\StackExchangeRedisDemo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Demos2018\GenericDemo.cs" />
@@ -217,6 +239,10 @@
     <Content Include="Dll\Redis\System.Numerics.Vectors.xml" />
     <Content Include="Dll\Redis\System.Runtime.CompilerServices.Unsafe.dll" />
     <Content Include="Dll\Redis\System.Runtime.CompilerServices.Unsafe.xml" />
+    <Content Include="Dll\StackExchangeRedis\Redlock.CSharp.dll" />
+    <Content Include="Dll\StackExchangeRedis\Redlock.CSharp.pdb" />
+    <Content Include="Dll\StackExchangeRedis\StackExchange.Redis.dll" />
+    <Content Include="Dll\StackExchangeRedis\StackExchange.Redis.xml" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

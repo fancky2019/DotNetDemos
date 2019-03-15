@@ -2,8 +2,10 @@
 using Demos.Demos2018.SynchronizationDemo;
 using Demos.Demos2019;
 using Demos.Demos2019.Collections;
+using Demos.Demos2019.Proxy;
 using Demos.OpenResource.HPSocket;
 using Demos.OpenResource.Redis;
+using Demos.OpenResource.Redis.StackExchangeRedis;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -31,8 +33,8 @@ namespace Demos.Demos2018
             // new ManualResetEventTest().Test();
             //  new ProducerConsumer(100).Test();
 
-         //   new ProducerConsumerTPS(int.MaxValue, 10).Test();
-            new ProducerConsumerTPSDemo().Test();
+            //   new ProducerConsumerTPS(int.MaxValue, 10).Test();
+            //   new ProducerConsumerTPSDemo().Test();
             #endregion
 
             //  new BlockingCollectionDemo().Test();
@@ -58,6 +60,9 @@ namespace Demos.Demos2018
             // new SubjectTest().Test();
             //new DivisionDemo().Test();
             //   new StackTraceDemo().Test();
+          //  new ProxyDemo().Test();
+            new StackExchangeRedisDemo().Test();
+            
             #endregion
 
             int m = 0;
