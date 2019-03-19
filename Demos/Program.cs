@@ -3,6 +3,7 @@ using Demos.Demos2018.SynchronizationDemo;
 using Demos.Demos2019;
 using Demos.Demos2019.Collections;
 using Demos.Demos2019.Proxy;
+using Demos.Demos2019.Subjects;
 using Demos.OpenResource.HPSocket;
 using Demos.OpenResource.Redis;
 using Demos.OpenResource.Redis.StackExchangeRedis;
@@ -57,11 +58,13 @@ namespace Demos.Demos2018
             // new HPSocketDemo().Test();
             //   new CharDemo().Test();
 
-            // new SubjectTest().Test();
+            //new SubjectTest().Test();
             //new DivisionDemo().Test();
             //   new StackTraceDemo().Test();
-          //  new ProxyDemo().Test();
-            new StackExchangeRedisDemo().Test();
+            //  new ProxyDemo().Test();
+            // new StackExchangeRedisDemo().Test();
+
+            new NewOverrieDemo().Test();
             
             #endregion
 
