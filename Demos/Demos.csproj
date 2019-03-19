@@ -160,6 +160,7 @@
     <Compile Include="Demos2019\CharDemo.cs" />
     <Compile Include="Demos2019\DevisionDemo.cs" />
     <Compile Include="Demos2019\EqualsOperatorDemo.cs" />
+    <Compile Include="Demos2019\NewOverrieDemo.cs" />
     <Compile Include="Demos2019\Proxy\IProxy.cs" />
     <Compile Include="Demos2019\Proxy\Proxy.cs" />
     <Compile Include="Demos2019\Proxy\ProxyDemo.cs" />
@@ -167,7 +168,7 @@
     <Compile Include="Demos2019\Proxy\ProxyFactory.cs" />
     <Compile Include="Demos2019\StackTraceDemo.cs" />
     <Compile Include="Demos2019\StringInternDemo.cs" />
-    <Compile Include="Demos2019\SubjectTest.cs" />
+    <Compile Include="Subjects\SubjectTest.cs" />
     <Compile Include="Demos2019\ThreadDemo.cs" />
     <Compile Include="OpenResource\HPSocket\HPSocketClient\Class1.cs" />
     <Compile Include="OpenResource\HPSocket\HPSocketClient\HPSocketClient.cs" />
