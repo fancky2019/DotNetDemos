@@ -56,7 +56,7 @@ namespace Demos.OpenResource.Redis.StackExchangeRedis
             Lock newLockObject;
             var locked = dlm.Lock(key, new TimeSpan(0, 0, 10), out lockObject);
             Console.WriteLine(locked);
-         
+
             locked = dlm.Lock(key, new TimeSpan(0, 0, 3), out newLockObject);
             //  Assert.IsFalse(locked, "lock taken, it shouldn't be possible");
             Console.WriteLine(locked);
