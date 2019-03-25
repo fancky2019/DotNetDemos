@@ -2,6 +2,7 @@
 using Demos.Demos2018.SynchronizationDemo;
 using Demos.Demos2019;
 using Demos.Demos2019.Collections;
+using Demos.Demos2019.Forms;
 using Demos.Demos2019.Proxy;
 using Demos.Demos2019.Subjects;
 using Demos.OpenResource.HPSocket;
@@ -64,7 +65,8 @@ namespace Demos.Demos2018
             //  new ProxyDemo().Test();
             // new StackExchangeRedisDemo().Test();
 
-            new NewOverrieDemo().Test();
+            //   new NewOverrieDemo().Test();
+            new FrmTest().ShowDialog();
             
             #endregion
 

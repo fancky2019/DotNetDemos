@@ -116,6 +116,7 @@
     <Reference Include="System.Diagnostics.PerformanceCounter, Version=4.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Diagnostics.PerformanceCounter.4.5.0\lib\net461\System.Diagnostics.PerformanceCounter.dll</HintPath>
     </Reference>
+    <Reference Include="System.Drawing" />
     <Reference Include="System.IO.Pipelines, Version=4.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.IO.Pipelines.4.5.1\lib\netstandard2.0\System.IO.Pipelines.dll</HintPath>
     </Reference>
@@ -138,6 +139,7 @@
     <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.1\lib\netstandard2.0\System.Threading.Tasks.Extensions.dll</HintPath>
     </Reference>
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -161,6 +163,12 @@
     <Compile Include="Demos2019\DevisionDemo.cs" />
     <Compile Include="Demos2019\EqualsOperatorDemo.cs" />
     <Compile Include="Demos2019\NewOverrieDemo.cs" />
+    <Compile Include="Demos2019\Forms\FrmTest.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Demos2019\Forms\FrmTest.Designer.cs">
+      <DependentUpon>FrmTest.cs</DependentUpon>
+    </Compile>
     <Compile Include="Demos2019\Proxy\IProxy.cs" />
     <Compile Include="Demos2019\Proxy\Proxy.cs" />
     <Compile Include="Demos2019\Proxy\ProxyDemo.cs" />
@@ -246,6 +254,10 @@
     <Content Include="Dll\StackExchangeRedis\StackExchange.Redis.dll" />
     <Content Include="Dll\StackExchangeRedis\StackExchange.Redis.xml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Demos2019\Forms\FrmTest.resx">
+      <DependentUpon>FrmTest.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
