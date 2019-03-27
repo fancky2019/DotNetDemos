@@ -66,8 +66,8 @@ namespace Demos.Demos2018
             // new StackExchangeRedisDemo().Test();
 
             //   new NewOverrieDemo().Test();
-            new FrmTest().ShowDialog();
-            
+           // new FrmTest().ShowDialog();
+            new RegexDemo().Test();
             #endregion
 
             int m = 0;
