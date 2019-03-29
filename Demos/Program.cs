@@ -25,7 +25,7 @@ namespace Demos.Demos2018
             #region Demos2018
             //new ParamsDemo().Test();
             // string str = Test().Result;
-            //   new AdoTest().Test();
+            new AdoTest().Test();
 
             //new TClassTest<Product>().Test();
             //new LockDemo().Test();
@@ -66,8 +66,8 @@ namespace Demos.Demos2018
             // new StackExchangeRedisDemo().Test();
 
             //   new NewOverrieDemo().Test();
-           // new FrmTest().ShowDialog();
-            new RegexDemo().Test();
+            // new FrmTest().ShowDialog();
+            // new RegexDemo().Test();
             #endregion
 
             int m = 0;

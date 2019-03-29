@@ -14,8 +14,9 @@ namespace Demos.Demos2018
             try
             {
                 // Procedure();
-                ProcedureSingle();
-               // ProcedureOutPutParam();
+                //ProcedureSingle();
+                // ProcedureOutPutParam();
+                PageData();
             }
             catch (Exception ex)
             {
@@ -81,7 +82,7 @@ namespace Demos.Demos2018
                 con.Open();
                 SqlCommand cmd = new SqlCommand();
                 cmd.Connection = con;
-             //   cmd.CommandTimeout = 180;
+                //   cmd.CommandTimeout = 180;
                 cmd.CommandType = CommandType.StoredProcedure;
                 //存储过程名
                 cmd.CommandText = "UpdateProductOutParamProc";
@@ -97,7 +98,36 @@ namespace Demos.Demos2018
                 //re=-1
                 //int re = (int)cmd.ExecuteNonQuery();
 
-             
+
+            }
+
+        }
+
+        private void PageData()
+        {
+            using (SqlConnection con = new SqlConnection(Config.ConStr))
+            {
+                con.Open();
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = con;
+                //   cmd.CommandTimeout = 180;
+                cmd.CommandType = CommandType.StoredProcedure;
+                //存储过程名
+                cmd.CommandText = "pageData";
+                cmd.Parameters.AddWithValue("@pageIndex", 2);
+                cmd.Parameters.AddWithValue("@pageSize", 15);
+                SqlParameter sqlParameter = new SqlParameter("@totalCount", SqlDbType.Int);
+                sqlParameter.Direction = ParameterDirection.Output;
+                cmd.Parameters.Add(sqlParameter);
+                DataTable dt = new DataTable();
+                SqlDataReader sqlDataReader = cmd.ExecuteReader();
+                dt.Load(sqlDataReader);
+                var list = dt.ToList<Product>();
+                var rrr = sqlParameter.Value;
+                var param = cmd.Parameters["@totalCount"].Value;
+                //由于结果是select 1;返回受影响的行数被 SET NOCOUNT ON;
+                //re=-1
+                //int re = (int)cmd.ExecuteNonQuery();
             }
 
         }
