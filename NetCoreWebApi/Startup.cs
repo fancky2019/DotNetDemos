@@ -67,12 +67,15 @@ namespace NetCoreWebApi
             app.UseHttpsRedirection();
             app.UseMvc();
 
+
             //配置Swagger
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "DemoAPI V1");
             });
+
+           // 修改默认页面（Peoperties下的lunchSetting.json）：将LunchUrl改为“swagger”
 
         }
     }
