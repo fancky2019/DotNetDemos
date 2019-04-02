@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>NetCoreWebApi</name>
+    </assembly>
+    <members>
+        <member name="P:NetCoreWebApi.Product.ID">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:NetCoreWebApi.Product.GUID">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:NetCoreWebApi.Product.StockID">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:NetCoreWebApi.Product.BarCodeID">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:NetCoreWebApi.Product.SkuID">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:NetCoreWebApi.Product.ProductName">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:NetCoreWebApi.Product.ProductStyle">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:NetCoreWebApi.Product.Price">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:NetCoreWebApi.Product.CreateTime">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:NetCoreWebApi.Product.Status">
+            <summary>
+            0、删除 1、正常
+            </summary>
+        </member>
+        <member name="M:NetCoreWebApi.WMSDbContext.QueryByProcedure``1(System.String,System.Data.SqlClient.SqlParameter[])">
+            <summary>
+            
+            </summary>
+            <typeparam name="T">返回类型</typeparam>
+            <param name="sql">存储过程名称</param>
+            <param name="parameters">SqlParameter</param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

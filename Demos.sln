@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsService", "WindowsSe
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "DemosSetup", "DemosSetup\DemosSetup.vdproj", "{3419322D-15F9-4559-AE54-A7A43F852348}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebApi", "WebApi", "{52FAC7E8-EBE9-4D68-8226-F47309E01537}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetCoreWebApi", "NetCoreWebApi\NetCoreWebApi.csproj", "{DCE35E3B-D2A2-452D-A006-F425257A2FE8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,9 +51,20 @@ Global
 		{3419322D-15F9-4559-AE54-A7A43F852348}.Debug|x64.ActiveCfg = Debug
 		{3419322D-15F9-4559-AE54-A7A43F852348}.Release|Any CPU.ActiveCfg = Release
 		{3419322D-15F9-4559-AE54-A7A43F852348}.Release|x64.ActiveCfg = Release
+		{DCE35E3B-D2A2-452D-A006-F425257A2FE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DCE35E3B-D2A2-452D-A006-F425257A2FE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DCE35E3B-D2A2-452D-A006-F425257A2FE8}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{DCE35E3B-D2A2-452D-A006-F425257A2FE8}.Debug|x64.Build.0 = Debug|Any CPU
+		{DCE35E3B-D2A2-452D-A006-F425257A2FE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DCE35E3B-D2A2-452D-A006-F425257A2FE8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DCE35E3B-D2A2-452D-A006-F425257A2FE8}.Release|x64.ActiveCfg = Release|Any CPU
+		{DCE35E3B-D2A2-452D-A006-F425257A2FE8}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{DCE35E3B-D2A2-452D-A006-F425257A2FE8} = {52FAC7E8-EBE9-4D68-8226-F47309E01537}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C3F75083-7495-49CD-9575-B8CC71C56F75}
