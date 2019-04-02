@@ -8,9 +8,11 @@ using Demos.Demos2019.Subjects;
 using Demos.OpenResource.HPSocket;
 using Demos.OpenResource.Redis;
 using Demos.OpenResource.Redis.StackExchangeRedis;
+using Microsoft.Win32;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Demos.Demos2018
 {
@@ -19,13 +21,15 @@ namespace Demos.Demos2018
         [STAThread]
         static void Main(string[] args)
         {
+            AutoStart(true);
 
+            new AutoStartProgramDemo().Test();
             //Console.WriteLine(Thread.CurrentThread.ManagedThreadId);
 
             #region Demos2018
             //new ParamsDemo().Test();
             // string str = Test().Result;
-            new AdoTest().Test();
+            //   new AdoTest().Test();
 
             //new TClassTest<Product>().Test();
             //new LockDemo().Test();
@@ -93,6 +97,44 @@ namespace Demos.Demos2018
                    return "sdsdsd";
                });
 
+        }
+
+
+        /// <summary>  
+        /// 修改程序在注册表中的键值  
+        /// </summary>  
+        /// <param name="isAuto">true:开机启动,false:不开机自启</param> 
+        public static void AutoStart(bool isAuto)
+        {
+            try
+            {
+                if (isAuto == true)
+                {
+                    RegistryKey R_local = Registry.LocalMachine;//RegistryKey R_local = Registry.CurrentUser;
+                    RegistryKey R_run = R_local.CreateSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run");
+                    //R_run.SetValue("应用名称", Application.ExecutablePath);
+                    R_run.SetValue("Demos", Application.ExecutablePath);
+                    R_run.Close();
+                    R_local.Close();
+                }
+                else
+                {
+                    RegistryKey R_local = Registry.LocalMachine;//RegistryKey R_local = Registry.CurrentUser;
+                    RegistryKey R_run = R_local.CreateSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run");
+                    //R_run.DeleteValue("应用名称", false);
+                    R_run.DeleteValue("Demos", false);
+                    R_run.Close();
+                    R_local.Close();
+                }
+
+                //GlobalVariant.Instance.UserConfig.AutoStart = isAuto;
+            }
+            catch (Exception)
+            {
+                //MessageBoxDlg dlg = new MessageBoxDlg();
+                //dlg.InitialData("您需要管理员权限修改", "提示", MessageBoxButtons.OK, MessageBoxDlgIcon.Error);
+                //dlg.ShowDialog();
+            }
         }
     }
 }

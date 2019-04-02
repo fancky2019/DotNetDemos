@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.btnBeginInvoke = new System.Windows.Forms.Button();
+            this.serviceController1 = new System.ServiceProcess.ServiceController();
             this.SuspendLayout();
             // 
             // btnBeginInvoke
@@ -57,5 +58,6 @@
         #endregion
 
         private System.Windows.Forms.Button btnBeginInvoke;
+        private System.ServiceProcess.ServiceController serviceController1;
     }
 }
