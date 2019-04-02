@@ -28,8 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.btnBeginInvoke = new System.Windows.Forms.Button();
             this.serviceController1 = new System.ServiceProcess.ServiceController();
+            this.serialPort1 = new System.IO.Ports.SerialPort(this.components);
             this.SuspendLayout();
             // 
             // btnBeginInvoke
@@ -59,5 +61,6 @@
 
         private System.Windows.Forms.Button btnBeginInvoke;
         private System.ServiceProcess.ServiceController serviceController1;
+        private System.IO.Ports.SerialPort serialPort1;
     }
 }
