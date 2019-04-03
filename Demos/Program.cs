@@ -21,9 +21,8 @@ namespace Demos.Demos2018
         [STAThread]
         static void Main(string[] args)
         {
-            AutoStart(true);
-
-            new AutoStartProgramDemo().Test();
+            //AutoStart(true);
+            //new AutoStartProgramDemo().Test();
             //Console.WriteLine(Thread.CurrentThread.ManagedThreadId);
 
             #region Demos2018
@@ -70,7 +69,7 @@ namespace Demos.Demos2018
             // new StackExchangeRedisDemo().Test();
 
             //   new NewOverrieDemo().Test();
-            // new FrmTest().ShowDialog();
+            new FrmTest().ShowDialog();
             // new RegexDemo().Test();
             #endregion
 
