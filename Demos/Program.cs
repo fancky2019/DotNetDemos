@@ -71,6 +71,8 @@ namespace Demos.Demos2018
             //   new NewOverrieDemo().Test();
             new FrmTest().ShowDialog();
             // new RegexDemo().Test();
+            //new Demos2019.Http.HttpTest().Test();
+            // new TextTest().Test();
             #endregion
 
             int m = 0;

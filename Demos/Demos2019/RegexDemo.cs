@@ -38,6 +38,14 @@ namespace Demos.Demos2019
 
 
         }
+
+        private string TimeStrReplace(string input)
+        {
+            string pattern = "[/,-]";
+            string replacement = "";
+            string result = Regex.Replace(input, pattern, replacement);
+            return result;
+        }
     }
 
 

@@ -41,10 +41,6 @@ namespace WinformFormUpdate
             #endregion
         }
 
-        private void Update()
-        {
-           
-        }
 
         private void btnUpLoad_Click(object sender, EventArgs e)
         {
@@ -56,10 +52,10 @@ namespace WinformFormUpdate
                     {
                         this.pbUpLoad.Value = percent;
                     }));
-                
+
                 });
             });
-         
+
         }
 
         private void btnDownLoad_Click(object sender, EventArgs e)
@@ -77,6 +73,42 @@ namespace WinformFormUpdate
 
                 });
             });
+        }
+
+        private void btnWCDownLoad_Click(object sender, EventArgs e)
+        {
+            WebClientDownLoad();
+        }
+        private void WebClientDownLoad()
+        {
+            WebClient wc = new WebClient();
+            wc.DownloadProgressChanged += (s, e) =>
+            {
+
+                this.BeginInvoke((MethodInvoker)(() =>
+                {
+                    this.pbDownLoad.Value = e.ProgressPercentage;
+                    progressBarControl1.Position = e.ProgressPercentage;
+                    this.label2.Text = e.ProgressPercentage + "%";
+                }));
+
+                //if (e.ProgressPercentage == 100)
+                //{
+                //    //下载完成之后开始覆盖
+                // using ICSharpCode.SharpZipLib.Zip;
+                //    ZipHelper.Unzip();//调用解压的类
+
+                //}
+            };
+
+            //URI  是URL的一种
+            Uri uri = new Uri("http://localhost:8002/a.pdf");
+      
+            //在debug目录下
+            //wc.DownloadFileAsync(uri, "计算机网络Test1.pdf");
+            //要下载文件的路径,保存路径(注意：如果路径错误无法下载)
+            wc.DownloadFileAsync(uri, "D:\\Test\\file\\计算机网络Test1.pdf");
+
         }
     }
 }

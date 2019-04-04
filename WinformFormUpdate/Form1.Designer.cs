@@ -35,6 +35,7 @@
             this.btnDownLoad = new System.Windows.Forms.Button();
             this.pbDownLoad = new System.Windows.Forms.ProgressBar();
             this.progressBarControl1 = new DevExpress.XtraEditors.ProgressBarControl();
+            this.btnWCDownLoad = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.progressBarControl1.Properties)).BeginInit();
             this.SuspendLayout();
             // 
@@ -97,11 +98,22 @@
             this.progressBarControl1.Size = new System.Drawing.Size(316, 18);
             this.progressBarControl1.TabIndex = 6;
             // 
+            // btnWCDownLoad
+            // 
+            this.btnWCDownLoad.Location = new System.Drawing.Point(421, 148);
+            this.btnWCDownLoad.Name = "btnWCDownLoad";
+            this.btnWCDownLoad.Size = new System.Drawing.Size(102, 23);
+            this.btnWCDownLoad.TabIndex = 7;
+            this.btnWCDownLoad.Text = "WCDownLoad";
+            this.btnWCDownLoad.UseVisualStyleBackColor = true;
+            this.btnWCDownLoad.Click += new System.EventHandler(this.btnWCDownLoad_Click);
+            // 
             // frmUpdate
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(687, 288);
+            this.Controls.Add(this.btnWCDownLoad);
             this.Controls.Add(this.progressBarControl1);
             this.Controls.Add(this.pbDownLoad);
             this.Controls.Add(this.btnDownLoad);
@@ -128,6 +140,7 @@
         private System.Windows.Forms.Button btnDownLoad;
         private System.Windows.Forms.ProgressBar pbDownLoad;
         private DevExpress.XtraEditors.ProgressBarControl progressBarControl1;
+        private System.Windows.Forms.Button btnWCDownLoad;
     }
 }
 
