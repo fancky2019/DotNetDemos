@@ -165,6 +165,9 @@
     <Compile Include="Demos2019\CharDemo.cs" />
     <Compile Include="Demos2019\DevisionDemo.cs" />
     <Compile Include="Demos2019\EqualsOperatorDemo.cs" />
+    <Compile Include="Demos2019\Http\Http.cs" />
+    <Compile Include="Demos2019\Http\HttpTest.cs" />
+    <Compile Include="Demos2019\Http\WebApiClientHelper.cs" />
     <Compile Include="Demos2019\NewOverrieDemo.cs" />
     <Compile Include="Demos2019\Forms\FrmTest.cs">
       <SubType>Form</SubType>
@@ -180,6 +183,7 @@
     <Compile Include="Demos2019\RegexDemo.cs" />
     <Compile Include="Demos2019\StackTraceDemo.cs" />
     <Compile Include="Demos2019\StringInternDemo.cs" />
+    <Compile Include="Demos2019\TextTest.cs" />
     <Compile Include="Demos2019\UnitTestDemo.cs" />
     <Compile Include="Subjects\SubjectTest.cs" />
     <Compile Include="Demos2019\ThreadDemo.cs" />
