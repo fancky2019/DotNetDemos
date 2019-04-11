@@ -69,10 +69,12 @@ namespace Demos.Demos2018
             // new StackExchangeRedisDemo().Test();
 
             //   new NewOverrieDemo().Test();
-            new FrmTest().ShowDialog();
+            //  new FrmTest().ShowDialog();
             // new RegexDemo().Test();
             //new Demos2019.Http.HttpTest().Test();
             // new TextTest().Test();
+            new StopwatchDemo().Test();
+            
             #endregion
 
             int m = 0;
