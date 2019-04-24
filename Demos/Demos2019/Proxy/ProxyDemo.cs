@@ -21,8 +21,7 @@ namespace Demos.Demos2019.Proxy
             // RealProxy
             //IProxy proxy = ProxyFactory.Create<Proxy>();
 
-            //ICalculate proxy = ProxyFactory<Calculate>.Create();
-            Calculate proxy = ProxyFactory<Calculate>.Create();
+            ICalculate proxy = ProxyFactory<Calculate>.Create();
             proxy.Add(3,2);
 
             proxy.Sub(3, 2);
