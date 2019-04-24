@@ -65,6 +65,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Dll\HPSocket\HPSocketCS.dll</HintPath>
     </Reference>
+    <Reference Include="JWT, Version=5.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\JWT.5.0.1\lib\net46\JWT.dll</HintPath>
+    </Reference>
     <Reference Include="MbUnit, Version=3.4.0.0, Culture=neutral, PublicKeyToken=eb9cfa67ee6ab36e, processorArchitecture=MSIL">
       <HintPath>..\packages\mbunit.3.4.14.0\lib\net40\MbUnit.dll</HintPath>
     </Reference>
@@ -164,7 +167,11 @@
     <Compile Include="Demos2018\SynchronizationDemo\ProducerConsumerTPSDemo.cs" />
     <Compile Include="Demos2019\CharDemo.cs" />
     <Compile Include="Demos2019\DevisionDemo.cs" />
+    <Compile Include="Demos2019\Encrypt\AESUtil.cs" />
+    <Compile Include="Demos2019\Encrypt\RSAUtil.cs" />
+    <Compile Include="Demos2019\Encrypt\XMLHelper.cs" />
     <Compile Include="Demos2019\EqualsOperatorDemo.cs" />
+    <Compile Include="Demos2019\FormatDemo.cs" />
     <Compile Include="Demos2019\Http\Http.cs" />
     <Compile Include="Demos2019\Http\HttpTest.cs" />
     <Compile Include="Demos2019\Http\WebApiClientHelper.cs" />
@@ -175,16 +182,21 @@
     <Compile Include="Demos2019\Forms\FrmTest.Designer.cs">
       <DependentUpon>FrmTest.cs</DependentUpon>
     </Compile>
-    <Compile Include="Demos2019\Proxy\IProxy.cs" />
-    <Compile Include="Demos2019\Proxy\Proxy.cs" />
+    <Compile Include="Demos2019\Proxy\ICalculate.cs" />
+    <Compile Include="Demos2019\Proxy\Calculate.cs" />
+    <Compile Include="Demos2019\Proxy\Interceptor\AuthorizeAttribute.cs" />
+    <Compile Include="Demos2019\Proxy\Interceptor\AuthorizeInterceptor.cs" />
+    <Compile Include="Demos2019\Proxy\Interceptor\IInterceptor.cs" />
     <Compile Include="Demos2019\Proxy\ProxyDemo.cs" />
     <Compile Include="Demos2019\Proxy\DynamicProxy.cs" />
     <Compile Include="Demos2019\Proxy\ProxyFactory.cs" />
     <Compile Include="Demos2019\RegexDemo.cs" />
     <Compile Include="Demos2019\StackTraceDemo.cs" />
+    <Compile Include="Demos2019\StopwatchDemo.cs" />
     <Compile Include="Demos2019\StringInternDemo.cs" />
     <Compile Include="Demos2019\TextTest.cs" />
     <Compile Include="Demos2019\UnitTestDemo.cs" />
+    <Compile Include="OpenResource\Jwt\JWTDemo.cs" />
     <Compile Include="Subjects\SubjectTest.cs" />
     <Compile Include="Demos2019\ThreadDemo.cs" />
     <Compile Include="OpenResource\HPSocket\HPSocketClient\Class1.cs" />
@@ -267,5 +279,6 @@
       <DependentUpon>FrmTest.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

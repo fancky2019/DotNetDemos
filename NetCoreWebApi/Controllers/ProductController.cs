@@ -16,6 +16,7 @@ namespace NetCoreWebApi.Controllers
      * https://localhost:8464/swagger
      */
     [Route("api/[controller]")]
+    [ApiController]
     public class ProductController : Controller
     {
         private WMSDbContext _WMSDbContext;
@@ -25,7 +26,7 @@ namespace NetCoreWebApi.Controllers
         }
 
         //一个Controller只能有一个默认的Get，URL不用写Action名字
-        //http://localhost:8464/api/Product?id=4
+        //http://localhost:8464/api/Product?id=50
         /// <summary>
         /// 一个Controller只能有一个默认的Get，URL不用写Action名字
         /// </summary>
@@ -38,7 +39,7 @@ namespace NetCoreWebApi.Controllers
             return Json(product);
         }
 
-        //http://localhost:8464/api/Product/GetProductList?id=4
+        //http://localhost:8464/api/Product/GetProductList?id=50
         [HttpGet("GetProductList")]
         public IActionResult GetProductList([FromQuery] Product model)
         {

@@ -19,8 +19,13 @@ namespace Demos.Demos2019.Proxy
             //  IMessageSink
             //  ContextBoundObject
             // RealProxy
-            IProxy proxy = ProxyFactory.Create();
+            //IProxy proxy = ProxyFactory.Create<Proxy>();
+
+            //ICalculate proxy = ProxyFactory<Calculate>.Create();
+            Calculate proxy = ProxyFactory<Calculate>.Create();
             proxy.Add(3,2);
+
+            proxy.Sub(3, 2);
         }
     }
 }

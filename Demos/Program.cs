@@ -6,6 +6,7 @@ using Demos.Demos2019.Forms;
 using Demos.Demos2019.Proxy;
 using Demos.Demos2019.Subjects;
 using Demos.OpenResource.HPSocket;
+using Demos.OpenResource.Jwt;
 using Demos.OpenResource.Redis;
 using Demos.OpenResource.Redis.StackExchangeRedis;
 using Microsoft.Win32;
@@ -65,14 +66,18 @@ namespace Demos.Demos2018
             //new SubjectTest().Test();
             //new DivisionDemo().Test();
             //   new StackTraceDemo().Test();
-            //  new ProxyDemo().Test();
+            new ProxyDemo().Test();
             // new StackExchangeRedisDemo().Test();
 
             //   new NewOverrieDemo().Test();
-            new FrmTest().ShowDialog();
+            //  new FrmTest().ShowDialog();
             // new RegexDemo().Test();
             //new Demos2019.Http.HttpTest().Test();
             // new TextTest().Test();
+            //new StopwatchDemo().Test();
+            //new JWTDemo().Test();
+            //new FormatDemo().Test();
+
             #endregion
 
             int m = 0;
