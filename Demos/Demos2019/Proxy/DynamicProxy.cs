@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Demos.Demos2019.Proxy.Interceptor;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -27,23 +28,48 @@ namespace Demos.Demos2019.Proxy
         {
             var methodCall = msg as IMethodCallMessage;
             var methodInfo = methodCall.MethodBase as MethodInfo;
-            Log("In Dynamic Proxy - Before executing '{0}'",
-              methodCall.MethodName);
+            //  methodInfo.GetCustomAttributes
+            Log("In Dynamic Proxy - Before executing '{0}'", methodCall.MethodName);
             try
             {
-                var result = methodInfo.Invoke(_decorated, methodCall.InArgs);
-                Log("In Dynamic Proxy - After executing '{0}' ",
-                  methodCall.MethodName);
-                return new ReturnMessage(result, null, 0,
-                  methodCall.LogicalCallContext, methodCall);
+                //var result = methodInfo.Invoke(_decorated, methodCall.InArgs);
+                //Log("In Dynamic Proxy - After executing '{0}' ", methodCall.MethodName);
+                //return new ReturnMessage(result, null, 0, methodCall.LogicalCallContext, methodCall);
+
+
+                IInterceptor interceptor = GetIInterceptor(methodInfo);
+               if(interceptor.PreHandle())
+                {
+                    interceptor.OnActionExecuting();
+                    var result = methodInfo.Invoke(_decorated, methodCall.InArgs);
+                    Log("In Dynamic Proxy - After executing '{0}' ", methodCall.MethodName);
+                    interceptor.OnActionExecuted();
+                    return new ReturnMessage(result, null, 0, methodCall.LogicalCallContext, methodCall);
+                }
+                else
+                {
+                    return new ReturnMessage(new Exception ("UnAuthorization"), methodCall);
+                }
             }
             catch (Exception e)
             {
-                Log(string.Format(
-                  "In Dynamic Proxy- Exception {0} executing '{1}'", e),
-                  methodCall.MethodName);
+                Log(string.Format("In Dynamic Proxy- Exception {0} executing '{1}'", e, methodCall.MethodName));
                 return new ReturnMessage(e, methodCall);
             }
+        }
+
+        private IInterceptor GetIInterceptor(MethodInfo methodInfo)
+        {
+            IInterceptor interceptor=null;
+            var type = methodInfo.DeclaringType;
+            var attribute = methodInfo.GetCustomAttribute<AuthorizeAttribute>();
+            if (attribute != null)
+            {
+
+                //判断是否认证逻辑
+                interceptor = new AuthorizeInterceptor(attribute);
+            }
+            return interceptor;
         }
     }
 }
