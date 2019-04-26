@@ -16,8 +16,8 @@ namespace Demos.Demos2019.Proxy
     {
         public void  Test()
         {
-            //  IMessageSink
-            //  ContextBoundObject
+            //IMessageSink
+            //ContextBoundObject
             // RealProxy
             //IProxy proxy = ProxyFactory.Create<Proxy>();
 
