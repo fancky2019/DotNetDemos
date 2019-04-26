@@ -30,11 +30,11 @@ namespace Demos.Demos2019
 
 
 
-            //可空引用类型
-            PointClassTest? pct = null;
-            var n = pct.X;
-            pct = new PointClassTest();
-            var n1 = pct.X;
+            ////可空引用类型
+            //PointClassTest? pct = null;
+            //var n = pct.X;
+            //pct = new PointClassTest();
+            //var n1 = pct.X;
         }
     }
 
