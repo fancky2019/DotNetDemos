@@ -167,6 +167,7 @@
     <Compile Include="Demos2018\SynchronizationDemo\ProducerConsumerTPSDemo.cs" />
     <Compile Include="Demos2019\CharDemo.cs" />
     <Compile Include="Demos2019\DevisionDemo.cs" />
+    <Compile Include="Demos2019\DotNetEightDemo.cs" />
     <Compile Include="Demos2019\Encrypt\AESUtil.cs" />
     <Compile Include="Demos2019\Encrypt\RSAUtil.cs" />
     <Compile Include="Demos2019\Encrypt\XMLHelper.cs" />
