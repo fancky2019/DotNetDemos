@@ -66,7 +66,7 @@ namespace Demos.Demos2018
             //new SubjectTest().Test();
             //new DivisionDemo().Test();
             //   new StackTraceDemo().Test();
-            new ProxyDemo().Test();
+            //new ProxyDemo().Test();
             // new StackExchangeRedisDemo().Test();
 
             //   new NewOverrieDemo().Test();
@@ -78,6 +78,8 @@ namespace Demos.Demos2018
             //new JWTDemo().Test();
             //new FormatDemo().Test();
 
+            new DotNetEightDemo().Test();
+            
             #endregion
 
             int m = 0;
