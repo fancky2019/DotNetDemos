@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Demos.Demos2019
 {
@@ -51,7 +47,7 @@ namespace Demos.Demos2019
         int y;
         public B()
         {
-            y= -1;
+            y = -1;
         }
         public override void Print()
         {
@@ -94,7 +90,7 @@ namespace Demos.Demos2019
     //    public static int Y = E.X + 1;
     //    static F() { }
     //    static  void Main()
-    //    {
+    //    额
     //        Console.WriteLine("X={0},Y={1}", E.X, F.Y);
     //    }
     //}
@@ -102,7 +98,7 @@ namespace Demos.Demos2019
     class M
     {
         public static int X = 1;
-        private int P = 1;
+        private int p = 1;
         static M()
         {
             Console.WriteLine("static M()");
@@ -123,7 +119,7 @@ namespace Demos.Demos2019
         //类执行顺序：静态字段-->静态构造函数-->类成员字段-->父类静态字段-->父类静态构造函数-->
         //            父类成员字段-->父类非静态构造函数-->类非静态构造函数
         public static int Y = 1;
-        private int  Q= 1;
+        private int q = 1;
         static N()
         {
             Console.WriteLine("static N()");
