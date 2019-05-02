@@ -78,7 +78,8 @@ namespace Demos.Demos2018
             //new JWTDemo().Test();
             //new FormatDemo().Test();
 
-            new DotNetEightDemo().Test();
+            //  new DotNetEightDemo().Test
+            new ClassExcuteSequenceDemo().Test();
             
             #endregion
 

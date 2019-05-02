@@ -39,6 +39,13 @@ namespace Demos.Demos2019
 
         }
 
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+
         private string TimeStrReplace(string input)
         {
             string pattern = "[/,-]";
