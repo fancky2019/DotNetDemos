@@ -20,6 +20,8 @@ namespace Demos.Demos2019
             //A a = new A();
             //new N();
 
+
+            //和java的一样
             //访问的是父类的静态成员，当前类是父类，只执行父类的静态构造函数
             //int x = N.X;
             //N.FunM();
