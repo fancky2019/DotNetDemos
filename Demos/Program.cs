@@ -79,8 +79,9 @@ namespace Demos.Demos2018
             //new FormatDemo().Test();
 
             //  new DotNetEightDemo().Test
-            new ClassExcuteSequenceDemo().Test();
+            //new ClassExcuteSequenceDemo().Test();
             
+            new IndexDemo().Test();
             #endregion
 
             int m = 0;
