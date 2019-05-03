@@ -34,5 +34,15 @@ namespace Demos.Demos2019
             int count222 = Encoding.Default.GetByteCount(new char[] { ch2 });//1
             int count333 = Encoding.Default.GetByteCount(new char[] { ch3 });//2
         }
+
+
+        private  void Convert()
+        {
+            String str = "abc";
+            var ch = char.Parse("a");
+            //获取当前 Char 对象中位于指定位置的 String 对象。
+            char c = str[0];
+            
+        }
     }
 }
