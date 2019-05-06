@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Demos.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -42,6 +43,7 @@ namespace Demos.Demos2019
             var ch = char.Parse("a");
             //获取当前 Char 对象中位于指定位置的 String 对象。
             char c = str[0];
+           /// Enum.GetUnderlyingType  枚举默认： System.Int32
             
         }
     }

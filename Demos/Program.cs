@@ -81,7 +81,8 @@ namespace Demos.Demos2018
             //  new DotNetEightDemo().Test
             //new ClassExcuteSequenceDemo().Test();
             
-            new IndexDemo().Test();
+            //new IndexDemo().Test();
+            new ConstructorDemo().Test();
             #endregion
 
             int m = 0;
