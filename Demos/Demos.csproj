@@ -168,6 +168,7 @@
     <Compile Include="Demos2019\CharDemo.cs" />
     <Compile Include="Demos2019\ClassExcuteSequenceDemo.cs" />
     <Compile Include="Demos2019\ConstructorDemo.cs" />
+    <Compile Include="Demos2019\DateTimeDemo.cs" />
     <Compile Include="Demos2019\DevisionDemo.cs" />
     <Compile Include="Demos2019\DotNetEightDemo.cs" />
     <Compile Include="Demos2019\Encrypt\AESUtil.cs" />
@@ -196,6 +197,7 @@
     <Compile Include="Demos2019\Proxy\ProxyFactory.cs" />
     <Compile Include="Demos2019\RegexDemo.cs" />
     <Compile Include="Demos2019\StackTraceDemo.cs" />
+    <Compile Include="Demos2019\StaticInnerClassDemo.cs" />
     <Compile Include="Demos2019\StopwatchDemo.cs" />
     <Compile Include="Demos2019\StringInternDemo.cs" />
     <Compile Include="Demos2019\TextTest.cs" />
