@@ -180,6 +180,7 @@
     <Compile Include="Demos2019\Http\HttpTest.cs" />
     <Compile Include="Demos2019\Http\WebApiClientHelper.cs" />
     <Compile Include="Demos2019\IndexDemo.cs" />
+    <Compile Include="Demos2019\ListSortCompare.cs" />
     <Compile Include="Demos2019\NewOverrieDemo.cs" />
     <Compile Include="Demos2019\Forms\FrmTest.cs">
       <SubType>Form</SubType>
@@ -187,6 +188,7 @@
     <Compile Include="Demos2019\Forms\FrmTest.Designer.cs">
       <DependentUpon>FrmTest.cs</DependentUpon>
     </Compile>
+    <Compile Include="Demos2019\ObjectClone.cs" />
     <Compile Include="Demos2019\Proxy\ICalculate.cs" />
     <Compile Include="Demos2019\Proxy\Calculate.cs" />
     <Compile Include="Demos2019\Proxy\Interceptor\AuthorizeAttribute.cs" />

@@ -11,7 +11,8 @@ namespace Demos.Demos2019
     {
         public void Test()
         {
-            Match();
+            // Match();
+            Contain();
         }
         private void Match()
         {
@@ -37,6 +38,14 @@ namespace Demos.Demos2019
             var re = regex.IsMatch("78..2");
 
 
+        }
+
+        private void Contain()
+        {
+            string pattern = @".*(23).*99.*";
+
+            Regex regex = new Regex(pattern);
+            var re = regex.IsMatch("abdcd1223jjkjkyy99999232");
         }
 
 
