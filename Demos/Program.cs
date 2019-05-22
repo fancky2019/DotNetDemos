@@ -71,7 +71,7 @@ namespace Demos.Demos2018
 
             //   new NewOverrieDemo().Test();
             //  new FrmTest().ShowDialog();
-            // new RegexDemo().Test();
+            //new RegexDemo().Test();
             //new Demos2019.Http.HttpTest().Test();
             // new TextTest().Test();
             //new StopwatchDemo().Test();
@@ -80,9 +80,12 @@ namespace Demos.Demos2018
 
             //  new DotNetEightDemo().Test
             //new ClassExcuteSequenceDemo().Test();
-            
+
             //new IndexDemo().Test();
-            new ConstructorDemo().Test();
+            //    new ConstructorDemo().Test();
+            //new ListSortCompare().Test();
+             ObjectClone.Test();
+
             #endregion
 
             int m = 0;
