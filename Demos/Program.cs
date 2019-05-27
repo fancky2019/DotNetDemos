@@ -76,7 +76,7 @@ namespace Demos.Demos2018
             // new TextTest().Test();
             //new StopwatchDemo().Test();
             //new JWTDemo().Test();
-            //new FormatDemo().Test();
+            new FormatDemo().Test();
 
             //  new DotNetEightDemo().Test
             //new ClassExcuteSequenceDemo().Test();
@@ -84,7 +84,7 @@ namespace Demos.Demos2018
             //new IndexDemo().Test();
             //    new ConstructorDemo().Test();
             //new ListSortCompare().Test();
-             ObjectClone.Test();
+            //ObjectClone.Test();
 
             #endregion
 
