@@ -26,6 +26,19 @@ namespace Demos.Demos2018
             //new AutoStartProgramDemo().Test();
             //Console.WriteLine(Thread.CurrentThread.ManagedThreadId);
 
+            AppDomain.CurrentDomain.UnhandledException += (sender, e) =>
+              {
+                  Console.WriteLine(e.ToString());
+              };
+
+            Application.ThreadException += (sender, e) =>
+                  {
+                      Console.WriteLine(e.ToString());
+                  };
+
+
+
+
             #region Demos2018
             //new ParamsDemo().Test();
             // string str = Test().Result;
@@ -76,7 +89,7 @@ namespace Demos.Demos2018
             // new TextTest().Test();
             //new StopwatchDemo().Test();
             //new JWTDemo().Test();
-            new FormatDemo().Test();
+            //new FormatDemo().Test();
 
             //  new DotNetEightDemo().Test
             //new ClassExcuteSequenceDemo().Test();
@@ -85,6 +98,9 @@ namespace Demos.Demos2018
             //    new ConstructorDemo().Test();
             //new ListSortCompare().Test();
             //ObjectClone.Test();
+
+            new ThreadTimeOutDemo().Test();
+
 
             #endregion
 

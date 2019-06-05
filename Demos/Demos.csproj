@@ -203,6 +203,7 @@
     <Compile Include="Demos2019\StopwatchDemo.cs" />
     <Compile Include="Demos2019\StringInternDemo.cs" />
     <Compile Include="Demos2019\TextTest.cs" />
+    <Compile Include="Demos2019\ThreadTimeOutDemo.cs" />
     <Compile Include="Demos2019\UnitTestDemo.cs" />
     <Compile Include="OpenResource\Jwt\JWTDemo.cs" />
     <Compile Include="Subjects\SubjectTest.cs" />
