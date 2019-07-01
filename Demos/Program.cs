@@ -99,9 +99,9 @@ namespace Demos.Demos2018
             //new ListSortCompare().Test();
             //ObjectClone.Test();
 
-            new ThreadTimeOutDemo().Test();
-
-
+            //new ThreadTimeOutDemo().Test();
+            new ReferenceDemo().Test();
+            
             #endregion
 
             int m = 0;
