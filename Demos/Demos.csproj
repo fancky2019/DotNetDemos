@@ -197,6 +197,7 @@
     <Compile Include="Demos2019\Proxy\ProxyDemo.cs" />
     <Compile Include="Demos2019\Proxy\DynamicProxy.cs" />
     <Compile Include="Demos2019\Proxy\ProxyFactory.cs" />
+    <Compile Include="Demos2019\ReferenceDemo.cs" />
     <Compile Include="Demos2019\RegexDemo.cs" />
     <Compile Include="Demos2019\StackTraceDemo.cs" />
     <Compile Include="Demos2019\StaticInnerClassDemo.cs" />
