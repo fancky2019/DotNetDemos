@@ -13,9 +13,9 @@ namespace Demos.Demos2019
     /// 但是无法更改引用本身的值；也就是说，不能使用相同的引用为新类分配内存并使之在块外保持。 若要这样做，应使用 ref 或 out 关键字传递参数。
     /// 
     /// 引用传参：
-    /// 不能修改其指向的内存地址,除非用ref 修饰
-    /// list 可修改内元素即可添加新的元素，单不能让其内元素指向新的地址
-    ///数组可以改变其元素指向新的内存地址，单不能改变其元素个数除非用ref。
+    /// 不能修改其指向的内存地址,不能重新实例化改变其内存地址，除非用ref。。
+    /// list 可修改内元素即可添加新的元素，单不能让其内元素指向新的地址,不能重新实例化改变其内存地址，除非用ref。
+    ///数组可以改变其元素指向新的内存地址，单不能改变其元素个数,不能重新实例化改变其内存地址，除非用ref。
     /// </summary>
     public class ReferenceDemo
     {
@@ -72,6 +72,11 @@ namespace Demos.Demos2019
                 Age = 10,
                 Name = "LR"
             };
+            Person person22222 = new Person
+            {
+                Age = 10,
+                Name = "LR"
+            };
             List<Person> list2 = new List<Person>()
             { person2 };
 
@@ -83,13 +88,15 @@ namespace Demos.Demos2019
 
             List<Person> list2222 = new List<Person>()
             { person2222 };
+            List<Person> list22222 = new List<Person>()
+            { person22222 };
 
-            //list 可修改内元素即可添加新的元素，单不能让其内元素指向新的地址
+            //list 可修改内元素即可添加新的元素，单不能让其内元素指向新的地址,不能重新实例化。
             Fun2(list2);
             Fun22(list22);
             Fun222(list222);
-            Fun2222(ref list2222);
-
+            Fun2222( list2222);
+            Fun22222(ref list22222);
 
             Person person3 = new Person
             {
@@ -122,7 +129,7 @@ namespace Demos.Demos2019
             Person[] array3333 = new Person[1] { person3333 };
             Person[] array33333 = new Person[1] { person33333 };
 
-            //数组可以改变其元素指向新的内存地址，单不能改变其元素个数除非用ref。
+            //数组可以改变其元素指向新的内存地址，单不能改变其元素个数除非用ref，不能重新实例化。
             Fun3(array3);
             Fun33(array33);
             Fun333(array333);
@@ -202,7 +209,18 @@ namespace Demos.Demos2019
             list.Add(p);
         }
 
-        private void Fun2222(ref List<Person> list)
+        private void Fun2222( List<Person> list)
+        {
+            Person p = new Person()
+            {
+                Name = "fancky"
+            };
+            //Person person = list.First();
+            //person = p;
+
+            list = new List<Person> { p };
+        }
+        private void Fun22222( ref List<Person> list)
         {
             Person p = new Person()
             {
@@ -214,7 +232,6 @@ namespace Demos.Demos2019
             list.Clear();
             list.Add(p);
         }
-
 
         private void Fun3(Person[] array)
         {
