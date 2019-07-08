@@ -13,15 +13,21 @@ namespace Demos.Demos2019
     /// 但是无法更改引用本身的值；也就是说，不能使用相同的引用为新类分配内存并使之在块外保持。 若要这样做，应使用 ref 或 out 关键字传递参数。
     /// 
     /// 引用传参：
-    /// 不能修改其指向的内存地址,不能重新实例化改变其内存地址，除非用ref。。
-    /// list 可修改内元素即可添加新的元素，单不能让其内元素指向新的地址,不能重新实例化改变其内存地址，除非用ref。
-    ///数组可以改变其元素指向新的内存地址，单不能改变其元素个数,不能重新实例化改变其内存地址，除非用ref。
+    /// string:不能改变引用对象，除非ref。
+    /// class:不能修改其指向的内存地址,不能重新实例化改变其内存地址，除非用ref。。
+    /// array:可以改变其元素指向新的内存地址，单不能改变其元素个数,不能重新实例化改变其内存地址，除非用ref。
+    /// list: 可修改内元素、添加新的元素，单不能让其内元素指向新的地址,不能重新实例化改变其内存地址，除非用ref。
     /// </summary>
     public class ReferenceDemo
     {
         Person person = new Person { Age = 30, Name = "lirui" };
         public void Test()
         {
+            string str = "123";
+            StringReference(str);
+            string strRef = "456";
+            StringReferenceRef(ref strRef);
+
             Person person1 = new Person
             {
                 Age = 10,
@@ -137,7 +143,23 @@ namespace Demos.Demos2019
             Fun33333(ref array33333);
         }
 
+        /// <summary>
+        /// 字符串参数不改变原来值
+        /// </summary>
+        /// <param name="str"></param>
+        private void StringReference(string str)
+        {
+            str = "abc";
+        }
 
+        /// <summary>
+        /// ref 可改变原始值
+        /// </summary>
+        /// <param name="str"></param>
+        private void StringReferenceRef( ref string str)
+        {
+            str = "abc";
+        }
         /// <summary>
         /// 可修改对象的属性值
         /// </summary>
@@ -183,10 +205,19 @@ namespace Demos.Demos2019
             person = this.person;
         }
 
+        /// <summary>
+        /// 可修改元素属性值
+        /// </summary>
+        /// <param name="list"></param>
         private void Fun2(List<Person> list)
         {
             list.First().Name = "fancky";
         }
+
+        /// <summary>
+        /// 不能改变元素引用地址
+        /// </summary>
+        /// <param name="list"></param>
         private void Fun22(List<Person> list)
         {
             Person p = new Person()
@@ -196,6 +227,11 @@ namespace Demos.Demos2019
             Person person = list.First();
             person = p;
         }
+
+        /// <summary>
+        /// 可改变元素个数，添加新元素
+        /// </summary>
+        /// <param name="list"></param>
         private void Fun222(List<Person> list)
         {
             Person p = new Person()
@@ -205,10 +241,18 @@ namespace Demos.Demos2019
             //Person person = list.First();
             //person = p;
 
+            ////list.Clear();
+            //list.Add(p);
+
             list.Clear();
             list.Add(p);
         }
 
+
+        /// <summary>
+        /// 不能重新分配地址
+        /// </summary>
+        /// <param name="list"></param>
         private void Fun2222( List<Person> list)
         {
             Person p = new Person()
@@ -220,6 +264,11 @@ namespace Demos.Demos2019
 
             list = new List<Person> { p };
         }
+
+        /// <summary>
+        /// ref  都可以
+        /// </summary>
+        /// <param name="list"></param>
         private void Fun22222( ref List<Person> list)
         {
             Person p = new Person()
@@ -233,11 +282,19 @@ namespace Demos.Demos2019
             list.Add(p);
         }
 
+        /// <summary>
+        /// 可改变数组元素属性值
+        /// </summary>
+        /// <param name="array"></param>
         private void Fun3(Person[] array)
         {
             array[0].Name = "fancky";
         }
 
+        /// <summary>
+        /// 数组元素可指向新的内存地址
+        /// </summary>
+        /// <param name="array"></param>
         private void Fun33(Person[] array)
         {
             Person p = new Person()
@@ -246,6 +303,11 @@ namespace Demos.Demos2019
             };
             array[0] = p;
         }
+
+        /// <summary>
+        /// 添加新的元素
+        /// </summary>
+        /// <param name="array"></param>
         private void Fun333(Person[] array)
         {
             Array.Clear(array, 0, array.Length);
@@ -255,6 +317,11 @@ namespace Demos.Demos2019
             };
             array[0] = p;
         }
+
+        /// <summary>
+        /// 不能重新实例化
+        /// </summary>
+        /// <param name="array"></param>
         private void Fun3333(Person[] array)
         {
             Array.Clear(array, 0, array.Length);
@@ -269,6 +336,11 @@ namespace Demos.Demos2019
             array = new Person[] { p, p1 };
 
         }
+
+        /// <summary>
+        /// ref  都可以
+        /// </summary>
+        /// <param name="array"></param>
         private void Fun33333(ref Person[] array)
         {
             Array.Clear(array, 0, array.Length);
