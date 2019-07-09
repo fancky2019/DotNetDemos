@@ -20,7 +20,7 @@ namespace Demos.Demos2018
     class Program
     {
         [STAThread]
-        static void Main(string[] args)
+        static  void Main(string[] args)
         {
             //AutoStart(true);
             //new AutoStartProgramDemo().Test();
@@ -100,7 +100,8 @@ namespace Demos.Demos2018
             //ObjectClone.Test();
 
             //new ThreadTimeOutDemo().Test();
-            new ReferenceDemo().Test();
+            //new ReferenceDemo().Test();
+            new AsyncDemo().Test();
             
             #endregion
 

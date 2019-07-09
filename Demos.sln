@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27428.2015
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.352
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demos", "Demos\Demos.csproj", "{A36E2B65-38DD-4D9A-91F9-A3E34953A7F3}"
 EndProject
@@ -21,6 +21,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ProjectTemplete", "ProjectT
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinformFormUpdate", "WinformFormUpdate\WinformFormUpdate.csproj", "{5425B142-BB03-40B1-8C10-6BE0C4D8EC0B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetCoreWebApplication", "NetCoreWebApplication\NetCoreWebApplication.csproj", "{678EE95A-4F6F-4572-B73E-CF768246CD27}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -74,6 +76,14 @@ Global
 		{5425B142-BB03-40B1-8C10-6BE0C4D8EC0B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5425B142-BB03-40B1-8C10-6BE0C4D8EC0B}.Release|x64.ActiveCfg = Release|Any CPU
 		{5425B142-BB03-40B1-8C10-6BE0C4D8EC0B}.Release|x64.Build.0 = Release|Any CPU
+		{678EE95A-4F6F-4572-B73E-CF768246CD27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{678EE95A-4F6F-4572-B73E-CF768246CD27}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{678EE95A-4F6F-4572-B73E-CF768246CD27}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{678EE95A-4F6F-4572-B73E-CF768246CD27}.Debug|x64.Build.0 = Debug|Any CPU
+		{678EE95A-4F6F-4572-B73E-CF768246CD27}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{678EE95A-4F6F-4572-B73E-CF768246CD27}.Release|Any CPU.Build.0 = Release|Any CPU
+		{678EE95A-4F6F-4572-B73E-CF768246CD27}.Release|x64.ActiveCfg = Release|Any CPU
+		{678EE95A-4F6F-4572-B73E-CF768246CD27}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -85,6 +95,7 @@ Global
 		{52FAC7E8-EBE9-4D68-8226-F47309E01537} = {69A9DC6A-269A-485D-92A7-041A2AFB9423}
 		{DCE35E3B-D2A2-452D-A006-F425257A2FE8} = {52FAC7E8-EBE9-4D68-8226-F47309E01537}
 		{5425B142-BB03-40B1-8C10-6BE0C4D8EC0B} = {69A9DC6A-269A-485D-92A7-041A2AFB9423}
+		{678EE95A-4F6F-4572-B73E-CF768246CD27} = {69A9DC6A-269A-485D-92A7-041A2AFB9423}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C3F75083-7495-49CD-9575-B8CC71C56F75}

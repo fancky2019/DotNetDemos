@@ -34,6 +34,7 @@
             this.serialPort1 = new System.IO.Ports.SerialPort(this.components);
             this.btnUpdate = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
+            this.btnAsync = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnBeginInvoke
@@ -65,11 +66,22 @@
             this.button1.Text = "button1";
             this.button1.UseVisualStyleBackColor = true;
             // 
+            // btnAsync
+            // 
+            this.btnAsync.Location = new System.Drawing.Point(24, 145);
+            this.btnAsync.Name = "btnAsync";
+            this.btnAsync.Size = new System.Drawing.Size(75, 23);
+            this.btnAsync.TabIndex = 9;
+            this.btnAsync.Text = "async";
+            this.btnAsync.UseVisualStyleBackColor = true;
+            this.btnAsync.Click += new System.EventHandler(this.BtnAsync_Click);
+            // 
             // FrmTest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(630, 450);
+            this.Controls.Add(this.btnAsync);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.btnUpdate);
             this.Controls.Add(this.btnBeginInvoke);
@@ -87,5 +99,6 @@
         private System.IO.Ports.SerialPort serialPort1;
         private System.Windows.Forms.Button btnUpdate;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnAsync;
     }
 }
