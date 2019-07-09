@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -103,12 +104,14 @@ namespace WinformFormUpdate
 
             //URI  是URL的一种
             Uri uri = new Uri("http://localhost:8002/a.pdf");
-      
+
             //在debug目录下
             //wc.DownloadFileAsync(uri, "计算机网络Test1.pdf");
             //要下载文件的路径,保存路径(注意：如果路径错误无法下载)
             wc.DownloadFileAsync(uri, "D:\\Test\\file\\计算机网络Test1.pdf");
 
         }
+
+    
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Common;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -78,7 +79,7 @@ namespace NetCoreWebApi.Controllers
 
 
         [HttpPost("UpdateProductByProcedure")]
-        public  IActionResult UpdateProductByProcedure([FromBody] Product model)
+        public IActionResult UpdateProductByProcedure([FromBody] Product model)
         {
             SqlParameter[] sqlParms = new SqlParameter[2];
             //sqlParms[0] = new SqlParameter("@productName", System.Data.SqlDbType.NVarChar, 100);
@@ -92,6 +93,31 @@ namespace NetCoreWebApi.Controllers
 
             var count = _WMSDbContext.ExecuteScalarByProcedure<int>("UpdateProductProc", sqlParms);
             return Json(count);
+        }
+
+
+        [HttpGet("AsyncTest")]
+        public async Task<IActionResult> AsyncTest()
+        {
+            return await Task.Run(() =>
+            {
+                Thread.Sleep(10 * 1000);
+                return Json("Async");
+            });
+        }
+
+        [HttpGet("SyncTest")]
+        public IActionResult SyncTest()
+        {
+            Thread.Sleep(10 * 1000);
+            return Json("Sync");
+        }
+
+        [HttpGet("SyncTest1")]
+        public IActionResult SyncTest1()
+        {
+            Thread.Sleep(10 * 1000);
+            return Json("Sync1");
         }
 
     }
