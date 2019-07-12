@@ -50,7 +50,7 @@ namespace NetCoreWebApi.Controllers
             return Json(token);
         }
 
-
+        //https://github.com/jwt-dotnet/jwt
         //PostMan:http 请求头(Headers)添加
         //Key           Value
         //Authorization:Bearer token。注意：Bearer 后一个空格
