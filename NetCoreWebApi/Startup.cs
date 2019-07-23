@@ -45,6 +45,10 @@ namespace NetCoreWebApi
             //services.AddSingleton<IConfig, Config>(p => typeof(Config));
 
 
+
+            //CS1591 缺少对公共可见类型或成员的 XML 注释
+            //
+
             //添加Swagger.
             services.AddSwaggerGen(c =>
             {
@@ -101,6 +105,11 @@ namespace NetCoreWebApi
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        /// <summary>
+        /// 添加中间件组件到管道
+        /// </summary>
+        /// <param name="app"></param>
+        /// <param name="env"></param>
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
@@ -127,6 +136,25 @@ namespace NetCoreWebApi
 
             // 修改默认页面（Peoperties下的lunchSetting.json）：将LunchUrl改为“swagger”
 
+
+            ////顺序
+            //if (env.IsDevelopment())
+            //{
+            //    app.UseDeveloperExceptionPage();
+            //    app.UseDatabaseErrorPage();
+            //}
+            //else
+            //{
+            //    app.UseExceptionHandler("/Error");
+            //    app.UseHsts();
+            //}
+
+            //app.UseHttpsRedirection();
+            //app.UseStaticFiles();
+            //app.UseCookiePolicy();
+            //app.UseAuthentication();
+            //app.UseSession();
+            //app.UseMvc();
         }
     }
 }
