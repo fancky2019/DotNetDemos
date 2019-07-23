@@ -80,7 +80,7 @@ namespace NetCoreWebApi
                     }
                     data.Add(item);
                 }
-               // cmd.ExecuteScalar
+                // cmd.ExecuteScalar
                 dr.Dispose();
                 return data;
             }
