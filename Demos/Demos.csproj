@@ -202,6 +202,7 @@
     <Compile Include="Demos2019\ReferenceDemo.cs" />
     <Compile Include="Demos2019\RegexDemo.cs" />
     <Compile Include="Demos2019\StackTraceDemo.cs" />
+    <Compile Include="Demos2019\StaticClassTest.cs" />
     <Compile Include="Demos2019\StaticInnerClassDemo.cs" />
     <Compile Include="Demos2019\StopwatchDemo.cs" />
     <Compile Include="Demos2019\StringInternDemo.cs" />
