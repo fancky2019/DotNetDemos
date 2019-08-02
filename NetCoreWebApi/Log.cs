@@ -17,7 +17,7 @@ namespace TT.Common
     /// </summary>
     public class Log
     {
-        static ILoggerRepository _loggerRepository;
+        //static ILoggerRepository _loggerRepository;
         static Log()
         {
             InitLog4Net();
