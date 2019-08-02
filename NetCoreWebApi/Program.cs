@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 namespace NetCoreWebApi
@@ -26,6 +27,24 @@ namespace NetCoreWebApi
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+
+              //添加其他的配置文件
+              //通过WebHostBuilder将我们添加的json文件添加进asp.net core的配置
+              .ConfigureAppConfiguration((webHostBuilderContext, iConfigurationBuilder) => {
+                  iConfigurationBuilder.SetBasePath(webHostBuilderContext.HostingEnvironment.ContentRootPath)
+                          .SetBasePath(Directory.GetCurrentDirectory())
+                          .AddJsonFile("hostsettings.json", optional: true);
+                           
+                     
+              })
+             .UseShutdownTimeout(TimeSpan.FromSeconds(10))
+             //.ConfigureAppConfiguration((iConfigurationBuilder) => {
+
+             //    iConfigurationBuilder.SetBasePath(Directory.GetCurrentDirectory())
+             //            .AddJsonFile("hostsettings.json", optional: true)
+             //            .AddJsonFile("Ocelot.json");
+             //})
+             .UseSetting("https_port", "8080")
+             .UseStartup<Startup>();
     }
 }
