@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TT.Common
+namespace NetCoreWebApi
 {
     /// <summary>
     /// NuGet安装log4net
