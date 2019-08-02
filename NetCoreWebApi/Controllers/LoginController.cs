@@ -67,5 +67,19 @@ namespace NetCoreWebApi.Controllers
             return Json("UnAuthorize");
         }
 
+        /// <summary>
+        /// 异步接口
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("/LogTest")]
+        public async Task<ActionResult> LogTest([FromQuery] string logStr)
+        {
+            Log.Info<LoginController>("logStr");
+            return await Task.Run(() =>
+             {
+                 return Json(logStr);
+             });
+        }
+
     }
 }

@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using log4net;
+using log4net.Config;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -126,7 +128,6 @@ namespace NetCoreWebApi
             app.UseAuthentication();
             app.UseMvc();
 
-
             //配置Swagger
             app.UseSwagger();
             app.UseSwaggerUI(c =>
@@ -134,6 +135,8 @@ namespace NetCoreWebApi
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "DemoAPI V1");
             });
 
+
+        
             // 修改默认页面（Peoperties下的lunchSetting.json）：将LunchUrl改为“swagger”
 
 
