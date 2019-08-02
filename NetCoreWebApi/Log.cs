@@ -17,7 +17,7 @@ namespace TT.Common
     /// </summary>
     public class Log
     {
-        //static ILoggerRepository _loggerRepository;
+        static ILoggerRepository _loggerRepository;
         static Log()
         {
             InitLog4Net();
@@ -28,7 +28,7 @@ namespace TT.Common
             //var logCfg = new FileInfo(AppDomain.CurrentDomain.BaseDirectory + "log4net.config");
             //XmlConfigurator.ConfigureAndWatch(logCfg);
 
-            //// Nlog
+            //// Nlog 此方法兼容NetCore
             _loggerRepository = LogManager.CreateRepository(Guid.NewGuid().ToString());
             var logCfg = new FileInfo(AppDomain.CurrentDomain.BaseDirectory + "log4net.config");
             //如果配置指定了Repository，那么GetLogger的时候也要指定Repository.Name
