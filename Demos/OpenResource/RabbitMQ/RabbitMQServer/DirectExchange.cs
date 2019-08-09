@@ -25,6 +25,7 @@ namespace Demos.Demos2018.RabbitMQ.RabbitMQServer
             using (var connection = factory.CreateConnection())
             using (var channel = connection.CreateModel())
             {
+                ///durable 保存到本地磁盘，下次重启rabbitMQ消息还在
                 channel.ExchangeDeclare(exchange: exchange, type: ExchangeType.Direct, durable: true, autoDelete: false, arguments: null);
                 //公平调度：客户端未处理完，不会再给它发送任务
                 channel.BasicQos(0, 1, false);
@@ -35,6 +36,7 @@ namespace Demos.Demos2018.RabbitMQ.RabbitMQServer
                 properties.Persistent = true;
 
                 //channel.QueueDelete("DirectExchangeQueue");
+                //事务：rabbitMQ确认模式的性能优于事务机制。
                 //启用确认模式
                 channel.ConfirmSelect();
                 channel.BasicAcks += (sender, basicAckEventArgs) =>
