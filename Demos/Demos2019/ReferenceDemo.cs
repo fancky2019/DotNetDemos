@@ -136,7 +136,7 @@ namespace Demos.Demos2019
             Person[] array33333 = new Person[1] { person33333 };
 
             //数组可以改变其元素指向新的内存地址，单不能改变其元素个数除非用ref，不能重新实例化。
-            Fun3(array3);
+            Fun3( array3);
             Fun33(array33);
             Fun333(array333);
             Fun3333(array3333);
@@ -286,8 +286,9 @@ namespace Demos.Demos2019
         /// 可改变数组元素属性值
         /// </summary>
         /// <param name="array"></param>
-        private void Fun3(Person[] array)
+        private void Fun3( Person[] array)
         {
+            Person person = array[0];
             array[0].Name = "fancky";
         }
 

@@ -25,9 +25,15 @@ namespace Demos.Demos2018.RabbitMQ.RabbitMQServer
             using (var connection = factory.CreateConnection())
             using (var channel = connection.CreateModel())
             {
+                //因为流控而阻塞
+                //connection.ConnectionBlocked += HandleBlocked;
+                //connection.ConnectionUnblocked += HandleUnblocked;
                 ///durable 保存到本地磁盘，下次重启rabbitMQ消息还在
                 channel.ExchangeDeclare(exchange: exchange, type: ExchangeType.Direct, durable: true, autoDelete: false, arguments: null);
                 //公平调度：客户端未处理完，不会再给它发送任务
+                //参数：提前获取的字节数大小，
+                //      提前获取的条数 默认1，参考：https://www.rabbitmq.com/blog/2014/04/14/finding-bottlenecks-with-rabbitmq-3-3/
+                //      限定对象，false=限制单个消费者；true=限制整个信道
                 channel.BasicQos(0, 1, false);
                 var message = "DirectExchange:Hello World!";
                 var body = Encoding.UTF8.GetBytes(message);

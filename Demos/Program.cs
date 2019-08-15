@@ -100,12 +100,12 @@ namespace Demos.Demos2018
             //ObjectClone.Test();
 
             //new ThreadTimeOutDemo().Test();
-            //new ReferenceDemo().Test();
+            new ReferenceDemo().Test();
             //new AsyncDemo().Test();
             //new StaticClassTest();
             //new InDemo().Test();
 
-            new CovarianceContravarianceDemo().Test();
+            //new CovarianceContravarianceDemo().Test();
             
             #endregion
 
