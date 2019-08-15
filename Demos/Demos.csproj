@@ -188,6 +188,7 @@
     <Compile Include="Demos2019\InDemo.cs" />
     <Compile Include="Demos2019\IndexDemo.cs" />
     <Compile Include="Demos2019\InnerClassDemo.cs" />
+    <Compile Include="Demos2019\LinqDemo.cs" />
     <Compile Include="Demos2019\ListSortCompare.cs" />
     <Compile Include="Demos2019\NewOverrieDemo.cs" />
     <Compile Include="Demos2019\Forms\FrmTest.cs">
