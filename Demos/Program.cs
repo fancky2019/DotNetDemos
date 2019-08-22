@@ -63,7 +63,7 @@ namespace Demos.Demos2018
             //   new ImplicitExplicitDemo().Test();
 
             // new RabbitMQTest().Test();
-            // new TryCatchFinallyReturnDemo().Test();
+            new TryCatchFinallyReturnDemo().Test();
 
             //  new CollectionDemo().Test();
             // new RedisDemo().Test();
@@ -101,7 +101,7 @@ namespace Demos.Demos2018
             //ObjectClone.Test();
 
             //new ThreadTimeOutDemo().Test();
-            new ReferenceDemo().Test();
+            //new ReferenceDemo().Test();
             //new AsyncDemo().Test();
             //new StaticClassTest();
             //new InDemo().Test();
