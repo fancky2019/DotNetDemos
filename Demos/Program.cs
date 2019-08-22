@@ -11,6 +11,7 @@ using Demos.OpenResource.Redis;
 using Demos.OpenResource.Redis.StackExchangeRedis;
 using Microsoft.Win32;
 using System;
+using System.Collections;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -106,7 +107,7 @@ namespace Demos.Demos2018
             //new InDemo().Test();
 
             //new CovarianceContravarianceDemo().Test();
-            
+            //ArrayList
             #endregion
 
             int m = 0;
