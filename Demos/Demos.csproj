@@ -182,6 +182,7 @@
     <Compile Include="Demos2019\Encrypt\XMLHelper.cs" />
     <Compile Include="Demos2019\EqualsOperatorDemo.cs" />
     <Compile Include="Demos2019\FormatDemo.cs" />
+    <Compile Include="Demos2019\HashCodeDemo.cs" />
     <Compile Include="Demos2019\Http\Http.cs" />
     <Compile Include="Demos2019\Http\HttpTest.cs" />
     <Compile Include="Demos2019\Http\WebApiClientHelper.cs" />
