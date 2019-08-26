@@ -11,7 +11,6 @@ namespace Demos.Demos2018
         public void Test()
         {
             Queue<int> queue = new Queue<int>();
-            
         }
     }
 }
