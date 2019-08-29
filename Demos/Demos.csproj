@@ -225,6 +225,7 @@
     <Compile Include="Model\IParent.cs" />
     <Compile Include="Model\ParentClass.cs" />
     <Compile Include="OpenResource\Jwt\JWTDemo.cs" />
+    <Compile Include="OpenResource\RabbitMQ\RabbitMQClient\DelayRetryConsumer.cs" />
     <Compile Include="Subjects\SubjectTest.cs" />
     <Compile Include="Demos2019\ThreadDemo.cs" />
     <Compile Include="OpenResource\HPSocket\HPSocketClient\Class1.cs" />

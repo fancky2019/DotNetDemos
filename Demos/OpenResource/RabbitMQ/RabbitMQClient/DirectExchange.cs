@@ -17,6 +17,7 @@ namespace Demos.Demos2018.RabbitMQ.RabbitMQClient
     class DirectExchange
     {
         public const string DeadLetterExchange = "DeadLetterExchange";
+        public const string DeadLetterQueue = "DeadLetterQueue";
         public const string DeadLetterRoutingKey = "DeadLetterRoutingKey";
         public void Consumer()
         {
@@ -30,11 +31,17 @@ namespace Demos.Demos2018.RabbitMQ.RabbitMQClient
             using (var connection = factory.CreateConnection())
             using (var channel = connection.CreateModel())
             {
-          
+                //创建死信交换机队列：用于存储死信
+                channel.ExchangeDeclare(exchange: DeadLetterExchange, type: ExchangeType.Direct, durable: true, autoDelete: false, arguments: null);
+                channel.QueueDeclare(queue: DeadLetterQueue,
+                                durable: true,
+                                exclusive: false,
+                                autoDelete: false,
+                                arguments: null);
 
-                channel.ExchangeDeclare(exchange: exchange, type: ExchangeType.Direct, durable: true, autoDelete: false, arguments: null);
-
-
+                channel.QueueBind(queue: DeadLetterQueue,
+                         exchange: DeadLetterExchange,
+                         routingKey: DeadLetterRoutingKey);
                 #region  设置队列长度
                 //Dictionary<string, object> arguments = new Dictionary<string, object>();
                 //arguments.Add("x-max-length", 10);
@@ -46,9 +53,10 @@ namespace Demos.Demos2018.RabbitMQ.RabbitMQClient
                 #endregion
 
 
+                channel.ExchangeDeclare(exchange: exchange, type: ExchangeType.Direct, durable: true, autoDelete: false, arguments: null);
+
                 //将队列设置成死信队列，出现死信的情况，加入下面参数指定的队列。
                 Dictionary<string, object> arguments = new Dictionary<string, object>();
-
                 ////arguments.Add("x-expires", 30000);
                 ////arguments.Add("x-message-ttl", 12000);//队列上消息过期时间，应小于队列过期时间 单位毫秒
                 //在RabbitMQ的后台管理创建死信队列和交换机
@@ -56,6 +64,7 @@ namespace Demos.Demos2018.RabbitMQ.RabbitMQClient
                 arguments.Add("x-dead-letter-exchange", DeadLetterExchange);
                 // 设置死信routingKey
                 arguments.Add("x-dead-letter-routing-key", DeadLetterRoutingKey);
+                //arguments.Add("x-message-ttl", 5000);//设置过期时间5s.
                 channel.QueueDeclare(queue: queue,
                                      durable: true,
                                      exclusive: false,
@@ -65,6 +74,8 @@ namespace Demos.Demos2018.RabbitMQ.RabbitMQClient
                 channel.QueueBind(queue: queue,
                                   exchange: exchange,
                                   routingKey: routingKey);
+
+
 
                 Console.WriteLine(" [*] Waiting for messages.");
                 //公平调度：客户端未处理完，不会再给它发送任务
@@ -77,6 +88,7 @@ namespace Demos.Demos2018.RabbitMQ.RabbitMQClient
                 {
                     try
                     {
+                     
                         var body = ea.Body;
                         var message = Encoding.UTF8.GetString(body);
                         Console.WriteLine(" [x] Received '{0}':'{1}'", routingKey, message);
@@ -96,7 +108,32 @@ namespace Demos.Demos2018.RabbitMQ.RabbitMQClient
                         // channel.BasicReject(ea.DeliveryTag, true);
                         //channel.basicNack 与 channel.basicReject 的区别在于basicNack可以拒绝多条消息，而basicReject一次只能拒绝一条消息
 
+                        var basicProperties = ea.BasicProperties;
+                       if( basicProperties.Headers!=null&&basicProperties.Headers.Keys.Contains("x-death"))
+                        {
+                            var deathDic = basicProperties.Headers["x-death"];
+                            //var retryCount = deathDic[0];
+                        }
+                        //channel.BasicReject(ea.DeliveryTag, true);
 
+
+
+                        //java 代码
+                        //public long getRetryCount(AMQP.BasicProperties properties)
+                        //{
+                        //    long retryCount = 0L;
+                        //    Map<String, Object> header = properties.getHeaders();
+                        //    if (header != null && header.containsKey("x-death"))
+                        //    {
+                        //        List<Map<String, Object>> deaths = (List<Map<String, Object>>)header.get("x-death");
+                        //        if (deaths.size() > 0)
+                        //        {
+                        //            Map<String, Object> death = deaths.get(0);
+                        //            retryCount = (Long)death.get("count");
+                        //        }
+                        //    }
+                        //    return retryCount;
+                        //}
 
 
                         /*
