@@ -14,8 +14,7 @@ namespace Demos.Demos2018.RabbitMQ.RabbitMQServer
     /// </summary>
     class DirectExchange
     {
-        public const string DeadLetterExchange = "DeadLetterExchange";
-        public const string DeadLetterRoutingKey = "DeadLetterRoutingKey";
+
         public void Producer()
         {
             var exchange = "DirectExchange";
