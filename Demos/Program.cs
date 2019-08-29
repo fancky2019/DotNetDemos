@@ -62,7 +62,7 @@ namespace Demos.Demos2018
             // new AttributeDemo().Test();
             //   new ImplicitExplicitDemo().Test();
 
-            // new RabbitMQTest().Test();
+            new RabbitMQTest().Test();
             //new TryCatchFinallyReturnDemo().Test();
 
             //  new CollectionDemo().Test();
@@ -107,8 +107,9 @@ namespace Demos.Demos2018
             //new InDemo().Test();
 
             //new CovarianceContravarianceDemo().Test();
-            new HashCodeDemo().Test();
-
+            //new HashCodeDemo().Test();
+            //new FileUsing().Test();
+            
             //ArrayList
             #endregion
 

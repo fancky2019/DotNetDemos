@@ -200,6 +200,7 @@
     </Compile>
     <Compile Include="Demos2019\ObjectClone.cs" />
     <Compile Include="Demos2019\AsyncDemo.cs" />
+    <Compile Include="Demos2019\FileUsing.cs" />
     <Compile Include="Demos2019\Proxy\ICalculate.cs" />
     <Compile Include="Demos2019\Proxy\Calculate.cs" />
     <Compile Include="Demos2019\Proxy\Interceptor\AuthorizeAttribute.cs" />
