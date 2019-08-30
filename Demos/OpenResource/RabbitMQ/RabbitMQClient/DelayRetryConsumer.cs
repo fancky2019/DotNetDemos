@@ -139,6 +139,8 @@ namespace Demos.OpenResource.RabbitMQ.RabbitMQClient
                         // channel.BasicReject(ea.DeliveryTag, true);
                         //channel.basicNack 与 channel.basicReject 的区别在于basicNack可以拒绝多条消息，而basicReject一次只能拒绝一条消息
 
+
+                        //没有加入死信队列basicProperties.Headers=null
                         var basicProperties = ea.BasicProperties;
                         if (basicProperties.Headers != null && basicProperties.Headers.Keys.Contains("x-death"))
                         {
@@ -170,6 +172,7 @@ namespace Demos.OpenResource.RabbitMQ.RabbitMQClient
 
 
                             var retryCount = int.Parse(deathDicStrObj["count"].ToString());
+                            //此处是重试队列的3次加上消费1次共计执行消费4次和Springboot配置重试几次就共计执行几次多了一次。
                             //重试3次还不成功，加入失败的队列。
                             if (retryCount == 3)
                             {
