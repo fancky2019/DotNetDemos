@@ -144,6 +144,27 @@ namespace Demos.OpenResource.RabbitMQ.RabbitMQClient
                         {
                             //List<object>
                             var deathListObject = (List<object>)basicProperties.Headers["x-death"];
+
+                            #region  header
+                            ///*
+                            // * [0] {[count,1]}
+                            // * [1] {[exchange,{byte[]}]}
+                            // * [2] {[queue,{byte[]}]}
+                            // * [3] {[reason,{byte[]}]}
+                            // * [4] {[routing-keys,Count=1]}
+                            // * [5] {[time,{((time_t)1567129245)}]}]}//时间戳
+                            // */
+                            //var headerOne = (Dictionary<string, object>)deathListObject[0];
+                            ////RetryExchange
+                            //string exchange = Encoding.UTF8.GetString((byte[])headerOne["exchange"]);
+                            ////RetryQueue
+                            //var queue = Encoding.UTF8.GetString((byte[])headerOne["queue"]);
+                            ////expired
+                            //var reason = Encoding.UTF8.GetString((byte[])headerOne["reason"]);
+                            ////RetryKey
+                            //var routing_keys = Encoding.UTF8.GetString((byte[])((List<object>)headerOne["routing-keys"])[0]);
+                            #endregion
+
                             //Dictionary<string, object>
                             var deathDicStrObj = (Dictionary<string, object>)deathListObject[0];
 
