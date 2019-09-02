@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Demos.Demos2019
 {
+    /// <summary>
+    ///Linq拓展:Enumerable静态类型实现的IEnumerable<int>成员的拓展方法
+    /// </summary>
     class LinqDemo
     {
 

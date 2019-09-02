@@ -158,6 +158,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Demos2019\AccessDecorateDemo.cs" />
     <Compile Include="Demos2019\AutoStartProgramDemo.cs" />
     <Compile Include="Demos2018\AdoTest.cs" />
     <Compile Include="Common\Config.cs" />
@@ -189,6 +190,7 @@
     <Compile Include="Demos2019\InDemo.cs" />
     <Compile Include="Demos2019\IndexDemo.cs" />
     <Compile Include="Demos2019\InnerClassDemo.cs" />
+    <Compile Include="Demos2019\IteratorsDemo.cs" />
     <Compile Include="Demos2019\LinqDemo.cs" />
     <Compile Include="Demos2019\ListSortCompare.cs" />
     <Compile Include="Demos2019\NewOverrieDemo.cs" />
@@ -308,6 +310,11 @@
       <DependentUpon>FrmTest.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\TestDll\TestDll.csproj">
+      <Project>{dbf2eb8e-9b95-4f36-a248-ddb2b1d7f821}</Project>
+      <Name>TestDll</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
