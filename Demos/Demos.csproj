@@ -226,6 +226,7 @@
     <Compile Include="Model\IChild.cs" />
     <Compile Include="Model\IParent.cs" />
     <Compile Include="Model\ParentClass.cs" />
+    <Compile Include="OpenResource\Json\JsonDemo.cs" />
     <Compile Include="OpenResource\Jwt\JWTDemo.cs" />
     <Compile Include="OpenResource\RabbitMQ\RabbitMQClient\DelayRetryConsumer.cs" />
     <Compile Include="Subjects\SubjectTest.cs" />
