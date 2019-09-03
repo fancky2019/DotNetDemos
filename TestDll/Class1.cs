@@ -16,6 +16,7 @@ namespace TestDll
 
     class Class2
     {
+
     }
     //接口可以声明为公共或内部，就像类和结构一样，接口默认设置为内部访问。 接口成员始终为公共的
     public interface Interface1

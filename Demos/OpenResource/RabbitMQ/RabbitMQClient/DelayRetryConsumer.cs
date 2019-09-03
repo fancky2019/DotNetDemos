@@ -142,62 +142,64 @@ namespace Demos.OpenResource.RabbitMQ.RabbitMQClient
 
                         //没有加入死信队列basicProperties.Headers=null
                         var basicProperties = ea.BasicProperties;
-                        if (basicProperties.Headers != null && basicProperties.Headers.Keys.Contains("x-death"))
+                        //if (basicProperties.Headers != null && basicProperties.Headers.Keys.Contains("x-death"))
+                        //{
+                        //    //List<object>
+                        //    var deathListObject = (List<object>)basicProperties.Headers["x-death"];
+
+                        //    #region  header
+                        //    ///*
+                        //    // * [0] {[count,1]}
+                        //    // * [1] {[exchange,{byte[]}]}
+                        //    // * [2] {[queue,{byte[]}]}
+                        //    // * [3] {[reason,{byte[]}]}
+                        //    // * [4] {[routing-keys,Count=1]}
+                        //    // * [5] {[time,{((time_t)1567129245)}]}]}//时间戳
+                        //    // */
+                        //    //var headerOne = (Dictionary<string, object>)deathListObject[0];
+                        //    ////RetryExchange
+                        //    //string exchange = Encoding.UTF8.GetString((byte[])headerOne["exchange"]);
+                        //    ////RetryQueue
+                        //    //var queue = Encoding.UTF8.GetString((byte[])headerOne["queue"]);
+                        //    ////expired
+                        //    //var reason = Encoding.UTF8.GetString((byte[])headerOne["reason"]);
+                        //    ////RetryKey
+                        //    //var routing_keys = Encoding.UTF8.GetString((byte[])((List<object>)headerOne["routing-keys"])[0]);
+                        //    #endregion
+
+                        //    //Dictionary<string, object>
+                        //    var deathDicStrObj = (Dictionary<string, object>)deathListObject[0];
+
+
+                        //    var retryCount = int.Parse(deathDicStrObj["count"].ToString());
+                        var retryCount = GetRetryCount(ea.BasicProperties);
+                        //此处是重试队列的3次加上消费1次共计执行消费4次和Springboot配置重试几次就共计执行几次多了一次。
+                        //重试3次还不成功，加入失败的队列。
+                        if (retryCount == 3)
                         {
-                            //List<object>
-                            var deathListObject = (List<object>)basicProperties.Headers["x-death"];
-
-                            #region  header
-                            ///*
-                            // * [0] {[count,1]}
-                            // * [1] {[exchange,{byte[]}]}
-                            // * [2] {[queue,{byte[]}]}
-                            // * [3] {[reason,{byte[]}]}
-                            // * [4] {[routing-keys,Count=1]}
-                            // * [5] {[time,{((time_t)1567129245)}]}]}//时间戳
-                            // */
-                            //var headerOne = (Dictionary<string, object>)deathListObject[0];
-                            ////RetryExchange
-                            //string exchange = Encoding.UTF8.GetString((byte[])headerOne["exchange"]);
-                            ////RetryQueue
-                            //var queue = Encoding.UTF8.GetString((byte[])headerOne["queue"]);
-                            ////expired
-                            //var reason = Encoding.UTF8.GetString((byte[])headerOne["reason"]);
-                            ////RetryKey
-                            //var routing_keys = Encoding.UTF8.GetString((byte[])((List<object>)headerOne["routing-keys"])[0]);
-                            #endregion
-
-                            //Dictionary<string, object>
-                            var deathDicStrObj = (Dictionary<string, object>)deathListObject[0];
-
-
-                            var retryCount = int.Parse(deathDicStrObj["count"].ToString());
-                            //此处是重试队列的3次加上消费1次共计执行消费4次和Springboot配置重试几次就共计执行几次多了一次。
-                            //重试3次还不成功，加入失败的队列。
-                            if (retryCount == 3)
-                            {
-                                //把消息发送到失败队列同时Ack掉此条消息
-                                //发送到失败队列
-                                var properties = channel.CreateBasicProperties();
-                                properties.Persistent = true;
-                                channel.BasicPublish(exchange: failedExchange,
-                                                       routingKey: failedKey,
-                                                       basicProperties: properties,
-                                                       body: ea.Body);
-                                //Ack掉
-                                channel.BasicAck(ea.DeliveryTag, false);
-                            }
-                            else
-                            {
-                                //重试不足3次，继续拒绝（死信）以加入重试队列。
-                                channel.BasicReject(ea.DeliveryTag, false);
-                            }
+                            //把消息发送到失败队列同时Ack掉此条消息
+                            //发送到失败队列
+                            var properties = channel.CreateBasicProperties();
+                            properties.Persistent = true;
+                            channel.BasicPublish(exchange: failedExchange,
+                                                   routingKey: failedKey,
+                                                   basicProperties: properties,
+                                                   body: ea.Body);
+                            //Ack掉
+                            channel.BasicAck(ea.DeliveryTag, false);
                         }
                         else
                         {
-                            //没有重试，拒绝（死信）以加入重试队列。
+                            //重试不足3次，继续拒绝（死信）以加入重试队列。
                             channel.BasicReject(ea.DeliveryTag, false);
                         }
+                        //}
+                        //else
+                        //{
+                        // 没有重试 header=null
+                        //    //没有重试，拒绝（死信）以加入重试队列。
+                        //    channel.BasicReject(ea.DeliveryTag, false);
+                        //}
 
                         //重试队列设置了10s过期，为了从rabbitMQ管理中心的网页队列列表中看到
                         //数据在重试，消费队列中切换，此处延迟15s。
@@ -229,6 +231,44 @@ namespace Demos.OpenResource.RabbitMQ.RabbitMQClient
                 Console.ReadLine();
 
             }
+        }
+
+        private int GetRetryCount(IBasicProperties basicProperties)
+        {
+            var retryCount = 0;
+            if (basicProperties.Headers != null && basicProperties.Headers.Keys.Contains("x-death"))
+            {
+                //List<object>
+                var deathListObject = (List<object>)basicProperties.Headers["x-death"];
+
+                #region  header
+                ///*
+                // * [0] {[count,1]}
+                // * [1] {[exchange,{byte[]}]}
+                // * [2] {[queue,{byte[]}]}
+                // * [3] {[reason,{byte[]}]}
+                // * [4] {[routing-keys,Count=1]}
+                // * [5] {[time,{((time_t)1567129245)}]}]}//时间戳
+                // */
+                //var headerOne = (Dictionary<string, object>)deathListObject[0];
+                ////RetryExchange
+                //string exchange = Encoding.UTF8.GetString((byte[])headerOne["exchange"]);
+                ////RetryQueue
+                //var queue = Encoding.UTF8.GetString((byte[])headerOne["queue"]);
+                ////expired
+                //var reason = Encoding.UTF8.GetString((byte[])headerOne["reason"]);
+                ////RetryKey
+                //var routing_keys = Encoding.UTF8.GetString((byte[])((List<object>)headerOne["routing-keys"])[0]);
+                #endregion
+
+                //Dictionary<string, object>
+                var deathDicStrObj = (Dictionary<string, object>)deathListObject[0];
+
+
+                retryCount = int.Parse(deathDicStrObj["count"].ToString());
+
+            }
+            return retryCount;
         }
     }
 }
