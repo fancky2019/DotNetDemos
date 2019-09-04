@@ -14,6 +14,12 @@ namespace Demos.Demos2018.RabbitMQ.RabbitMQServer
     /// </summary>
     class DirectExchange
     {
+        /*
+         * 持久化：
+         * Exchange：ExchangeDeclare 参数durable: true，宕机只保存Exchange元数据 ，Queue、Message丢失
+         * Queue:QueueDeclare 参数durable: true         宕机只保存Queue元数据，Message丢失
+         * Message:BasicProperties 属性 Persistent = true;   宕机只保存Queue元数据。
+       */
 
         public void Producer()
         {
@@ -39,6 +45,8 @@ namespace Demos.Demos2018.RabbitMQ.RabbitMQServer
                 var body = Encoding.UTF8.GetBytes(message);
                 // 将消息标记为持久性。
                 var properties = channel.CreateBasicProperties();
+                // Sets RabbitMQ.Client.IBasicProperties.DeliveryMode to either persistent (2)  or non-persistent (1).
+                //2:持久化，1：不持久化
                 properties.Persistent = true;
 
                 //channel.QueueDelete("DirectExchangeQueue");

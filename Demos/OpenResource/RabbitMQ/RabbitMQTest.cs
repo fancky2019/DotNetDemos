@@ -9,10 +9,12 @@ using System.Threading.Tasks;
 
 namespace Demos.Demos2018.RabbitMQ
 {
+
     class RabbitMQTest
     {
         public void  Test()
         {
+    
 
             Task.Run(() =>
             {

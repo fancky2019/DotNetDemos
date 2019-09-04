@@ -13,6 +13,7 @@ using Demos.OpenResource.Redis.StackExchangeRedis;
 using Microsoft.Win32;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -63,7 +64,7 @@ namespace Demos.Demos2018
             // new AttributeDemo().Test();
             //   new ImplicitExplicitDemo().Test();
 
-            new RabbitMQTest().Test();
+            //new RabbitMQTest().Test();
             //new TryCatchFinallyReturnDemo().Test();
 
             //  new CollectionDemo().Test();
@@ -108,9 +109,9 @@ namespace Demos.Demos2018
             //new InDemo().Test();
 
             //new CovarianceContravarianceDemo().Test();
-            //new HashCodeDemo().Test();
+            new HashCodeDemo().Test();
             //new FileUsing().Test();
-
+           
             //new IteratorsDemo().Test();
 
             //new IndexDemo().Test();
@@ -119,7 +120,6 @@ namespace Demos.Demos2018
 
             #endregion
 
-            int m = 0;
             Console.ReadLine();
         }
         static void Fundd()

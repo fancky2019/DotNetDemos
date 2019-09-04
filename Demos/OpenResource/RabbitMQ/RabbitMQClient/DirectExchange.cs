@@ -16,6 +16,12 @@ namespace Demos.Demos2018.RabbitMQ.RabbitMQClient
     /// </summary>
     class DirectExchange
     {
+        /*
+    * 持久化：
+    * Exchange：ExchangeDeclare 参数durable: true，宕机只保存Exchange元数据 ，Queue、Message丢失
+    * Queue:QueueDeclare 参数durable: true         宕机只保存Queue元数据，Message丢失
+    * Message:BasicProperties 属性 Persistent = true;   宕机只保存Queue元数据。
+  */
         public const string DeadLetterExchange = "DeadLetterExchange";
         public const string DeadLetterQueue = "DeadLetterQueue";
         public const string DeadLetterRoutingKey = "DeadLetterRoutingKey";
@@ -88,7 +94,7 @@ namespace Demos.Demos2018.RabbitMQ.RabbitMQClient
                 {
                     try
                     {
-                     
+
                         var body = ea.Body;
                         var message = Encoding.UTF8.GetString(body);
                         Console.WriteLine(" [x] Received '{0}':'{1}'", routingKey, message);
@@ -100,7 +106,7 @@ namespace Demos.Demos2018.RabbitMQ.RabbitMQClient
                         Thread.Sleep(30000);
                         channel.BasicAck(ea.DeliveryTag, false);//发送客户端消息任务完成的应答
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         //注意：最好不要重新入队，会造成再次分发扔消费不了，又入队的死循环中。应加入死信队列。
                         //方案：使用BasicNack，将消息重新放回队列重新消费
@@ -109,7 +115,7 @@ namespace Demos.Demos2018.RabbitMQ.RabbitMQClient
                         //channel.basicNack 与 channel.basicReject 的区别在于basicNack可以拒绝多条消息，而basicReject一次只能拒绝一条消息
 
                         var basicProperties = ea.BasicProperties;
-                       if( basicProperties.Headers!=null&&basicProperties.Headers.Keys.Contains("x-death"))
+                        if (basicProperties.Headers != null && basicProperties.Headers.Keys.Contains("x-death"))
                         {
                             var deathDic = basicProperties.Headers["x-death"];
                             //var retryCount = deathDic[0];
