@@ -33,10 +33,10 @@ namespace Demos.Demos2018.RabbitMQ
                 //NuGet安装RabbitMQ.Client
 
                 //new Demos.Demos2018.RabbitMQ.RabbitMQClient.FanoutExchange().Consumer();
-                //new Demos.Demos2018.RabbitMQ.RabbitMQClient.DirectExchange().Consumer();
+                new Demos.Demos2018.RabbitMQ.RabbitMQClient.DirectExchange().Consumer();
                 //new Demos.Demos2018.RabbitMQ.RabbitMQClient.TopicExchange().Consumer();
 
-                new DelayRetryConsumer().Consumer();
+                //new DelayRetryConsumer().Consumer();
             });
 
             Thread.Sleep(1000);
