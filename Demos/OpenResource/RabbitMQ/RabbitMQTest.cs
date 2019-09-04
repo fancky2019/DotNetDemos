@@ -9,7 +9,10 @@ using System.Threading.Tasks;
 
 namespace Demos.Demos2018.RabbitMQ
 {
-
+    /// <summary>
+    /// 官方API:
+    /// https://www.rabbitmq.com/dotnet-api-guide.html
+    /// </summary>
     class RabbitMQTest
     {
         public void  Test()
