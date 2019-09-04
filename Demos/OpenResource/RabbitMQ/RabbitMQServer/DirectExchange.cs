@@ -8,8 +8,11 @@ using System.Threading.Tasks;
 namespace Demos.Demos2018.RabbitMQ.RabbitMQServer
 {
     /// <summary>
-    /// http://www.rabbitmq.com/tutorials/tutorial-four-dotnet.html
+    /// 官方API:
+    /// https://www.rabbitmq.com/dotnet-api-guide.html
+    /// 
     /// 路由模式(Direct Exchange)
+    /// http://www.rabbitmq.com/tutorials/tutorial-four-dotnet.html
     /// direct类型要求routingkey完全相等，
     /// </summary>
     class DirectExchange
@@ -32,7 +35,7 @@ namespace Demos.Demos2018.RabbitMQ.RabbitMQServer
             using (var connection = factory.CreateConnection())
             using (var channel = connection.CreateModel())
             {
-                
+
                 //避免消息积压，采取流控
                 //因为流控而阻塞
                 //connection.ConnectionBlocked += HandleBlocked;
@@ -60,9 +63,20 @@ namespace Demos.Demos2018.RabbitMQ.RabbitMQServer
                     var ch = sender as IModel;
                 };
 
+                //没有路由的消息将会回退。
+                channel.BasicReturn += (object sender, global::RabbitMQ.Client.Events.BasicReturnEventArgs e) =>
+                {
+                    var message = Encoding.UTF8.GetString(body);
+                };
 
+                // 当mandatory标志位设置为true时，如果exchange根据自身类型和消息routingKey无法找到一个合适的queue存储消息，
+                //那么broker会调用basic.return方法将消息返还给生产者;当mandatory设置为false时，出现上述情况broker会直接将消息丢弃;通俗的讲，
+                // mandatory标志告诉broker代理服务器至少将消息route到一个队列中，否则就将消息return给发送者;
+
+                //  mandatory: 默认false。
                 channel.BasicPublish(exchange: exchange,
                                      routingKey: routingKey,
+                                     mandatory: true,
                                      basicProperties: properties,
                                      body: body);
                 Console.WriteLine(" [x] Sent '{0}':'{1}'", routingKey, message);
@@ -93,7 +107,7 @@ namespace Demos.Demos2018.RabbitMQ.RabbitMQServer
 
         }
 
-    
+
     }
 }
 
