@@ -63,7 +63,7 @@ namespace Demos.Demos2018.RabbitMQ.RabbitMQServer
                     var ch = sender as IModel;
                 };
 
-                //没有路由的消息将会回退。
+                //没有路由的消息将会回退,消息没有找到可路由转发的队里，立即回发给生产者。
                 channel.BasicReturn += (object sender, global::RabbitMQ.Client.Events.BasicReturnEventArgs e) =>
                 {
                     var message = Encoding.UTF8.GetString(body);

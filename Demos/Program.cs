@@ -62,9 +62,9 @@ namespace Demos.Demos2018
             //  new BlockingCollectionDemo().Test();
 
             // new AttributeDemo().Test();
-            //   new ImplicitExplicitDemo().Test();
+            //new ImplicitExplicitDemo().Test();
 
-            //new RabbitMQTest().Test();
+            new RabbitMQTest().Test();
             //new TryCatchFinallyReturnDemo().Test();
 
             //  new CollectionDemo().Test();
@@ -109,9 +109,9 @@ namespace Demos.Demos2018
             //new InDemo().Test();
 
             //new CovarianceContravarianceDemo().Test();
-            new HashCodeDemo().Test();
+            //new HashCodeDemo().Test();
             //new FileUsing().Test();
-           
+
             //new IteratorsDemo().Test();
 
             //new IndexDemo().Test();
