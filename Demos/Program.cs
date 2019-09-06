@@ -8,6 +8,7 @@ using Demos.Demos2019.Subjects;
 using Demos.OpenResource.HPSocket;
 using Demos.OpenResource.Json;
 using Demos.OpenResource.Jwt;
+using Demos.OpenResource.Kafka;
 using Demos.OpenResource.Redis;
 using Demos.OpenResource.Redis.StackExchangeRedis;
 using Microsoft.Win32;
@@ -64,7 +65,7 @@ namespace Demos.Demos2018
             // new AttributeDemo().Test();
             //new ImplicitExplicitDemo().Test();
 
-            new RabbitMQTest().Test();
+            //new RabbitMQTest().Test();
             //new TryCatchFinallyReturnDemo().Test();
 
             //  new CollectionDemo().Test();
@@ -117,6 +118,7 @@ namespace Demos.Demos2018
             //new IndexDemo().Test();
 
             //new JsonDemo().Test();
+            new KafkaDemo().Test();
 
             #endregion
 

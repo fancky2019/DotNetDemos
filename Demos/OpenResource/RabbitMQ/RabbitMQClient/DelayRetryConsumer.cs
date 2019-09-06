@@ -22,6 +22,9 @@ namespace Demos.OpenResource.RabbitMQ.RabbitMQClient
     /// </summary>
     public class DelayRetryConsumer
     {
+        /// <summary>
+        /// 注：一个线程一个channel
+        /// </summary>
 
         public void Consumer()
         {
@@ -42,6 +45,9 @@ namespace Demos.OpenResource.RabbitMQ.RabbitMQClient
             //var factory = new ConnectionFactory() { HostName = "localhost" };
             //var factory = new ConnectionFactory() { HostName = "192.168.1.105", Port = 5672, UserName = "guest", Password = "guest" };
             var factory = new ConnectionFactory() { HostName = "192.168.1.105", Port = 5672, UserName = "fancky", Password = "123456" };
+
+            //一个TCP连接可以有多个channel
+           // 注：一个线程一个channel
             using (var connection = factory.CreateConnection())
             using (var channel = connection.CreateModel())
             {
