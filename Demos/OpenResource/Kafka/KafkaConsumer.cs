@@ -13,6 +13,14 @@ namespace Demos.OpenResource.Kafka
     /// </summary>
     class KafkaConsumer
     {
+        /*
+         *  Earliest 
+            当各分区下有已提交的offset时，从提交的offset开始消费；无提交的offset时，从头开始消费 
+            Latest 
+            当各分区下有已提交的offset时，从提交的offset开始消费；无提交的offset时，消费新产生的该分区下的数据 
+            Error 
+            topic各分区都存在已提交的offset时，从offset后开始消费；只要有一个分区不存在已提交的offset，则抛出异常
+         */
         /// <summary>
         ///     In this example
         ///         - offsets are manually committed.
@@ -20,6 +28,7 @@ namespace Demos.OpenResource.Kafka
         /// </summary>
         public static void Run_Consume(string brokerList, List<string> topics, CancellationToken cancellationToken)
         {
+
             //一个线程一个消费者
             var config = new ConsumerConfig
             {
@@ -28,7 +37,7 @@ namespace Demos.OpenResource.Kafka
                 EnableAutoCommit = false,// 设置非自动偏移，业务逻辑完成后手动处理偏移，防止数据丢失
                 StatisticsIntervalMs = 5000,
                 SessionTimeoutMs = 6000,
-                AutoOffsetReset = AutoOffsetReset.Earliest,
+                AutoOffsetReset = AutoOffsetReset.Error,
                 EnablePartitionEof = true
             };
 
@@ -59,6 +68,11 @@ namespace Demos.OpenResource.Kafka
                 .SetPartitionsRevokedHandler((c, partitions) =>
                 {
                     Console.WriteLine($"Revoking assignment: [{string.Join(", ", partitions)}]");
+                })
+                .SetOffsetsCommittedHandler((iConsumer, committedOffsets) =>
+                {
+                   // iConsumer.
+                   // committedOffsets.Offsets
                 })
                 .Build())
             {
@@ -103,7 +117,7 @@ namespace Demos.OpenResource.Kafka
                                 {
                                     Console.WriteLine($"Commit error: {e.Error.Reason}");
                                 }
-                        }
+                            }
                         }
                         catch (ConsumeException e)
                         {
@@ -139,7 +153,7 @@ namespace Demos.OpenResource.Kafka
                 EnableAutoCommit = true
             };
 
-            using (var consumer =new ConsumerBuilder<Ignore, string>(config)
+            using (var consumer = new ConsumerBuilder<Ignore, string>(config)
                     .SetErrorHandler((_, e) => Console.WriteLine($"Error: {e.Reason}"))
                     .Build())
             {
@@ -171,13 +185,13 @@ namespace Demos.OpenResource.Kafka
             }
         }
 
-        private static void PrintUsage()  => Console.WriteLine("Usage: .. <subscribe|manual> <broker,broker,..> <topic> [topic..]");
+        private static void PrintUsage() => Console.WriteLine("Usage: .. <subscribe|manual> <broker,broker,..> <topic> [topic..]");
 
-        public  void Test()
+        public void Test()
         {
             var mode = "subscribe";
             var brokerList = "localhost: 9092";
-            var topics =new List<string> { "topicName" };
+            var topics = new List<string> { "topicName" };
 
             Console.WriteLine($"Started consumer, Ctrl-C to stop consuming");
 
