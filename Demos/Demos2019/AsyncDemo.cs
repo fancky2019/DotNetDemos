@@ -9,9 +9,11 @@ using System.Threading.Tasks;
 namespace Demos.Demos2019
 {
     /// <summary>
-    /// 当一个方法可以拆解成两个以上耗时的任务，可以用异步并行执行，提高吞吐量，
-    /// 封装接口可以封装成异步的，当调用者有两个以上的任务时候就可以发挥异步提高吞吐量的优势。
-    /// 否则只有一个耗时任务await 无法提高吞吐量。和同步没有区别。
+    /// 异步方法：void 不阻塞调用线程。
+    ///         返回Task<T>，如果想得到返回的Task<T> :1、采用async 方法，内部使用await 关键字。会阻塞调用线程不好。
+    ///                                               2、采用回调ContinueWith。建议采用此方法不阻塞调用线程。
+    /// 
+    /// 
     /// </summary>
     public class AsyncDemo
     {
@@ -19,16 +21,67 @@ namespace Demos.Demos2019
         {
             //AsyncMethod();
             // 异步方法有返回Task<TResult> 。调用要用await且调用方法async修饰，否则同步执行。
-            //   await  AsyncMethod1();
-
+            //await AsyncMethod1();
+            AsyncMethod1();
             //异步方法无返回值，没有限制。
-            Test1();
+            //Test1();
+
+            //以下方法都不阻塞，直接执行通过
+            TaskContinue();
+            TestAsync();
+            //Test2(); 内部没有使用await 同步方式运行，将阻塞。
+            Console.WriteLine($"Test Function Completed!");
+        }
+
+        /// <summary>
+        /// 异步方法 void：不阻塞调用线程，但是要是有返回值，要么等待，要么采用回调
+        /// </summary>
+        private async void TestAsync()
+        {
+            int result = await TaskContinueAsync();
+            Console.WriteLine($"TestAsync TaskResult is {result}");
         }
 
         private async void Test1()
         {
             //异步方法有返回Task < TResult > 。调用要用await且调用方法async修饰，否则同步执行。
             int length = await AccessTheWebAsync();
+        }
+
+        /// <summary>
+        /// async 方法内部没有使用await，将同步方式执行，即就是个同步方法。
+        /// </summary>
+        private async void Test2()
+        {
+            //异步方法有返回Task < TResult > 。调用要用await且调用方法async修饰，否则同步执行。
+            Thread.Sleep(5000);
+        }
+        /// <summary>
+        /// 采用异步回调：没有返回值，不阻塞
+        /// </summary>
+        private void TaskContinue()
+        {
+            Task.Run(() =>
+            {
+                Thread.Sleep(5000);
+                return 1;
+            }).ContinueWith(task =>
+            {
+                Console.WriteLine($"TaskContinue TaskResult is {task.Result}");
+            });
+        }
+
+        /// <summary>
+        /// 采用异步返回Task<T>
+        /// </summary>
+        /// <returns></returns>
+        private Task<int> TaskContinueAsync()
+        {
+            return Task.Run(() =>
+             {
+                 Thread.Sleep(5000);
+                 return 1;
+             });
         }
 
         private async void AsyncMethod()
@@ -44,6 +97,7 @@ namespace Demos.Demos2019
                 Thread.Sleep(5000);
                 return 2;
             });
+            //阻塞5秒
             await Task.WhenAll(t1, t2);
             int seconds = (DateTime.Now - dt1).Seconds;
         }
