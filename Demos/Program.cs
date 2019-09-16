@@ -94,7 +94,7 @@ namespace Demos.Demos2018
             //new Demos2019.Http.HttpTest().Test();
             // new TextTest().Test();
             //new StopwatchDemo().Test();
-            //new JWTDemo().Test();
+            new JWTDemo().Test();
             //new FormatDemo().Test();
 
             //  new DotNetEightDemo().Test
@@ -107,7 +107,7 @@ namespace Demos.Demos2018
 
             //new ThreadTimeOutDemo().Test();
             //new ReferenceDemo().Test();
-            new AsyncDemo().Test();
+            //new AsyncDemo().Test();
             //new StaticClassTest();
             //new InDemo().Test();
 
