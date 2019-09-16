@@ -56,6 +56,7 @@ namespace Demos.OpenResource.Jwt
             //header(base64后的)
             //payload(base64后的)
             //secret 加密的key
+            //jwt格式：Header.Payload.Signature。如下：
             //eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1Njg2MDc4MTgsInVzZXJOYW1lIjoiZmFuY2t5In0.aKR1PQdKBgK1crvd5pjXZWEzW7jp71srppV0lWTcQM4
             string encoderStr = EncoderTokenString();
             var decoderStr = DecoderTokenString(encoderStr);
