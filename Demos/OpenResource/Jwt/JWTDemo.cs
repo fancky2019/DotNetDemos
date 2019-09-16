@@ -70,7 +70,7 @@ namespace Demos.OpenResource.Jwt
             var urlEncoder = new JwtBase64UrlEncoder();
 
             var decodedPayload = urlEncoder.Decode(jwtParts.Payload);
-             var strPayload = Encoding.UTF8.GetString(decodedPayload);
+            var strPayload = Encoding.UTF8.GetString(decodedPayload);
 
             var decodedHeader = urlEncoder.Decode(jwtParts.Header);
             var strHeader = Encoding.UTF8.GetString(decodedHeader);
@@ -84,11 +84,11 @@ namespace Demos.OpenResource.Jwt
             var alg = _algFactory.Create("HS256");
             var secrets = new string[] { secret };
             var keys = secrets.Select(s => Encoding.UTF8.GetBytes(s)).ToArray();
-    
-        
+
+
         }
 
-     
+
 
         private string EncoderTokenString()
         {
