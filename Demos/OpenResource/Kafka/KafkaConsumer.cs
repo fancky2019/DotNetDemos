@@ -14,6 +14,15 @@ namespace Demos.OpenResource.Kafka
     class KafkaConsumer
     {
         /*
+         *  Kafka 每个topic下有多个partion,每个partion有一个leader多个follower，
+         *  Kafka 采用leader读写，follower备份，leader宕机，从zookeeper从follower中选举一个leader.
+         *        producer往partion的leader写，follower发起同步。
+         *        comsumer从partion的leader读
+         *        
+         *  
+         *  
+         *  
+         *  
          *  Earliest 
             当各分区下有已提交的offset时，从提交的offset开始消费；无提交的offset时，从头开始消费 
             Latest 
