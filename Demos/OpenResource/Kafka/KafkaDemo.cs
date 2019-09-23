@@ -15,7 +15,9 @@ namespace Demos.OpenResource.Kafka
         public async void Test()
         {
             //消费者单开一个程序，将消费者的代码拷贝出去执行。
-            new KafkaProducer().Test();
+            //new KafkaProducer().Test();
+            Task.Run(() => new KafkaProducer().Test());
+            Task.Run(() => new KafkaConsumer().Test());
             int m = 0;
             Console.WriteLine("finshed");
             Console.ReadLine();
