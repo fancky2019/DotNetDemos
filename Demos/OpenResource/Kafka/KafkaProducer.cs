@@ -91,19 +91,18 @@ namespace Demos.OpenResource.Kafka
              */
             //config.Acks = Acks.All;
             using (var producer = new ProducerBuilder<string, string>(config)
-                  // 如果不指定序列化类型，Confluent.Kafka 内部字典defaultDeserializers
+                  // 如果不指定序列化类型，Confluent.Kafka 内部Producer<TKey, TValue>类的字典成员defaultSerializers
                   /*
-                   *    private Dictionary<Type, object> defaultDeserializers = new Dictionary<Type, object>
-                 {
-                  { typeof(Null), Deserializers.Null },
-                  { typeof(Ignore), Deserializers.Ignore },
-                  { typeof(int), Deserializers.Int32 },
-                  { typeof(long), Deserializers.Int64 },
-                  { typeof(string), Deserializers.Utf8 },
-                  { typeof(float), Deserializers.Single },
-                  { typeof(double), Deserializers.Double },
-                  { typeof(byte[]), Deserializers.ByteArray }
-                  };
+                    private static readonly Dictionary<Type, object> defaultSerializers = new Dictionary<Type, object>
+                    {
+                        { typeof(Null), Serializers.Null },
+                        { typeof(int), Serializers.Int32 },
+                        { typeof(long), Serializers.Int64 },
+                        { typeof(string), Serializers.Utf8 },
+                        { typeof(float), Serializers.Single },
+                        { typeof(double), Serializers.Double },
+                        { typeof(byte[]), Serializers.ByteArray }
+                    };
                    */
                   // 会根据key 类型反射获取对应的序列化类型
                   .SetValueSerializer(Serializers.Utf8)
