@@ -61,7 +61,7 @@ namespace Demos.OpenResource.Kafka
             // (including non-null data).
             //using (var consumer = new ConsumerBuilder<Ignore, string>(config)
             using (var consumer = new ConsumerBuilder<string, string>(config)
-                // 如果不指定序列化类型，Confluent.Kafka 内部字典defaultDeserializers
+                // 如果不指定序列化类型，Confluent.Kafka 内部Consumer<TKey, TValue>类的字典成员defaultDeserializers
                 /*
                  *    private Dictionary<Type, object> defaultDeserializers = new Dictionary<Type, object>
                {
