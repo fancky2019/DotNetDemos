@@ -197,6 +197,7 @@
     <Compile Include="Demos2019\IndexDemo.cs" />
     <Compile Include="Demos2019\InnerClassDemo.cs" />
     <Compile Include="Demos2019\IteratorsDemo.cs" />
+    <Compile Include="Demos2019\KeyValuePairDemo.cs" />
     <Compile Include="Demos2019\LinqDemo.cs" />
     <Compile Include="Demos2019\ListSortCompare.cs" />
     <Compile Include="Demos2019\NewOverrieDemo.cs" />

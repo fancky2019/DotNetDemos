@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Demos.OpenResource.Kafka
@@ -12,6 +13,24 @@ namespace Demos.OpenResource.Kafka
     {
 
         public void Test()
+        {
+            //ConsoleInput();
+            ForInput();
+        }
+
+        private void ForInput()
+        {
+            Random random = new Random();
+            for (int i = 0; i < 10; i++)
+            {
+                int key = random.Next(100, 200);
+                string val = $"message_{key}";
+                Producer(key.ToString(), val);
+                Thread.Sleep(200);
+            }
+        }
+
+        private void ConsoleInput()
         {
             var cancelled = false;
             // 取消:Ctrl+C
@@ -71,11 +90,29 @@ namespace Demos.OpenResource.Kafka
              acks=all/-1: producer 等待 Leader 写入本地日志、而且 Leader 向 Followers 同步完成后才会确认；最可靠。
              */
             //config.Acks = Acks.All;
-            using (var producer = new ProducerBuilder<string, string>(config).Build())
+            using (var producer = new ProducerBuilder<string, string>(config)
+                  // 如果不指定序列化类型，Confluent.Kafka 内部字典defaultDeserializers
+                  /*
+                   *    private Dictionary<Type, object> defaultDeserializers = new Dictionary<Type, object>
+                 {
+                  { typeof(Null), Deserializers.Null },
+                  { typeof(Ignore), Deserializers.Ignore },
+                  { typeof(int), Deserializers.Int32 },
+                  { typeof(long), Deserializers.Int64 },
+                  { typeof(string), Deserializers.Utf8 },
+                  { typeof(float), Deserializers.Single },
+                  { typeof(double), Deserializers.Double },
+                  { typeof(byte[]), Deserializers.ByteArray }
+                  };
+                   */
+                  // 会根据key 类型反射获取对应的序列化类型
+                  .SetValueSerializer(Serializers.Utf8)
+                  .SetKeySerializer(Serializers.Utf8)//Deserializers
+                  .Build())
             {
                 try
                 {
-                  //  Messages 中Key 决定消息的partion,内部hash(key)，如果不指定Key将随机指定分区（partion）
+                    //  Messages 中Key 决定消息的partion,内部hash(key)，如果不指定Key将随机指定分区（partion）
 
                     // Note: Awaiting the asynchronous produce request below prevents flow of execution
                     // from proceeding until the acknowledgement from the broker is received (at the 
@@ -95,11 +132,11 @@ namespace Demos.OpenResource.Kafka
 
                     //同步方法
                     // DeliveryReport<TKey, TValue> : DeliveryResult<TKey, TValue>
-                    //DeliveryReport : Produce生产成功的参数回调，执行结果的信息。
+                    // DeliveryReport: Produce生产成功的参数回调，执行结果的信息。
                     //producer.Produce(topicName, new Message<string, string> { Key = key, Value = val }, deliveryReport =>
                     //{
                     //});
-
+                    //producer.Flush(TimeSpan.FromSeconds(10));
                 }
                 catch (ProduceException<string, string> e)
                 {

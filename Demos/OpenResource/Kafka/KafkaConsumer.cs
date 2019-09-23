@@ -37,17 +37,19 @@ namespace Demos.OpenResource.Kafka
         /// </summary>
         public static void Run_Consume(string brokerList, List<string> topics, CancellationToken cancellationToken)
         {
-
+     
+            var dic = new Dictionary<string, string>();
+            dic.Add("max.poll.records", "2");//暂时不支持此配置选项。
             //一个线程一个消费者
-            var config = new ConsumerConfig
+            var config = new ConsumerConfig()
             {
                 BootstrapServers = brokerList,
                 GroupId = "csharp-consumer",
                 EnableAutoCommit = false,// 设置非自动偏移，业务逻辑完成后手动处理偏移，防止数据丢失
                 StatisticsIntervalMs = 5000,
                 SessionTimeoutMs = 6000,
-                AutoOffsetReset = AutoOffsetReset.Error,
-                EnablePartitionEof = true
+                AutoOffsetReset = AutoOffsetReset.Earliest,
+                EnablePartitionEof = true      
             };
 
             const int commitPeriod = 5;
@@ -57,7 +59,26 @@ namespace Demos.OpenResource.Kafka
             // will be used automatically (where available). The default deserializer for string
             // is UTF8. The default deserializer for Ignore returns null for all input data
             // (including non-null data).
-            using (var consumer = new ConsumerBuilder<Ignore, string>(config)
+            //using (var consumer = new ConsumerBuilder<Ignore, string>(config)
+            using (var consumer = new ConsumerBuilder<string, string>(config)
+                // 如果不指定序列化类型，Confluent.Kafka 内部字典defaultDeserializers
+                /*
+                 *    private Dictionary<Type, object> defaultDeserializers = new Dictionary<Type, object>
+               {
+                { typeof(Null), Deserializers.Null },
+                { typeof(Ignore), Deserializers.Ignore },
+                { typeof(int), Deserializers.Int32 },
+                { typeof(long), Deserializers.Int64 },
+                { typeof(string), Deserializers.Utf8 },
+                { typeof(float), Deserializers.Single },
+                { typeof(double), Deserializers.Double },
+                { typeof(byte[]), Deserializers.ByteArray }
+                };
+                 */
+                // 会根据key 类型反射获取对应的序列化类型
+                .SetValueDeserializer(Deserializers.Utf8)
+                .SetKeyDeserializer(Deserializers.Utf8)
+
                 // Note: All handlers are called on the main .Consume thread.
                 .SetErrorHandler((_, e) => Console.WriteLine($"Error: {e.Reason}"))
                 .SetStatisticsHandler((_, json) =>
@@ -99,11 +120,11 @@ namespace Demos.OpenResource.Kafka
                             if (consumeResult.IsPartitionEOF)
                             {
                                 Console.WriteLine($"Reached end of topic {consumeResult.Topic}, partition {consumeResult.Partition}, offset {consumeResult.Offset}.");
-
                                 continue;
                             }
-
-                            Console.WriteLine($"Received message at {consumeResult.TopicPartitionOffset}: {consumeResult.Value}");
+                           
+                            //读取的key 是空
+                            Console.WriteLine($"Received message at TopicPartitionOffset: {consumeResult.TopicPartitionOffset}:,Key: {consumeResult.Key},Value: {consumeResult.Value}");
 
                             //每消费5个提交一次偏移量，指向下一个待销费的偏移量
                             if (consumeResult.Offset % commitPeriod == 0)

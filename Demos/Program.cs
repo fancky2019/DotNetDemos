@@ -5,6 +5,7 @@ using Demos.Demos2019.Collections;
 using Demos.Demos2019.Forms;
 using Demos.Demos2019.Proxy;
 using Demos.Demos2019.Subjects;
+using Demos.Model;
 using Demos.OpenResource.HPSocket;
 using Demos.OpenResource.Json;
 using Demos.OpenResource.Jwt;
@@ -26,104 +27,117 @@ namespace Demos.Demos2018
         [STAThread]
         static void Main(string[] args)
         {
-            //AutoStart(true);
-            //new AutoStartProgramDemo().Test();
-            //Console.WriteLine(Thread.CurrentThread.ManagedThreadId);
 
-            AppDomain.CurrentDomain.UnhandledException += (sender, e) =>
-              {
-                  Console.WriteLine(e.ToString());
-                  Console.ReadLine();
-              };
+            try
+            {
 
-            Application.ThreadException += (sender, e) =>
+
+                //AutoStart(true);
+                //new AutoStartProgramDemo().Test();
+                //Console.WriteLine(Thread.CurrentThread.ManagedThreadId);
+
+                AppDomain.CurrentDomain.UnhandledException += (sender, e) =>
                   {
                       Console.WriteLine(e.ToString());
                       Console.ReadLine();
                   };
 
+                Application.ThreadException += (sender, e) =>
+                      {
+                          Console.WriteLine(e.ToString());
+                          Console.ReadLine();
+                      };
 
 
 
-            #region Demos2018
-            //new ParamsDemo().Test();
-            // string str = Test().Result;
-            //   new AdoTest().Test();
 
-            //new TClassTest<Product>().Test();
-            //new LockDemo().Test();
+                #region Demos2018
+                //new ParamsDemo().Test();
+                // string str = Test().Result;
+                //   new AdoTest().Test();
 
-            #region SynchronizationDemo
-            //   new AutoResetEventTest().Test();
-            // new ManualResetEventTest().Test();
-            //  new ProducerConsumer(100).Test();
+                //new TClassTest<Product>().Test();
+                //new LockDemo().Test();
 
-            //   new ProducerConsumerTPS(int.MaxValue, 10).Test();
-            //   new ProducerConsumerTPSDemo().Test();
-            #endregion
+                #region SynchronizationDemo
+                //   new AutoResetEventTest().Test();
+                // new ManualResetEventTest().Test();
+                //  new ProducerConsumer(100).Test();
 
-            //  new BlockingCollectionDemo().Test();
+                //   new ProducerConsumerTPS(int.MaxValue, 10).Test();
+                //   new ProducerConsumerTPSDemo().Test();
+                #endregion
 
-            // new AttributeDemo().Test();
-            //new ImplicitExplicitDemo().Test();
+                //  new BlockingCollectionDemo().Test();
 
-            //new RabbitMQTest().Test();
-            //new TryCatchFinallyReturnDemo().Test();
+                // new AttributeDemo().Test();
+                //new ImplicitExplicitDemo().Test();
 
-            //  new CollectionDemo().Test();
-            // new RedisDemo().Test();
-            #endregion
+                //new RabbitMQTest().Test();
+                //new TryCatchFinallyReturnDemo().Test();
 
-            #region Demos2019
-            //new EqualsOperatorDemo().Test();
-            //  new ThreadDemo().Test();
-            //  new StringInternDemo().Test();
+                //  new CollectionDemo().Test();
+                // new RedisDemo().Test();
+                #endregion
 
-            // new HPSocketDemo().Test();
-            //   new CharDemo().Test();
+                #region Demos2019
+                //new EqualsOperatorDemo().Test();
+                //  new ThreadDemo().Test();
+                //  new StringInternDemo().Test();
 
-            //new SubjectTest().Test();
-            //new DivisionDemo().Test();
-            //   new StackTraceDemo().Test();
-            //new ProxyDemo().Test();
-            // new StackExchangeRedisDemo().Test();
+                // new HPSocketDemo().Test();
+                //   new CharDemo().Test();
 
-            //   new NewOverrieDemo().Test();
-            //  new FrmTest().ShowDialog();
-            //new RegexDemo().Test();
-            //new Demos2019.Http.HttpTest().Test();
-            // new TextTest().Test();
-            //new StopwatchDemo().Test();
-            new JWTDemo().Test();
-            //new FormatDemo().Test();
+                //new SubjectTest().Test();
+                //new DivisionDemo().Test();
+                //   new StackTraceDemo().Test();
+                //new ProxyDemo().Test();
+                // new StackExchangeRedisDemo().Test();
 
-            //  new DotNetEightDemo().Test
-            //new ClassExcuteSequenceDemo().Test();
+                //   new NewOverrieDemo().Test();
+                //  new FrmTest().ShowDialog();
+                //new RegexDemo().Test();
+                //new Demos2019.Http.HttpTest().Test();
+                // new TextTest().Test();
+                //new StopwatchDemo().Test();
+                //new JWTDemo().Test();
+                //new FormatDemo().Test();
 
-            //new IndexDemo().Test();
-            //    new ConstructorDemo().Test();
-            //new ListSortCompare().Test();
-            //ObjectClone.Test();
+                //  new DotNetEightDemo().Test
+                //new ClassExcuteSequenceDemo().Test();
 
-            //new ThreadTimeOutDemo().Test();
-            //new ReferenceDemo().Test();
-            //new AsyncDemo().Test();
-            //new StaticClassTest();
-            //new InDemo().Test();
+                //new IndexDemo().Test();
+                //    new ConstructorDemo().Test();
+                //new ListSortCompare().Test();
+                //ObjectClone.Test();
 
-            //new CovarianceContravarianceDemo().Test();
-            //new HashCodeDemo().Test();
-            //new FileUsing().Test();
+                //new ThreadTimeOutDemo().Test();
+                //new ReferenceDemo().Test();
+                //new AsyncDemo().Test();
+                //new StaticClassTest();
+                //new InDemo().Test();
 
-            //new IteratorsDemo().Test();
+                //new CovarianceContravarianceDemo().Test();
+                //new HashCodeDemo().Test();
+                //new FileUsing().Test();
 
-            //new IndexDemo().Test();
+                //new IteratorsDemo().Test();
 
-            //new JsonDemo().Test();
-            //new KafkaDemo().Test();
+                //new IndexDemo().Test();
 
-            #endregion
+                //new JsonDemo().Test();
+                new KafkaDemo().Test();
 
+                //new KeyValuePairDemo().Test();
+
+                #endregion
+
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
             Console.ReadLine();
         }
         static void Fundd()
