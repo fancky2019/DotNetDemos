@@ -19,6 +19,7 @@ namespace Demos.Demos2019
     {
         public void Test()
         {
+            DisplayTaskID();
             //AsyncMethod();
             // 异步方法有返回Task<TResult> 。调用要用await且调用方法async修饰，否则同步执行。
             //await AsyncMethod1();
@@ -151,6 +152,28 @@ namespace Demos.Demos2019
         void DoIndependentWork()
         {
             Thread.Sleep(3000);
+        }
+
+        /// <summary>
+        ///同一个任务里只有一个线程ID
+        /// </summary>
+        private void DisplayTaskID()
+        {
+
+            Task.Run(() =>
+            {
+                for(int i=0;i<=30;i++)
+                {
+                    Console.WriteLine($"1ThreadID:{Thread.CurrentThread.ManagedThreadId}");
+                }
+            });
+            Task.Run(() =>
+            {
+                for (int i = 0; i <= 30; i++)
+                {
+                    Console.WriteLine($"2ThreadID:{Thread.CurrentThread.ManagedThreadId}");
+                }
+            });
         }
     }
 
