@@ -19,9 +19,13 @@ namespace Demos.Demos2019
   
             Dictionary<string, string> dictionary = new Dictionary<string, string>();
             dictionary.Add("key1", "value1");
+         
             IEnumerable<KeyValuePair<string, string>> keyValuePairs = dictionary;
 
             var dict2 = keyValuePairs.ToDictionary(p => p.Key, p => p.Value);
+
+            ////key添加重复抛异常:已添加了具有相同键的项。
+            //dictionary.Add("key1", "value1");
         }
     }
 }

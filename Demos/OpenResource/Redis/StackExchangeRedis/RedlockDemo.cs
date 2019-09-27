@@ -15,7 +15,7 @@ namespace Demos.OpenResource.Redis.StackExchangeRedis
     /// Distributed locks with Redis:https://redis.io/topics/distlock
     /// Redlock:github:https://github.com/kidfashion/redlock-cs
     /// </summary>
-    public class StackExchangeRedisDemo
+    public class RedlockDemo
     {
         //StackExchange.Redis
         //github:https://github.com/ServiceStack/ServiceStack.Redis

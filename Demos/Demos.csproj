@@ -240,6 +240,7 @@
     <Compile Include="OpenResource\Kafka\KafkaDemo.cs" />
     <Compile Include="OpenResource\Kafka\KafkaProducer.cs" />
     <Compile Include="OpenResource\RabbitMQ\RabbitMQClient\DelayRetryConsumer.cs" />
+    <Compile Include="OpenResource\Redis\StackExchangeRedis\StackExchangeDemo.cs" />
     <Compile Include="Subjects\SubjectTest.cs" />
     <Compile Include="Demos2019\ThreadDemo.cs" />
     <Compile Include="OpenResource\HPSocket\HPSocketClient\Class1.cs" />
@@ -275,10 +276,10 @@
     <Compile Include="Model\Person.cs" />
     <Compile Include="Model\Product.cs" />
     <Compile Include="Demos2018\ParamsDemo.cs" />
-    <Compile Include="OpenResource\Redis\StackExchangeRedis\RedisDemo.cs" />
-    <Compile Include="OpenResource\Redis\StackExchangeRedis\RedisHelper.cs" />
+    <Compile Include="OpenResource\Redis\RedisDemo.cs" />
+    <Compile Include="OpenResource\Redis\StackExchangeRedis\StackExchangeHelper.cs" />
     <Compile Include="OpenResource\Redis\ServiceStackRedis\ServiceStackRedisDemo.cs" />
-    <Compile Include="OpenResource\Redis\StackExchangeRedis\StackExchangeRedisDemo.cs" />
+    <Compile Include="OpenResource\Redis\StackExchangeRedis\RedlockDemo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Demos2018\GenericDemo.cs" />

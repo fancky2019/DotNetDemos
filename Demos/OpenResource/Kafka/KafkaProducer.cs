@@ -9,9 +9,17 @@ using System.Threading.Tasks;
 
 namespace Demos.OpenResource.Kafka
 {
+    /*
+     * kafka 一个topic可以有多个partion,这些partion可以放在kafka的集群上（多个kafka broker）
+     * 达到高可用，这些partion中只有一个leader,其他都是follower。kafka采用leader读写，replica
+     * 备份。
+     * Topic:一个业务。
+     * partion:对应一个消费者。资源利用最大化。
+     * 增加broker、partion、consumer增加吞吐量。
+     */
     public class KafkaProducer
     {
-
+        
         public void Test()
         {
             //ConsoleInput();
