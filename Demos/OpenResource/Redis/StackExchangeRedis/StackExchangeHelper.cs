@@ -6,13 +6,13 @@ using Newtonsoft.Json;
 
 namespace Demos.OpenResource.Redis.StackExchangeRedis
 {
-    public class RedisHelper
+    public class StackExchangeHelper
     {
         #region 
         //执行顺序---静态字段---静态构造函数---构造函数
         private static ConnectionMultiplexer redis;
 
-        static RedisHelper()
+        static StackExchangeHelper()
         {
             if (redis == null || !redis.IsConnected)
             {

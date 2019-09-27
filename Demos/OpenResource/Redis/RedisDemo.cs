@@ -9,7 +9,7 @@ namespace Demos.OpenResource.Redis.StackExchangeRedis
     {
         public void Test()
         {
-         
+
             ServiceStackTest();
         }
 
@@ -55,7 +55,7 @@ namespace Demos.OpenResource.Redis.StackExchangeRedis
 
             //切换数据库
             iDatabase = connectionMultiplexer.GetDatabase(9);
-      
+
 
             //在Redis中存储常用的5种数据类型：String,Hash,List,SetSorted set
             //如果插入key相同的值，后插入的数据会覆盖前面的值
@@ -128,10 +128,10 @@ namespace Demos.OpenResource.Redis.StackExchangeRedis
             Console.ReadLine();
         }
 
-       void ServiceStackTest()
+        void ServiceStackTest()
         {
 
-          // 源码地址： https://github.com/search?q=ServiceStack&type=Repositories
+            // 源码地址： https://github.com/search?q=ServiceStack&type=Repositories
             #region Redis 破解redis每小时只能添加6000次的限制
             /*
              * 1、NuGet安装好ServiceStack.Redis
@@ -181,31 +181,31 @@ namespace Demos.OpenResource.Redis.StackExchangeRedis
             //var readClient = ServiceStackRedis.Instance.ReadOnlyRedisClient;
             //readClient.Add<string>("sd", "dsss");
             var connStr = "redis://nunit:pass@host:1?ssl=true&db=0&connectTimeout=2&sendtimeout=3&receiveTimeout=4&idletimeoutsecs=5&NamespacePrefix=prefix.";
-                var connStr1 = "redis://nunit:fancky123@127.0.0.1:6379?ssl=true&db=0&connectTimeout=2&sendtimeout=3&receiveTimeout=4&idletimeoutsecs=5&NamespacePrefix=prefix.";
+            var connStr1 = "redis://nunit:fancky123@127.0.0.1:6379?ssl=true&db=0&connectTimeout=2&sendtimeout=3&receiveTimeout=4&idletimeoutsecs=5&NamespacePrefix=prefix.";
 
-                //127.0.0.1:6379?Client=nunit&Password=fancky123&Ssl=true&ConnectTimeout=2&SendTimeout=3&ReceiveTimeout=4&IdleTimeOutSecs=5&NamespacePrefix=prefix.
-                //ToRedisEndpoint(connStr1);
+            //127.0.0.1:6379?Client=nunit&Password=fancky123&Ssl=true&ConnectTimeout=2&SendTimeout=3&ReceiveTimeout=4&IdleTimeOutSecs=5&NamespacePrefix=prefix.
+            //ToRedisEndpoint(connStr1);
 
-                var master = ServiceStackRedisDemo.Instance.WriteReadRedisClient;
-                //master.Add<string>("sd", "dsss");
-                //master.Add<string>("sdExpire", "dsss",new TimeSpan(0,1,0));
-                //var f=  master.Remove("lockKey");
+            var master = ServiceStackRedisDemo.Instance.WriteReadRedisClient;
+            //master.Add<string>("sd", "dsss");
+            //master.Add<string>("sdExpire", "dsss",new TimeSpan(0,1,0));
+            //var f=  master.Remove("lockKey");
 
-                master.Remove("lockKey");
-                master.Add<int>("lockKey", 1234);
-                var counter = master.Get<int>("lockKey");
-                master.AddItemToList("Key1", "1");
-                master.AddItemToList("Key1", "2");
-                master.AddItemToList("Key1", "3");
-                master.Dispose();
-       
+            master.Remove("lockKey");
+            master.Add<int>("lockKey", 1234);
+            var counter = master.Get<int>("lockKey");
+            master.AddItemToList("Key1", "1");
+            master.AddItemToList("Key1", "2");
+            master.AddItemToList("Key1", "3");
+            master.Dispose();
 
-                //for (int i = 0; i < 10; i++)
-                //{
-                //    using (var r1 = ServiceStackRedis.Instance.WriteReadRedisClient)
-                //    {
-                //        r1.Add<string>($"StrKey{i}", $"Val{i}");
-                //    }
+
+            //for (int i = 0; i < 10; i++)
+            //{
+            //    using (var r1 = ServiceStackRedis.Instance.WriteReadRedisClient)
+            //    {
+            //        r1.Add<string>($"StrKey{i}", $"Val{i}");
+            //    }
 
             //    //var r1 = ServiceStackRedis.Instance.WriteReadRedisClient;
             //    //r1.Add<string>($"StrKey{i}", $"Val{i}");

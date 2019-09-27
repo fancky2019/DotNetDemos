@@ -113,7 +113,7 @@ namespace Demos.Demos2018
 
                 //new ThreadTimeOutDemo().Test();
                 //new ReferenceDemo().Test();
-                new AsyncDemo().Test();
+                //new AsyncDemo().Test();
                 //new StaticClassTest();
                 //new InDemo().Test();
 
@@ -129,6 +129,8 @@ namespace Demos.Demos2018
                 //new KafkaDemo().Test();
 
                 //new KeyValuePairDemo().Test();
+
+                new StackExchangeDemo().Test();
 
                 #endregion
 
