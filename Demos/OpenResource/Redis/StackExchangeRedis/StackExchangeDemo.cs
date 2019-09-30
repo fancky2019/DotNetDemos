@@ -30,7 +30,8 @@ namespace Demos.OpenResource.Redis.StackExchangeRedis
             //ListOperaton();
             //SetOperaton();
             //SortedSetOperaton();
-            Increment();
+            //Increment();
+            Transaction();
         }
         void StackExchangeTest()
         {
@@ -442,24 +443,35 @@ namespace Demos.OpenResource.Redis.StackExchangeRedis
         }
         #endregion
 
-       private void Increment()
+        #region 自增
+        private void Increment()
         {
             IDatabase iDatabase = GetDatabase();
             iDatabase.StringIncrement("IncrementKey");
-            iDatabase.StringIncrement("IncrementKey",3);
+            iDatabase.StringIncrement("IncrementKey", 3);
             iDatabase.StringDecrement("IncrementKey");
 
-        
-        }
 
+        }
+        #endregion
+
+        #region RedisTransaction 事务 
         private void Transaction()
         {
             IDatabase db = GetDatabase();
             var tran = db.CreateTransaction();
-
-            var result = tran.Execute();
+            //指定watch 的key 和值，如果相等则执行事务，否则不执行。
+            //key 必须存在，否则不执行事务。
+            //  var cond = tran.AddCondition(true ? Condition.StringEqual(key2, expected) : Condition.StringNotEqual(key2, expected));
+            if (!db.KeyExists("lockeStrKey"))
+            {
+                db.StringSet("lockeStrKey", "lockeStrValue");
+            }
+            tran.AddCondition(Condition.StringEqual("lockeStrKey", "lockeStrValue"));
+            var incr = tran.StringIncrementAsync("stringIncrementKey");
+            var exec = tran.ExecuteAsync();
         }
-
+        #endregion
 
     }
 }
