@@ -9,8 +9,8 @@ namespace Demos.OpenResource.Redis.StackExchangeRedis
     {
         public void Test()
         {
-
-            ServiceStackTest();
+            new ServiceStackRedisDemo().Test() ;
+            //ServiceStackTest();
         }
 
         void StackExchangeTest()

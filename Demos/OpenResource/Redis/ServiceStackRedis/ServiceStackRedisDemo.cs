@@ -33,11 +33,11 @@ namespace Demos.OpenResource.Redis.ServiceStackRedis
         }
         static ServiceStackRedisDemo()
         {
-            MasterRedis= ConfigurationManager.AppSettings["MasterRedis"].ToString();
-            SlaveRedis = ConfigurationManager.AppSettings["SlaveRedis"].ToString();
+            MasterRedis = ConfigurationManager.AppSettings["ServiceStackMasterRedis"].ToString();
+            SlaveRedis = ConfigurationManager.AppSettings["ServiceStackSlaveRedis"].ToString();
             Instance = new ServiceStackRedisDemo();
         }
-        ServiceStackRedisDemo()
+        public ServiceStackRedisDemo()
         {
             PooledRedisClientManager = new PooledRedisClientManager(new string[] { MasterRedis },
                                                         new string[] { SlaveRedis },
@@ -139,10 +139,16 @@ namespace Demos.OpenResource.Redis.ServiceStackRedis
 
         }
 
+        public void Test()
+        {
+            StringTest();
+            ListTest();
+        }
         #region String
         public void StringTest()
         {
             WriteReadRedisClient.Set<string>("StringTest1", "st1");
+            string val = ReadOnlyRedisClient.Get<string>("StringTest1");
             WriteReadRedisClient.Remove("StringTest1");
         }
         #endregion
