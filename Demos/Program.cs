@@ -11,6 +11,7 @@ using Demos.OpenResource.Json;
 using Demos.OpenResource.Jwt;
 using Demos.OpenResource.Kafka;
 using Demos.OpenResource.Redis;
+using Demos.OpenResource.Redis.ServiceStackRedis;
 using Demos.OpenResource.Redis.StackExchangeRedis;
 using Microsoft.Win32;
 using System;
@@ -130,8 +131,8 @@ namespace Demos.Demos2018
 
                 //new KeyValuePairDemo().Test();
 
-                new StackExchangeDemo().Test();
-
+                //new StackExchangeDemo().Test();
+                new ServiceStackRedisDemo().Test();
                 #endregion
 
 
