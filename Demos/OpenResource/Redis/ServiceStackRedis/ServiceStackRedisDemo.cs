@@ -8,6 +8,9 @@ namespace Demos.OpenResource.Redis.ServiceStackRedis
     /// <summary>
     ///NuGet安装ServiceStack.Redis   
     ///C# Redis Client for the worlds fastest distributed NoSQL datastore. 
+    ///github:https://github.com/ServiceStack/ServiceStack.Redis
+    ///github:https://github.com/ServiceStack/ServiceStack.Text 6000次数限制
+    ///修改ServiceStack.Text程序集内的源码 LicenseUtils.cs 内的类 FreeQuotas的常量RedisRequestPerHour
     /// </summary>
     public class ServiceStackRedisDemo
     {
@@ -20,15 +23,15 @@ namespace Demos.OpenResource.Redis.ServiceStackRedis
         /// <summary>
         /// 读写客户端--Master
         /// </summary>
-        public IRedisClient WriteReadRedisClient => PooledRedisClientManager.GetClient();
+        public RedisClient WriteReadRedisClient => PooledRedisClientManager.GetClient() as RedisClient;
         /// <summary>
         /// 只读客户端--Slave
         /// </summary>
-        public IRedisClient ReadOnlyRedisClient
+        public RedisClient ReadOnlyRedisClient
         {
             get
             {
-                return PooledRedisClientManager.GetReadOnlyClient();
+                return PooledRedisClientManager.GetReadOnlyClient() as RedisClient;
             }
         }
         static ServiceStackRedisDemo()
@@ -52,9 +55,23 @@ namespace Demos.OpenResource.Redis.ServiceStackRedis
         void ServiceStackTest()
         {
 
-            // 源码地址： https://github.com/search?q=ServiceStack&type=Repositories
+            // 源码地址： https://github.com/ServiceStack/ServiceStack.Redis
             #region Redis 破解redis每小时只能添加6000次的限制
+            //*github:https://github.com/ServiceStack/ServiceStack.Text
+            //修改ServiceStack.Text程序集内的源码 LicenseUtils.cs 内的类
             /*
+             *         public static class FreeQuotas
+                    {
+                        public const int ServiceStackOperations = 10;
+                        public const int TypeFields = 20;
+                        public const int RedisTypes = 20;
+                        public const int RedisRequestPerHour = 6000;=>  public const int RedisRequestPerHour = int.MaxValue;
+                        public const int OrmLiteTables = 10;
+                        public const int AwsTables = 10;
+                        public const int PremiumFeature = 0;
+                    }
+             */
+            /*github:https://github.com/ServiceStack/ServiceStack.Text
              * 1、NuGet安装好ServiceStack.Redis
                 2、删除packages.config里ServiceStack.Text的配置
                 3、移除ServiceStack.Text.dll的引用，用本地Dll目录下的Redis文件夹下的ServiceStack.Text.dll替换debug下的
@@ -141,15 +158,24 @@ namespace Demos.OpenResource.Redis.ServiceStackRedis
 
         public void Test()
         {
+            //ReadOnlyRedisClient.Db = 1;
             StringTest();
             ListTest();
         }
         #region String
         public void StringTest()
         {
-            WriteReadRedisClient.Set<string>("StringTest1", "st1");
+            //写
+            WriteReadRedisClient.Set<string>("StringTest1", "st1111");
             string val = ReadOnlyRedisClient.Get<string>("StringTest1");
-            WriteReadRedisClient.Remove("StringTest1");
+
+            //读
+            ReadOnlyRedisClient.ContainsKey("StringTest1");
+
+            //删
+            long re = WriteReadRedisClient.Del("StringTest1");
+            //remove 内部调用的是Del。
+            bool re1 = WriteReadRedisClient.Remove("StringTest1");
         }
         #endregion
 
