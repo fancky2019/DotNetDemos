@@ -30,10 +30,10 @@ namespace Demos.OpenResource.Redis.StackExchangeRedis
             //HashOperaton();
             //ListOperaton();
             //SetOperaton();
-            SortedSetOperaton();
+            //SortedSetOperaton();
             //ExpiryKey();
             //Increment();
-            //Transaction();
+            Transaction();
         }
         void StackExchangeTest()
         {
@@ -494,13 +494,22 @@ namespace Demos.OpenResource.Redis.StackExchangeRedis
             //指定watch 的key 和值，如果相等则执行事务，否则不执行。
             //key 必须存在，否则不执行事务。
             //  var cond = tran.AddCondition(true ? Condition.StringEqual(key2, expected) : Condition.StringNotEqual(key2, expected));
-            if (!db.KeyExists("lockeStrKey"))
+          
+            //redis 事务不具有隔离，利用乐观锁CAS简单处理。
+            //添加CAS条件
+            string lockKey = "TransactionLockeStrKey";
+            string lockeStrKeyValue = Guid.NewGuid().ToString();
+            if (!db.KeyExists(lockKey))
             {
-                db.StringSet("lockeStrKey", "lockeStrValue");
+                db.StringSet(lockKey, lockeStrKeyValue);
             }
-            tran.AddCondition(Condition.StringEqual("lockeStrKey", "lockeStrValue"));
+     
+            db.StringSet(lockKey, lockeStrKeyValue);
+            //CAS处理条件。
+            tran.AddCondition(Condition.StringEqual(lockKey, lockeStrKeyValue));
             var incr = tran.StringIncrementAsync("stringIncrementKey");
             var exec = tran.ExecuteAsync();
+    
         }
         #endregion
 

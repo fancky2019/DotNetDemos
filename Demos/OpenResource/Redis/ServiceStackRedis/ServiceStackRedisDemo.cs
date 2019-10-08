@@ -173,17 +173,25 @@ namespace Demos.OpenResource.Redis.ServiceStackRedis
         /// </summary>
         public void Test()
         {
+            //KeyTest();
             //ReadOnlyRedisClient.Db = 1;
             //StringTest();
             //ListTest();
             //HashTest();
             //SetTest();
             //SortedSetTest();
-            ExpiryKey();
-            //TransactionTest();
+            //ExpiryKey();
+            TransactionTest();
             //LockTest();
 
         }
+
+        private  void  KeyTest()
+        {
+            //ksy不存在返回0，存在返回1
+            var re = WriteReadRedisClient.Exists("StringTest1");
+        }
+
         #region String
         public void StringTest()
         {
@@ -461,18 +469,35 @@ namespace Demos.OpenResource.Redis.ServiceStackRedis
         #region Tran
         public void TransactionTest()
         {
-            string key = "rdtmultitest";
+            string key = "TransactionTestKey";
+            //redis 事务不具有隔离，利用乐观锁CAS简单处理。
+            //添加CAS条件
+            string lockKey = "TransactionLockeStrKey";
+            string lockeStrKeyValue = Guid.NewGuid().ToString();
             using (WriteReadRedisClient)
             {
                 using (var trans = WriteReadRedisClient.CreateTransaction())
                 {
+
                     try
                     {
+                        if (WriteReadRedisClient.Exists(lockKey) == 0)//如果Key不存在
+                        {
+                            WriteReadRedisClient.SetValue(lockKey, lockeStrKeyValue);
+                        }
+
+                        WriteReadRedisClient.SetValue(lockKey, lockeStrKeyValue);
+
+                        // 命令前被放入队列缓存，并不会被实际执行，
                         trans.QueueCommand(r => r.IncrementValue(key));
                         trans.QueueCommand(r => r.IncrementValue(key));
                         trans.QueueCommand(r => r.IncrementValue(key));
 
-                        trans.Commit();
+                        if (WriteReadRedisClient.Get<string>(lockKey) == lockeStrKeyValue)
+                        {
+                            var success = trans.Commit();
+                        }
+
                     }
                     catch (Exception ex)
                     {
