@@ -1,4 +1,5 @@
-﻿using StackExchange.Redis;
+﻿using Demos.Common;
+using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -29,9 +30,10 @@ namespace Demos.OpenResource.Redis.StackExchangeRedis
             //HashOperaton();
             //ListOperaton();
             //SetOperaton();
-            //SortedSetOperaton();
+            SortedSetOperaton();
+            //ExpiryKey();
             //Increment();
-            Transaction();
+            //Transaction();
         }
         void StackExchangeTest()
         {
@@ -370,7 +372,7 @@ namespace Demos.OpenResource.Redis.StackExchangeRedis
         #region  SortedSet 有序集合
         private void SortedSetOperaton()
         {
-
+            //数据结构
             //                                           Score
             //SortedSetRedisKey1    SortedSetValue1        1
             //                      SortedSetValue2        2
@@ -418,15 +420,21 @@ namespace Demos.OpenResource.Redis.StackExchangeRedis
             iDatabase.SortedSetAdd("sortedSetKey3", "sortedSetValue1", ++i);
             iDatabase.SortedSetAdd("sortedSetKey3", "sortedSetValue2", ++i);
             iDatabase.SortedSetAdd("sortedSetKey3", "sortedSetValue3", ++i);
-            iDatabase.SortedSetAdd("sortedSetKey3", "sortedSetValue31", ++i);
-            iDatabase.SortedSetAdd("sortedSetKey3", "sortedSetValue32", ++i);
-            iDatabase.SortedSetAdd("sortedSetKey3", "sortedSetValue33", ++i);
+            iDatabase.SortedSetAdd("sortedSetKey3", "sortedSetValue31", Utility.GetTimeStamp());
+            iDatabase.SortedSetAdd("sortedSetKey3", "sortedSetValue32", Utility.GetTimeStamp());
+            iDatabase.SortedSetAdd("sortedSetKey3", "sortedSetValue33", Utility.GetTimeStamp());
 
             //读
             RedisValue[] redisValues = iDatabase.SortedSetRangeByRank("sortedSetKey1");
 
+            //倒叙取：取分数最大的。
+            RedisValue[] redisValuess = iDatabase.SortedSetRangeByRank("sortedSetKey3", 0, 0, order: Order.Descending);
+            string maxRedisValue = redisValuess[0];
+            //包含分数
+            SortedSetEntry[] sortedSetEntries = iDatabase.SortedSetRangeByRankWithScores("sortedSetKey3", 0, 0, order: Order.Descending);
+            string maxValue = sortedSetEntries[0].Element;
+            double maxScore = sortedSetEntries[0].Score;
             //集合运算
-
             var l1 = iDatabase.SortedSetCombineAndStore(SetOperation.Intersect, "sortedSetKey4", "sortedSetKey1", "sortedSetKey2");
             var l2 = iDatabase.SortedSetCombineAndStore(SetOperation.Union, "sortedSetKey5", "sortedSetKey1", "sortedSetKey2");
             //只支持Intersect、Union 其他抛异常
@@ -452,6 +460,29 @@ namespace Demos.OpenResource.Redis.StackExchangeRedis
             iDatabase.StringDecrement("IncrementKey");
 
 
+        }
+        #endregion
+
+        #region Expiry
+        /// <summary>
+        /// key 到期redis会删除
+        /// </summary>
+        private void ExpiryKey()
+        {
+            //string 添加的key的时候可以直接添加过期时间，其他设置key的到期时间
+            IDatabase iDatabase = GetDatabase();
+            iDatabase.StringSet("ExpiryKey", "ExpiryKeyValue", TimeSpan.FromSeconds(20));
+
+
+            iDatabase.HashSet("hashKey1", "hashField1", "张三");
+            iDatabase.KeyExpire("hashKey1", TimeSpan.FromSeconds(20));
+
+
+            iDatabase.ListLeftPush("listKey1", "listValue1");
+            iDatabase.KeyExpire("listKey1", TimeSpan.FromSeconds(20));
+
+            iDatabase.SetAdd("setKey1", "setValue1");
+            iDatabase.KeyExpire("setKey1", TimeSpan.FromSeconds(20));
         }
         #endregion
 

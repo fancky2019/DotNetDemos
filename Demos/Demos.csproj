@@ -169,6 +169,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\Utility.cs" />
     <Compile Include="Demos2019\AccessDecorateDemo.cs" />
     <Compile Include="Demos2019\AutoStartProgramDemo.cs" />
     <Compile Include="Demos2018\AdoTest.cs" />

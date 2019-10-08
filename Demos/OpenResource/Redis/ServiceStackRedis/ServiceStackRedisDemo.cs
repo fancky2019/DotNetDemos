@@ -1,7 +1,11 @@
-﻿using ServiceStack.Redis;
+﻿using Demos.Common;
+using ServiceStack.Redis;
 using System;
+using System.Collections.Generic;
 using System.Configuration;
+using System.Text;
 using System.Threading;
+using System.Linq;
 
 namespace Demos.OpenResource.Redis.ServiceStackRedis
 {
@@ -42,14 +46,22 @@ namespace Demos.OpenResource.Redis.ServiceStackRedis
         }
         public ServiceStackRedisDemo()
         {
+            //DBIndex:0,
+            //poolSizeMultiplier :默认20
+            //PoolTimeout 4S
             PooledRedisClientManager = new PooledRedisClientManager(new string[] { MasterRedis },
                                                         new string[] { SlaveRedis },
                                                         new RedisClientManagerConfig
                                                         {
-                                                            MaxWritePoolSize = 20,//“写”链接池链接数
-                                                            MaxReadPoolSize = 20,//“读”链接池链接数
-                                                            AutoStart = true,
-                                                        });
+                                                            MaxWritePoolSize = 200,//“写”链接池链接数 ，设置大点不然很容易报池都在用造成超时的异常,下面英文的异常。
+                                                            MaxReadPoolSize = 200,//“读”链接池链接数
+                                                            AutoStart = true
+                                                        }, 0, null, 4
+                                                       );
+            //Redis Timeout expired. The timeout period elapsed prior to obtaining a connection from the pool. 
+            //This may have occurred because all pooled connections were in use.
+
+            //PooledRedisClientManager.PoolTimeout  默认两秒 上面改成4秒
         }
 
         void ServiceStackTest()
@@ -156,33 +168,101 @@ namespace Demos.OpenResource.Redis.ServiceStackRedis
 
         }
 
+        /// <summary>
+        /// 具体使用可参照源码的测试：ServiceStack.Redis.Tests工程文件。
+        /// </summary>
         public void Test()
         {
             //ReadOnlyRedisClient.Db = 1;
-            StringTest();
-            ListTest();
+            //StringTest();
+            //ListTest();
+            //HashTest();
+            //SetTest();
+            //SortedSetTest();
+            ExpiryKey();
+            //TransactionTest();
+            //LockTest();
+
         }
         #region String
         public void StringTest()
         {
+            // 数据结构
+            //StringRedisKey1  StringValue1
+            //StringRedisKey1  StringValue2
+            //StringRedisKey1  StringValue3
+            //    *                *
+            //    *                *
+            //    *                *
+
+
+
+
             //写
-            WriteReadRedisClient.Set<string>("StringTest1", "st1111");
-            string val = ReadOnlyRedisClient.Get<string>("StringTest1");
+            WriteReadRedisClient.Set<string>("StringKey1", "StringValue1");
+            WriteReadRedisClient.SetValue("StringKey2", "StringValue2");
+            //如果key 不存在就设置值返回true，如果key存在就返回false也不更新值。
+            var reee = WriteReadRedisClient.SetValueIfNotExists("ktttttt", "ddddd");
+            Dictionary<string, string> keyValuePairs = new Dictionary<string, string>();
+            WriteReadRedisClient.SetValues(keyValuePairs);
+            WriteReadRedisClient.SetAll(keyValuePairs);
+            string val = ReadOnlyRedisClient.Get<string>("StringKey2");
 
             //读
-            ReadOnlyRedisClient.ContainsKey("StringTest1");
+            ReadOnlyRedisClient.ContainsKey("StringKey2");
 
+            List<string> keys = ReadOnlyRedisClient.SearchKeys("String*");
             //删
-            long re = WriteReadRedisClient.Del("StringTest1");
+            long re = WriteReadRedisClient.Del("StringKey1");
             //remove 内部调用的是Del。
-            bool re1 = WriteReadRedisClient.Remove("StringTest1");
+            bool re1 = WriteReadRedisClient.Remove("StringKey2");
         }
         #endregion
 
         #region List
         public void ListTest()
         {
+            //数据结构
+            //ListRedisKey1   ListValue1
+            //                ListValue2
+            //                ListValue3
+            //                    * 
+            //                    * 
+            //                    * 
+            //ListRedisKey2   ListValue1
+            //                ListValue2
+            //                ListValue3
+            //                    * 
+            //                    * 
+            //                    * 
 
+
+
+            //写
+            //内部调用 RPush
+            WriteReadRedisClient.AddItemToList("ListKey1", "ListValue1");
+            WriteReadRedisClient.AddItemToList("ListKey1", "ListValue2");
+            WriteReadRedisClient.AddItemToList("ListKey1", "ListValue3");
+            WriteReadRedisClient.AddItemToList("ListKey1", "ListValue4");
+            WriteReadRedisClient.RPush("ListKey1", Encoding.UTF8.GetBytes("ListValue5"));
+            WriteReadRedisClient.LPush("ListKey1", Encoding.UTF8.GetBytes("ListValue6"));
+
+            WriteReadRedisClient.AddRangeToList("ListKey1", new List<string> { "ListValue7", "ListValue8" });
+
+            WriteReadRedisClient.AddItemToList("ListKey2", "ListValue1");
+            WriteReadRedisClient.AddItemToList("ListKey2", "ListValue2");
+            WriteReadRedisClient.AddItemToList("ListKey2", "ListValue3");
+
+            //读
+            //LILO  左出队  栈
+            string listLeftValue = Encoding.UTF8.GetString(WriteReadRedisClient.LPop("ListKey1"));
+            //FIFO  右出队  队列
+            string listRightValue = Encoding.UTF8.GetString(WriteReadRedisClient.RPop("ListKey1"));
+            //WriteReadRedisClient.BlockingPopItemFromList("ListKey1", TimeSpan.FromSeconds(2));
+
+            //删除
+            WriteReadRedisClient.Remove("ListKey1");
+            WriteReadRedisClient.Remove("ListKey2");
         }
         #endregion
 
@@ -190,6 +270,42 @@ namespace Demos.OpenResource.Redis.ServiceStackRedis
         public void HashTest()
         {
 
+
+            // 数据结构
+            //HashSetRedisKey1  HashSetKey1 HashSetValue1
+            //                  HashSetKey2 HashSetValu2
+            //                  HashSetKey3 HashSetValu3
+            //                       *            *
+            //                       *            *
+            //                       *            *
+            //HashSetRedisKey2  HashSetKey1 HashSetValue1
+            //                  HashSetKey2 HashSetValu2
+            //                  HashSetKey3 HashSetValu3
+            //                      *             *
+            //                      *             *
+            //                      *             *
+
+
+            //写
+            WriteReadRedisClient.SetEntryInHash("RedisHashKey1", "HashKey1", "HashValue1");
+            WriteReadRedisClient.SetEntryInHash("RedisHashKey1", "HashKey2", "HashValue2");
+            WriteReadRedisClient.SetEntryInHash("RedisHashKey1", "HashKey3", "HashValue3");
+
+            WriteReadRedisClient.SetEntryInHash("RedisHashKey2", "HashKey1", "HashValue1");
+            WriteReadRedisClient.SetEntryInHash("RedisHashKey2", "HashKey2", "HashValue2");
+
+
+            //读
+            var hashValue = WriteReadRedisClient.GetValueFromHash("RedisHashKey1", "HashKey2");
+            //获取该redishashkey的所有值
+            var hashValues = WriteReadRedisClient.GetHashValues("RedisHashKey1");
+
+            //删
+            //删除一个
+            WriteReadRedisClient.RemoveEntryFromHash("RedisHashKey1", "HashKey2");
+            //删除整个Key的数据
+            WriteReadRedisClient.Remove("RedisHashKey1");
+            WriteReadRedisClient.Remove("RedisHashKey2");
         }
         #endregion
 
@@ -197,6 +313,55 @@ namespace Demos.OpenResource.Redis.ServiceStackRedis
         public void SetTest()
         {
 
+            //数据结构
+            //SetRedisKey1    SetValue1
+            //                SetValue2
+            //                SetValue3
+            //                    * 
+            //                    * 
+            //                    * 
+            //SetRedisKey2    SetValue1
+            //                SetValue2
+            //                SetValue3
+            //                    * 
+            //                    * 
+            //                    * 
+
+
+            //写
+            WriteReadRedisClient.AddItemToSet("SetRedisKey1", "SetRedisValue1");
+            //重复添加只能添加一个。
+            WriteReadRedisClient.AddItemToSet("SetRedisKey1", "SetRedisValue1");
+            WriteReadRedisClient.AddRangeToSet("SetRedisKey1", new List<string> { "SetRedisValue2", "SetRedisValue3" });
+            WriteReadRedisClient.AddItemToSet("SetRedisKey1", "SetRedisValue4");
+
+            WriteReadRedisClient.AddItemToSet("SetRedisKey2", "SetRedisValue1");
+            WriteReadRedisClient.AddItemToSet("SetRedisKey2", "SetRedisValue2");
+            WriteReadRedisClient.AddItemToSet("SetRedisKey2", "SetRedisValue4");
+            WriteReadRedisClient.AddItemToSet("SetRedisKey2", "SetRedisValue3");
+            WriteReadRedisClient.AddItemToSet("SetRedisKey2", "SetRedisValue5");
+
+            //交集
+            var intersectingMembers = WriteReadRedisClient.GetIntersectFromSets("SetRedisKey1", "SetRedisKey2");
+            WriteReadRedisClient.StoreIntersectFromSets("IntersectSetRedisKey1", "SetRedisKey1", "SetRedisKey2");
+            //并集
+            var unionMembers = WriteReadRedisClient.GetUnionFromSets("SetRedisKey1", "SetRedisKey2");
+            WriteReadRedisClient.StoreUnionFromSets("UnionSetRedisKey1", "SetRedisKey1", "SetRedisKey2");
+            //差集：第一个参数减去第二个参数（fromSetId - withSetIds）
+            var diffMembers = WriteReadRedisClient.GetDifferencesFromSet("SetRedisKey1", "SetRedisKey2");
+            var diffMembers2 = WriteReadRedisClient.GetDifferencesFromSet("SetRedisKey2", "SetRedisKey1");
+            WriteReadRedisClient.StoreDifferencesFromSet("DifferenceSetRedisKey1", "SetRedisKey2", "SetRedisKey1");
+            //读
+            var members = WriteReadRedisClient.GetAllItemsFromSet("SetRedisKey1");
+
+            //删
+            WriteReadRedisClient.RemoveItemFromSet("SetRedisKey1", "SetRedisValue3");
+
+            WriteReadRedisClient.Remove("SetRedisKey1");
+            WriteReadRedisClient.Remove("SetRedisKey2");
+            WriteReadRedisClient.Remove("IntersectSetRedisKey1");
+            WriteReadRedisClient.Remove("UnionSetRedisKey1");
+            WriteReadRedisClient.Remove("DifferenceSetRedisKey1");
         }
         #endregion
 
@@ -204,6 +369,92 @@ namespace Demos.OpenResource.Redis.ServiceStackRedis
         public void SortedSetTest()
         {
 
+            //数据结构
+            //                                           Score
+            //SortedSetRedisKey1    SortedSetValue1        1
+            //                      SortedSetValue2        2
+            //                      SortedSetValue3        3
+            //                           *                 * 
+            //                           * 
+            //                           * 
+            //SortedSetRedisKey2    SortedSetValue1        1
+            //                      SortedSetValue2        2
+            //                      SortedSetValue3        3
+            //                           *                 * 
+            //                           *                 * 
+            //                           *                 * 
+
+
+            int i = 0;
+            //写
+            //Redis.AddItemToSortedSet(SetId, x, 1)
+            WriteReadRedisClient.AddItemToSortedSet("SortedSetRedisKey1", "SortedSetRedisValue1", ++i);
+            WriteReadRedisClient.AddItemToSortedSet("SortedSetRedisKey1", "SortedSetRedisValue2", ++i);
+            WriteReadRedisClient.AddItemToSortedSet("SortedSetRedisKey1", "SortedSetRedisValue3", ++i);
+            WriteReadRedisClient.AddItemToSortedSet("SortedSetRedisKey1", "SortedSetRedisValue4", ++i);
+
+            //
+            WriteReadRedisClient.AddItemToSortedSet("SortedSetRedisKey2", "SortedSetRedisValue1", Utility.GetTimeStamp());
+            WriteReadRedisClient.AddItemToSortedSet("SortedSetRedisKey2", "SortedSetRedisValue2", Utility.GetTimeStamp());
+            WriteReadRedisClient.AddItemToSortedSet("SortedSetRedisKey2", "SortedSetRedisValue3", Utility.GetTimeStamp());
+            WriteReadRedisClient.AddItemToSortedSet("SortedSetRedisKey2", "SortedSetRedisValue4", Utility.GetTimeStamp());
+            WriteReadRedisClient.AddItemToSortedSet("SortedSetRedisKey2", "SortedSetRedisValue5", Utility.GetTimeStamp());
+
+
+            WriteReadRedisClient.AddItemToSortedSet("SortedSetRedisKey3", "SortedSetRedisValue1");
+            //读
+            var members = WriteReadRedisClient.GetAllItemsFromSortedSet("SortedSetRedisKey1");
+
+
+            //最小
+            var minRedisValue = WriteReadRedisClient.GetRangeFromSortedSet("SortedSetRedisKey2", 0, 0)[0];
+            //最大
+            var maxRedisValue = WriteReadRedisClient.GetRangeFromSortedSetDesc("SortedSetRedisKey2", 0, 0)[0];
+
+            var dic1 = WriteReadRedisClient.GetRangeWithScoresFromSortedSet("SortedSetRedisKey2", 0, 0);
+            var dic = WriteReadRedisClient.GetRangeWithScoresFromSortedSetDesc("SortedSetRedisKey2", 0, 0);
+            var sortedSetRedisValue = dic.Keys.First();
+            var sortedSetRedisScore = dic.Values.First();
+            //交集
+            WriteReadRedisClient.StoreIntersectFromSortedSets("IntersectSortedSetRedisKey1", "SortedSetRedisKey1", "SortedSetRedisKey2");
+            //并集
+            WriteReadRedisClient.StoreUnionFromSortedSets("UnionSortedSetRedisKey1", "SortedSetRedisKey1", "SortedSetRedisKey2");
+            //差集：不支持差集
+
+
+
+            //删除
+            //根据时间戳,先入队的先出队
+            var valL = WriteReadRedisClient.PopItemWithLowestScoreFromSortedSet("SortedSetRedisKey2");
+            //最大值
+            var valH = WriteReadRedisClient.PopItemWithHighestScoreFromSortedSet("SortedSetRedisKey2");
+            WriteReadRedisClient.RemoveItemFromSortedSet("SortedSetRedisKey1", "SortedSetRedisValue4");
+            WriteReadRedisClient.Remove("SortedSetRedisKey1");
+            WriteReadRedisClient.Remove("SortedSetRedisKey2");
+            WriteReadRedisClient.Remove("IntersectSortedSetRedisKey1");
+            WriteReadRedisClient.Remove("UnionSortedSetRedisKey1");
+
+        }
+        #endregion
+
+        #region Expiry
+        /// <summary>
+        /// key 到期redis会删除
+        /// </summary>
+        private void ExpiryKey()
+        {
+            WriteReadRedisClient.SetValue("StringExpiryKey1", "StringExpiryValue1", TimeSpan.FromSeconds(20));
+
+            var ttl = WriteReadRedisClient.GetTimeToLive("StringExpiryKey1");
+
+            WriteReadRedisClient.AddItemToList("listExpiryKey", "list");
+            WriteReadRedisClient.Expire("listExpiryKey", 20);
+
+            WriteReadRedisClient.SetEntryInHash("RedisHashKeyExpiryKey", "HashKey1", "HashValue1");
+            WriteReadRedisClient.Expire("RedisHashKeyExpiryKey", 20);
+
+            WriteReadRedisClient.AddItemToSet("SetRedisKeyExpiryKey", "SetRedisValue1");
+            WriteReadRedisClient.Expire("SetRedisKeyExpiryKey", 20);
         }
         #endregion
 
@@ -233,6 +484,14 @@ namespace Demos.OpenResource.Redis.ServiceStackRedis
         #endregion
 
         #region Lock
+        /// <summary>
+        /// 加锁逻辑
+        /// 如果不指定锁时间，默认365天。
+        /// 如果redis不存在锁的key，就写入key，跳出循环，也就获得锁。
+        /// 如果redis存在锁的key，while(true)sleep++循环一直循环，等待上一个锁任务完成RedisLock调用Dispose()时候
+        /// Remove(key)跳出循环获得锁。
+        /// while()循环timeOut时间。
+        /// </summary>
         public void LockTest()
         {
             string key = "lockKey";
