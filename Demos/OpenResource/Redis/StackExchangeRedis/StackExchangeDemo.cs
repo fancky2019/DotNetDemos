@@ -494,7 +494,7 @@ namespace Demos.OpenResource.Redis.StackExchangeRedis
             //指定watch 的key 和值，如果相等则执行事务，否则不执行。
             //key 必须存在，否则不执行事务。
             //  var cond = tran.AddCondition(true ? Condition.StringEqual(key2, expected) : Condition.StringNotEqual(key2, expected));
-          
+        
             //redis 事务不具有隔离，利用乐观锁CAS简单处理。
             //添加CAS条件
             string lockKey = "TransactionLockeStrKey";

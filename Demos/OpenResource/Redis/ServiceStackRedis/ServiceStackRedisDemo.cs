@@ -508,20 +508,21 @@ namespace Demos.OpenResource.Redis.ServiceStackRedis
         }
         #endregion
 
-        #region Lock
-        /// <summary>
-        /// 加锁逻辑
-        /// 如果不指定锁时间，默认365天。
-        /// 如果redis不存在锁的key，就写入key，跳出循环，也就获得锁。
-        /// 如果redis存在锁的key，while(true)sleep++循环一直循环，等待上一个锁任务完成RedisLock调用Dispose()时候
-        /// Remove(key)跳出循环获得锁。
-        /// while()循环timeOut时间。
-        /// </summary>
-        public void LockTest()
+    #region Lock
+    /// <summary>
+    /// 加锁逻辑
+    /// 如果不指定锁时间，默认365天。
+    /// 如果redis不存在锁的key，就写入key，跳出循环，也就获得锁。
+    /// 如果redis存在锁的key，while(true)sleep++循环一直循环，等待上一个锁任务完成RedisLock调用Dispose()时候
+    /// Remove(key)跳出循环获得锁。
+    /// while()循环timeOut时间。
+    /// </summary>
+    public void LockTest()
         {
             string key = "lockKey";
             using (WriteReadRedisClient)
             {
+                //获取锁，获取之前一直循环等待
                 using (WriteReadRedisClient.AcquireLock("sdd"))
                 {
                     try
