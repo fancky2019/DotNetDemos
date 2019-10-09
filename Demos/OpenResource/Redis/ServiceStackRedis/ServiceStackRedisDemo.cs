@@ -173,7 +173,7 @@ namespace Demos.OpenResource.Redis.ServiceStackRedis
         /// </summary>
         public void Test()
         {
-            //KeyTest();
+            //Utility();
             //ReadOnlyRedisClient.Db = 1;
             //StringTest();
             //ListTest();
@@ -186,10 +186,23 @@ namespace Demos.OpenResource.Redis.ServiceStackRedis
 
         }
 
-        private  void  KeyTest()
+        /// <summary>
+        /// http://www.redis.cn/
+        /// 其他的可参见redis命令
+        /// </summary>
+        private void Utility()
         {
+            /*redis中允许模糊查询的有3个通配符，分别是：*，?，[]
+             * 和正则表达式里的含义一样
+              *：通配任意多个字符
+              ?：通配单个字符
+             []：通配括号内的某一个字符
+             */
             //ksy不存在返回0，存在返回1
             var re = WriteReadRedisClient.Exists("StringTest1");
+            WriteReadRedisClient.FlushDb();//清空当前数据库
+            WriteReadRedisClient.Db = 0;
+       
         }
 
         #region String
@@ -508,16 +521,16 @@ namespace Demos.OpenResource.Redis.ServiceStackRedis
         }
         #endregion
 
-    #region Lock
-    /// <summary>
-    /// 加锁逻辑
-    /// 如果不指定锁时间，默认365天。
-    /// 如果redis不存在锁的key，就写入key，跳出循环，也就获得锁。
-    /// 如果redis存在锁的key，while(true)sleep++循环一直循环，等待上一个锁任务完成RedisLock调用Dispose()时候
-    /// Remove(key)跳出循环获得锁。
-    /// while()循环timeOut时间。
-    /// </summary>
-    public void LockTest()
+        #region Lock
+        /// <summary>
+        /// 加锁逻辑
+        /// 如果不指定锁时间，默认365天。
+        /// 如果redis不存在锁的key，就写入key，跳出循环，也就获得锁。
+        /// 如果redis存在锁的key，while(true)sleep++循环一直循环，等待上一个锁任务完成RedisLock调用Dispose()时候
+        /// Remove(key)跳出循环获得锁。
+        /// while()循环timeOut时间。
+        /// </summary>
+        public void LockTest()
         {
             string key = "lockKey";
             using (WriteReadRedisClient)
