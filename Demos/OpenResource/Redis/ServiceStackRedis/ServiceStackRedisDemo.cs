@@ -190,7 +190,7 @@ namespace Demos.OpenResource.Redis.ServiceStackRedis
         /// http://www.redis.cn/
         /// 其他的可参见redis命令
         /// </summary>
-        private void Utility()
+        private void UtilityMethod()
         {
             /*redis中允许模糊查询的有3个通配符，分别是：*，?，[]
              * 和正则表达式里的含义一样

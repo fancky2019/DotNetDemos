@@ -132,7 +132,12 @@ namespace Demos.Demos2018
                 //new KeyValuePairDemo().Test();
 
                 //new StackExchangeDemo().Test();
-                new ServiceStackRedisDemo().Test();
+                //new ServiceStackRedisDemo().Test();
+                //new SpinLockDemo().Test();
+
+                //new InterlockedDemo().Test();
+                new SemaphoreDemo().Test();
+
                 #endregion
 
 

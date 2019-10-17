@@ -202,6 +202,7 @@
     <Compile Include="Demos2019\InDemo.cs" />
     <Compile Include="Demos2019\IndexDemo.cs" />
     <Compile Include="Demos2019\InnerClassDemo.cs" />
+    <Compile Include="Demos2019\InterlockedDemo.cs" />
     <Compile Include="Demos2019\IteratorsDemo.cs" />
     <Compile Include="Demos2019\KeyValuePairDemo.cs" />
     <Compile Include="Demos2019\LinqDemo.cs" />
@@ -226,6 +227,8 @@
     <Compile Include="Demos2019\Proxy\ProxyFactory.cs" />
     <Compile Include="Demos2019\ReferenceDemo.cs" />
     <Compile Include="Demos2019\RegexDemo.cs" />
+    <Compile Include="Demos2019\SemaphoreDemo.cs" />
+    <Compile Include="Demos2019\SpinLockDemo.cs" />
     <Compile Include="Demos2019\StackTraceDemo.cs" />
     <Compile Include="Demos2019\StaticClassTest.cs" />
     <Compile Include="Demos2019\StaticInnerClassDemo.cs" />
