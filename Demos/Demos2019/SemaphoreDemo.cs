@@ -28,23 +28,29 @@ namespace Demos.Demos2019
             // so that the entire semaphore count is initially
             // owned by the main program thread.
             //
-            _semaphore = new Semaphore(0, 5);
+            _semaphore = new Semaphore(0, 4);
 
             // Create and start five numbered threads. 
             //
-            for (int i = 1; i <= 50; i++)
+            for (int i = 1; i <= 20; i++)
             {
-                Thread t = new Thread(new ParameterizedThreadStart(Worker));
+                //Thread t = new Thread(new ParameterizedThreadStart(Worker));
 
-                // Start the thread, passing the number.
-                //
-                t.Start(i);
+                //// Start the thread, passing the number.
+                ////
+                //t.Start(i);
+
+
+                Task.Run(() =>
+                {
+                    Worker(i);
+                });
             }
 
             // Wait for half a second, to allow all the
             // threads to start and to block on the semaphore.
             //
-            Thread.Sleep(500);
+            Thread.Sleep(5000);
 
             // The main thread starts out holding the entire
             // semaphore count. Calling Release(3) brings the 
