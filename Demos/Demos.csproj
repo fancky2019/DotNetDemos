@@ -238,6 +238,7 @@
     <Compile Include="Demos2019\ThreadTimeOutDemo.cs" />
     <Compile Include="Demos2019\UnitTestAutoFixtureDemo.cs" />
     <Compile Include="Demos2019\UnitTestDemo.cs" />
+    <Compile Include="Demos2019\VolatileDemo.cs" />
     <Compile Include="Demos2019\WebSocketServer.cs" />
     <Compile Include="Model\ChildClass.cs" />
     <Compile Include="Model\IChild.cs" />
