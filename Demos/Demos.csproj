@@ -229,6 +229,7 @@
     <Compile Include="Demos2019\RegexDemo.cs" />
     <Compile Include="Demos2019\SemaphoreDemo.cs" />
     <Compile Include="Demos2019\SpinLockDemo.cs" />
+    <Compile Include="Demos2019\SpinWaitDemo.cs" />
     <Compile Include="Demos2019\StackTraceDemo.cs" />
     <Compile Include="Demos2019\StaticClassTest.cs" />
     <Compile Include="Demos2019\StaticInnerClassDemo.cs" />

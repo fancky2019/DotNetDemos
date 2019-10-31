@@ -137,7 +137,9 @@ namespace Demos.Demos2018
 
                 //new InterlockedDemo().Test();
                 //new SemaphoreDemo().Test();
-                new VolatileDemo().Test();
+                //  new VolatileDemo().Test();
+
+                new SpinWaitDemo().Test();
                 
                 #endregion
 
