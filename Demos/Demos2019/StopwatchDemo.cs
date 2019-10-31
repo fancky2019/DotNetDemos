@@ -24,24 +24,28 @@ namespace Demos.Demos2019
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
             stopwatch.Stop();
-            Console.WriteLine(stopwatch.ElapsedTicks* GetNanosecPerTick());
-
+            Console.WriteLine($"ns:{stopwatch.ElapsedTicks* GetNanosecPerTick()}");
+            Console.WriteLine($"ms:{stopwatch.ElapsedMilliseconds}");
+           
 
             //重置并重新计时
             stopwatch.Reset();
             stopwatch.Start();
             stopwatch.Stop();
-            Console.WriteLine(stopwatch.ElapsedTicks * GetNanosecPerTick());
+            Console.WriteLine($"ns:{stopwatch.ElapsedTicks * GetNanosecPerTick()}");
+            Console.WriteLine($"ms:{stopwatch.ElapsedMilliseconds}");
 
             //Restart() = Reset() + Start()
             stopwatch.Restart();
             stopwatch.Stop();
-            Console.WriteLine(stopwatch.ElapsedTicks * GetNanosecPerTick());
+            Console.WriteLine($"ns:{stopwatch.ElapsedTicks * GetNanosecPerTick()}");
+            Console.WriteLine($"ms:{stopwatch.ElapsedMilliseconds}");
 
 
             Stopwatch sp = Stopwatch.StartNew();
             sp.Stop();
-            Console.WriteLine(sp.ElapsedTicks * GetNanosecPerTick());
+            Console.WriteLine($"ns:{sp.ElapsedTicks * GetNanosecPerTick()}");
+            Console.WriteLine($"ms:{sp.ElapsedMilliseconds}");
         }
 
 
