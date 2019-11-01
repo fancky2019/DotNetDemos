@@ -25,7 +25,7 @@ namespace Demos.Demos2018
 {
     class Program
     {
-        [STAThread]
+        //[STAThread]
         static void Main(string[] args)
         {
 
@@ -139,7 +139,8 @@ namespace Demos.Demos2018
                 //new SemaphoreDemo().Test();
                 //  new VolatileDemo().Test();
 
-                new SpinWaitDemo().Test();
+                //   new SpinWaitDemo().Test();
+                new QueueMiddleWareDemo().Test();
                 
                 #endregion
 

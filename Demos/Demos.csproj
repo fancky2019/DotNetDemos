@@ -74,6 +74,9 @@
     <Reference Include="JWT, Version=5.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\JWT.5.0.1\lib\net46\JWT.dll</HintPath>
     </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="MbUnit, Version=3.4.0.0, Culture=neutral, PublicKeyToken=eb9cfa67ee6ab36e, processorArchitecture=MSIL">
       <HintPath>..\packages\mbunit.3.4.14.0\lib\net40\MbUnit.dll</HintPath>
     </Reference>
@@ -169,6 +172,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\Log.cs" />
+    <Compile Include="Common\TxtFile.cs" />
     <Compile Include="Common\Utility.cs" />
     <Compile Include="Demos2019\AccessDecorateDemo.cs" />
     <Compile Include="Demos2019\AutoStartProgramDemo.cs" />
@@ -225,6 +230,7 @@
     <Compile Include="Demos2019\Proxy\ProxyDemo.cs" />
     <Compile Include="Demos2019\Proxy\DynamicProxy.cs" />
     <Compile Include="Demos2019\Proxy\ProxyFactory.cs" />
+    <Compile Include="Demos2019\QueueMiddleWare.cs" />
     <Compile Include="Demos2019\ReferenceDemo.cs" />
     <Compile Include="Demos2019\RegexDemo.cs" />
     <Compile Include="Demos2019\SemaphoreDemo.cs" />
@@ -237,6 +243,7 @@
     <Compile Include="Demos2019\StringInternDemo.cs" />
     <Compile Include="Demos2019\TextTest.cs" />
     <Compile Include="Demos2019\ThreadTimeOutDemo.cs" />
+    <Compile Include="Demos2019\TPSQueue.cs" />
     <Compile Include="Demos2019\UnitTestAutoFixtureDemo.cs" />
     <Compile Include="Demos2019\UnitTestDemo.cs" />
     <Compile Include="Demos2019\VolatileDemo.cs" />
@@ -297,6 +304,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="log4net.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
