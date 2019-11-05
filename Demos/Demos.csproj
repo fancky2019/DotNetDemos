@@ -172,6 +172,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\BufferLog.cs" />
+    <Compile Include="Common\InterLockedExtention.cs" />
     <Compile Include="Common\Log.cs" />
     <Compile Include="Common\TxtFile.cs" />
     <Compile Include="Common\Utility.cs" />

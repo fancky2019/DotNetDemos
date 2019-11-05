@@ -11,10 +11,26 @@ namespace Demos.Demos2019
     {
         public void Test()
         {
-            WriteText("dssdsdsdsd");
-            ReadText("");
+            //WriteText("dssdsdsdsd");
+            //WriteText("123");
+            //ReadText("");
         }
+        private void WriteText()
+        {
+            var dic = AppDomain.CurrentDomain.BaseDirectory;
+            string fileName = Path.Combine(dic, $"{DateTime.Now.Day}.txt");
+            //每次都创建sw实例，每ms写平均2次左右，如果只创建一次平均可达到200次。
+            using (StreamWriter sw = new StreamWriter(File.Open(fileName, FileMode.Append, FileAccess.Write), System.Text.Encoding.UTF8))
+            {
+                for (int i = 0; i < 100000; i++)
+                {
 
+
+                    sw.WriteLine($"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}  Producer 2019-11-04 15:51:49 664  Producer:7 Commands:7 Command93553-1 Capacity10000");
+                }
+
+            }
+        }
         private void WriteText(string sendMsg)
         {
             var dic = AppDomain.CurrentDomain.BaseDirectory;

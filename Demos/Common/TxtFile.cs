@@ -37,9 +37,9 @@ namespace Common
         }
 
 
-        public static void SaveTxtFile(string filePath, List<string> content, FileMode fileMode = FileMode.Create)
+        public static void SaveTxtFile(string filePath, List<string> content, FileMode fileMode = FileMode.Append)
         {
-            using (StreamWriter sw = new StreamWriter(File.Open(filePath, fileMode, FileAccess.ReadWrite), System.Text.Encoding.UTF8))
+            using (StreamWriter sw = new StreamWriter(File.Open(filePath, fileMode, FileAccess.Write), System.Text.Encoding.UTF8))
             {
                 foreach (string str in content)
                 {
