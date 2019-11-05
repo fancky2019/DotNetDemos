@@ -99,7 +99,7 @@ namespace Demos.Demos2018
                 //  new FrmTest().ShowDialog();
                 //new RegexDemo().Test();
                 //new Demos2019.Http.HttpTest().Test();
-                // new TextTest().Test();
+                //new TextTest().Test();
                 //new StopwatchDemo().Test();
                 //new JWTDemo().Test();
                 //new FormatDemo().Test();
@@ -141,7 +141,7 @@ namespace Demos.Demos2018
 
                 //   new SpinWaitDemo().Test();
                 new QueueMiddleWareDemo().Test();
-                
+
                 #endregion
 
 

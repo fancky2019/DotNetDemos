@@ -83,10 +83,10 @@ namespace StockAdapterHKEX
                         DateTime firstTime = executeTimeList.Dequeue();
                         TimeSpan ts = DateTime.Now - firstTime;
                         //执行间隔小于1s，等待
-                        if (ts.Seconds < 1)
+                        if (ts.TotalMilliseconds <= 1000)
                         {
                             //多睡1ms
-                            int sleep = 1000 - ts.Milliseconds + 1;
+                            int sleep = 1000 - (int)ts.TotalMilliseconds + 1;
                             LogAsync($"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")} Sleep:{sleep} milliseconds");
                             Thread.Sleep(sleep);
                             //  _logger.log(1, $"Sleep:{sleep} milliseconds");
