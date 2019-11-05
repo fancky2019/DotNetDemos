@@ -267,14 +267,14 @@ namespace Demos.Demos2019
                         }
                     }
                     _stopwatch.Stop();
-                    if (_stopwatch.ElapsedMilliseconds >= 1)
+                    if (_stopwatch.ElapsedMilliseconds < 1)
                     {
-                        continue;
+                        //Log.Info<QueueMiddleWare>(_stopwatch.ElapsedMilliseconds.ToString());
+                        //如果大量生产者数据造成拥塞，采用Stopwatch优化掉此1ms等待。
+                        //不采用定时器，防止缓存队列过大拥塞产生的并发问题。
+                        Thread.Sleep(1);
                     }
-                    //Log.Info<QueueMiddleWare>(_stopwatch.ElapsedMilliseconds.ToString());
-                    //如果大量生产者数据造成拥塞，采用Stopwatch优化掉此1ms等待。
-                    //不采用定时器，防止缓存队列过大拥塞产生的并发问题。
-                    Thread.Sleep(1);
+           
                 }
             });
         }
