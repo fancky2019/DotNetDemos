@@ -32,51 +32,57 @@ namespace Demos.Demos2019
             //    //   QueueMiddleWareDemo.LogStr.Enqueue(str);
             //    BufferLog.LogAsync(str);
             //});
-            QueueMiddleWare queueMiddleWare = new QueueMiddleWare();
-            queueMiddleWare.ConsumerEventHandle += (ipPort, command) =>
-            {
-                //Console.WriteLine($"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}  Producer:{ipPort} Commands:{command}");
-                var str = $"Consumer {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")} Producer:{ipPort} Commands:{command}";
-                //  Log.Info<QueueMiddleWare>(str);
-                //   QueueMiddleWareDemo.LogStr.Enqueue(str);
-                BufferLog.LogAsync(str);
-            };
-            queueMiddleWare.Consumer();
+            QueueMiddleWare queueMiddleWare = new QueueMiddleWare((ipPort, command) =>
+           {
+               //Console.WriteLine($"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}  Producer:{ipPort} Commands:{command}");
+               var str = $"Consumer {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")} Producer:{ipPort} Commands:{command}";
+               //  Log.Info<QueueMiddleWare>(str);
+               //   QueueMiddleWareDemo.LogStr.Enqueue(str);
+               BufferLog.LogAsync(str);
+           });
 
             Task.Run(() =>
             {
-                Dictionary<string, int> capacityDic = new Dictionary<string, int>();
-                Random random = new Random();
-                for(int j=1;j<=5;j++)
+                try
                 {
-                    for (int ithread = 1; ithread <= 20; ithread++)
+                    ConcurrentDictionary<string, int> capacityDic = new ConcurrentDictionary<string, int>();
+                    Random random = new Random();
+                    for (int j = 1; j <= 5; j++)
                     {
-
-                        Thread thread = new Thread((ithread) =>
+                        for (int ithread = 1; ithread <= 30; ithread++)
                         {
-                            //线程的start还未执行完，就执行下一次循环了。
-                            string ipPort = $"port{ithread}";
-                            if (!capacityDic.ContainsKey(ipPort))
-                            {
-                                var capacity = random.Next(10, 20);
-                                capacityDic.Add(ipPort, capacity);
-                            }
-                            int count = random.Next(30, 50);
-                            if(j>1)
-                            {
-                                count = random.Next(1, 10);
-                            }
-                            for (int icommand = 0; icommand < count; icommand++)
-                            {
-                                //Thread.Sleep(random.Next(1, 999));
-                                //Thread.Sleep(1100);
-                                queueMiddleWare.Producer(ipPort, $"{count}-{icommand + 1},Capacity{capacityDic[ipPort]}", capacityDic[ipPort]);
-                            }
-                        });
-                        thread.Start(ithread);
-                    }
 
-                    Thread.Sleep(random.Next(1000, 2000));
+                            Thread thread = new Thread((ithread) =>
+                            {
+                                //线程的start还未执行完，就执行下一次循环了。
+                                string ipPort = $"port{ithread}";
+                                if (!capacityDic.ContainsKey(ipPort))
+                                {
+                                    var capacity = random.Next(10, 20);
+                                    capacityDic.TryAdd(ipPort, capacity);
+                                }
+                                int count = random.Next(5, 2 * capacityDic[ipPort]);
+
+                                //if (j > 1)
+                                //{
+                                //    count = random.Next(5, 30);
+                                //}
+                                for (int icommand = 0; icommand < count; icommand++)
+                                {
+                                    //Thread.Sleep(random.Next(1, 999));
+                                    //Thread.Sleep(1100);
+                                    queueMiddleWare.Producer(ipPort, $"{count}-{icommand + 1},Capacity{capacityDic[ipPort]}", capacityDic[ipPort]);
+                                }
+                            });
+                            thread.Start(ithread);
+                        }
+
+                        Thread.Sleep(random.Next(1000, 2000));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Log.Error<QueueMiddleWare>(ex.ToString());
                 }
             });
         }
@@ -138,6 +144,8 @@ namespace Demos.Demos2019
 
 
     /// <summary>
+    /// 不能采用1ms l轮询的方式，轮询的耗时不可控，因为被轮询的
+    /// 队列的大小不定。造成轮询一次的耗时不定（不保证在1ms内轮询玩整个队列）
     /// 每个连接只允许每秒只允许消费Capacity个任务
     /// </summary>
     public class QueueMiddleWare
@@ -146,13 +154,15 @@ namespace Demos.Demos2019
         /// param1:ipPort
         /// param2:command
         /// </summary>
-        public event Action<string, string> ConsumerEventHandle;
+        private event Action<string, string> _consumerEventHandle;
         private ConcurrentDictionary<string, QueueData> _connectionData;
         private static Stopwatch _stopwatch = null;
-        public QueueMiddleWare()
+        public QueueMiddleWare(Action<string, string> consumerEventHandle)
         {
             _connectionData = new ConcurrentDictionary<string, QueueData>();
             _stopwatch = Stopwatch.StartNew();
+            _consumerEventHandle = consumerEventHandle;
+            Consumer();
         }
 
 
@@ -164,42 +174,50 @@ namespace Demos.Demos2019
         /// <param name="capacity"></param>
         public void Producer(string ipPort, string command, int capacity)
         {
-            var str = $"Producer {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")} Producer:{ipPort} Commands:{command}";
-            //Log.Info<QueueMiddleWare>(str);
-            //QueueMiddleWareDemo.LogStr.Enqueue(str);
-            BufferLog.LogAsync(str);
-            if (!this._connectionData.Keys.Contains(ipPort))
+            try
             {
-                QueueData data = new QueueData(capacity);
-                this._connectionData.TryAdd(ipPort, data);
-            }
 
-            var queueData = _connectionData[ipPort];
-            if (queueData.ConsumeredTimesCountEqualCapacity)
-            {
-                /*
-                 * 如果缓存的命令为空，需要判断对头时间和Now间隔是否超过1s决定是否消费，
-                 * 如果命令不为空，直接入队。
-                 */
-                if (queueData.Commands.IsEmpty)
+
+                var str = $"Producer {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")} Producer:{ipPort} Commands:{command}";
+                //Log.Info<QueueMiddleWare>(str);
+                //QueueMiddleWareDemo.LogStr.Enqueue(str);
+                BufferLog.LogAsync(str);
+                if (!this._connectionData.Keys.Contains(ipPort))
                 {
-                    DateTime headerTime;
-                    queueData.ConsumeredTimes.TryPeek(out headerTime);
-                    var duration = DateTime.Now - headerTime;
+                    QueueData data = new QueueData(capacity);
+                    this._connectionData.TryAdd(ipPort, data);
+                }
+
+                var queueData = _connectionData[ipPort];
+                if (queueData.ConsumeredTimesCountEqualCapacity)
+                {
                     /*
-                     * 对量容量已满，如果队头时间和now间隔超过一秒直接消费，否则入队处理
+                     * 如果缓存的命令为空，需要判断对头时间和Now间隔是否超过1s决定是否消费，
+                     * 如果命令不为空，直接入队。
                      */
-                    if (duration.TotalMilliseconds > 1000)
+                    if (queueData.Commands.IsEmpty)
                     {
+                        DateTime headerTime;
+                        queueData.ConsumeredTimes.TryPeek(out headerTime);
+                        var duration = DateTime.Now - headerTime;
                         /*
-                         * 每次消费都要动态维护ConsumeredTimes队列。
-                         * ConsumeredTimes队列中始终保存Capacity个最新消费的时间。                       
+                         * 对量容量已满，如果队头时间和now间隔超过一秒直接消费，否则入队处理
                          */
-                        queueData.ConsumeredTimes.TryDequeue(out _);
-                        queueData.ConsumeredTimes.Enqueue(DateTime.Now);
+                        if (duration.TotalMilliseconds > 1000)
+                        {
+                            /*
+                             * 每次消费都要动态维护ConsumeredTimes队列。
+                             * ConsumeredTimes队列中始终保存Capacity个最新消费的时间。                       
+                             */
+                            queueData.ConsumeredTimes.TryDequeue(out _);
+                            queueData.ConsumeredTimes.Enqueue(DateTime.Now);
 
-
-                        ConsumerEventHandle?.Invoke(ipPort, command);
+                            _consumerEventHandle?.BeginInvoke(ipPort, command, null, null);
+                        }
+                        else
+                        {
+                            queueData.Commands.Enqueue(command);
+                        }
                     }
                     else
                     {
@@ -208,14 +226,14 @@ namespace Demos.Demos2019
                 }
                 else
                 {
-                    queueData.Commands.Enqueue(command);
+                    //队列未满直接将消费时间入队，同时消费
+                    queueData.ConsumeredTimes.Enqueue(DateTime.Now);
+                    _consumerEventHandle?.Invoke(ipPort, command);
                 }
             }
-            else
+            catch (Exception ex)
             {
-                //队列未满直接将消费时间入队，同时消费
-                queueData.ConsumeredTimes.Enqueue(DateTime.Now);
-                ConsumerEventHandle?.Invoke(ipPort, command);
+                Log.Error<QueueMiddleWare>(ex.ToString());
             }
         }
 
@@ -223,58 +241,74 @@ namespace Demos.Demos2019
         /// 一个消费者线程消费所有的生产者。
         /// 如果后期消费者消费不过来（造成队列拥塞），再优化消费者。
         /// </summary>
-        public void Consumer()
+        private void Consumer()
         {
             Task.Run(() =>
             {
-                while (true)
+                try
                 {
-                    _stopwatch.Restart();
-                    //循环遍历所有的消费
-                    for (int i = 0; i < _connectionData.Keys.Count; i++)
+                    while (true)
                     {
-                        var key = _connectionData.Keys.ElementAt(i);
-                        var queueData = _connectionData[key];
-                        /*
-                         * 循环消费该连接的Commands，直到发送间隔小于1s或者消费完。
-                         */
-                        while (!queueData.Commands.IsEmpty)
+                        _stopwatch.Restart();
+                        //循环遍历所有的消费
+                        for (int i = 0; i < _connectionData.Keys.Count; i++)
                         {
-                            DateTime headerTime;
-                            queueData.ConsumeredTimes.TryPeek(out headerTime);
-                            var duration = DateTime.Now - headerTime;
+                            //没有实现IList 接口每次都要遍历
+                            //var list = _connectionData as IList<KeyValuePair<string, QueueData>>;
+                            KeyValuePair<string,QueueData> keyValuePair = _connectionData.ElementAt(i);
+                            var queueData = keyValuePair.Value;
+
                             /*
-                             * 如果队头时间和now间隔超过一秒直接消费，否则跳出当前连接的消费
+                             * 循环消费该连接的Commands，直到发送间隔小于1s或者消费完。
                              */
-                            if (duration.TotalMilliseconds > 1000)
+                            while (!queueData.Commands.IsEmpty)
                             {
-
+                                DateTime headerTime;
+                                queueData.ConsumeredTimes.TryPeek(out headerTime);
+                                var duration = DateTime.Now - headerTime;
                                 /*
-                                  * 每次消费都要动态维护ConsumeredTimes队列。
-                                  * ConsumeredTimes队列中始终保存Capacity个最新消费的时间。                       
-                                  */
-                                queueData.ConsumeredTimes.TryDequeue(out _);
-                                queueData.ConsumeredTimes.Enqueue(DateTime.Now);
+                                 * 如果队头时间和now间隔超过一秒直接消费，否则跳出当前连接的消费
+                                 */
+                                if (duration.TotalMilliseconds > 1000)
+                                {
 
-                                string command;
-                                queueData.Commands.TryDequeue(out command);
-                                ConsumerEventHandle?.Invoke(key, command);
-                            }
-                            else
-                            {
-                                break;
+                                    /*
+                                      * 每次消费都要动态维护ConsumeredTimes队列。
+                                      * ConsumeredTimes队列中始终保存Capacity个最新消费的时间。                       
+                                      */
+                                    queueData.ConsumeredTimes.TryDequeue(out _);
+                                    queueData.ConsumeredTimes.Enqueue(DateTime.Now);
+
+                                    string command;
+                                    queueData.Commands.TryDequeue(out command);
+                                    _consumerEventHandle?.BeginInvoke(keyValuePair.Key, command, null, null);
+                                    //_consumerEventHandle(keyValuePair.Key, command);
+                                }
+                                else
+                                {
+                                    break;
+                                }
                             }
                         }
+
+                        _stopwatch.Stop();
+                        if (_stopwatch.ElapsedMilliseconds < 1)
+                        {
+                            //Log.Info<QueueMiddleWare>(_stopwatch.ElapsedMilliseconds.ToString());
+                            //如果大量生产者数据造成拥塞，采用Stopwatch优化掉此1ms等待。
+                            //不采用定时器，防止缓存队列过大拥塞产生的并发问题。
+                            Thread.Sleep(1);
+                        }
+                        else
+                        {
+                            Console.WriteLine(_stopwatch.ElapsedMilliseconds);
+                        }
+
                     }
-                    _stopwatch.Stop();
-                    if (_stopwatch.ElapsedMilliseconds < 1)
-                    {
-                        //Log.Info<QueueMiddleWare>(_stopwatch.ElapsedMilliseconds.ToString());
-                        //如果大量生产者数据造成拥塞，采用Stopwatch优化掉此1ms等待。
-                        //不采用定时器，防止缓存队列过大拥塞产生的并发问题。
-                        Thread.Sleep(1);
-                    }
-           
+                }
+                catch (Exception ex)
+                {
+                    Log.Error<QueueMiddleWare>(ex.ToString());
                 }
             });
         }
