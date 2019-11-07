@@ -1,4 +1,5 @@
-﻿using Demos.Demos2018.RabbitMQ;
+﻿using Common;
+using Demos.Demos2018.RabbitMQ;
 using Demos.Demos2018.SynchronizationDemo;
 using Demos.Demos2019;
 using Demos.Demos2019.Collections;
@@ -40,12 +41,14 @@ namespace Demos.Demos2018
                 AppDomain.CurrentDomain.UnhandledException += (sender, e) =>
                   {
                       Console.WriteLine(e.ToString());
+                      Log.Error<QueueMiddleWare>(e.ToString());
                       Console.ReadLine();
                   };
 
                 Application.ThreadException += (sender, e) =>
                       {
                           Console.WriteLine(e.ToString());
+                          Log.Error<QueueMiddleWare>(e.ToString());
                           Console.ReadLine();
                       };
 
