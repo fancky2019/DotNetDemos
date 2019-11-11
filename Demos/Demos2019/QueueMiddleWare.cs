@@ -40,7 +40,7 @@ namespace Demos.Demos2019
                //   QueueMiddleWareDemo.LogStr.Enqueue(str);
                BufferLog.LogAsync(str);
            });
-
+            Thread.Sleep(1000);
             Task.Run(() =>
             {
                 try
@@ -49,7 +49,7 @@ namespace Demos.Demos2019
                     Random random = new Random();
                     for (int j = 1; j <= 5; j++)
                     {
-                        for (int ithread = 1; ithread <= 30; ithread++)
+                        for (int ithread = 1; ithread <= 50; ithread++)
                         {
 
                             Thread thread = new Thread((ithread) =>
@@ -58,11 +58,15 @@ namespace Demos.Demos2019
                                 string ipPort = $"port{ithread}";
                                 if (!capacityDic.ContainsKey(ipPort))
                                 {
-                                    var capacity = random.Next(10, 20);
+                                    var capacity = random.Next(20, 30);
                                     capacityDic.TryAdd(ipPort, capacity);
                                 }
-                                int count = random.Next(5, 2 * capacityDic[ipPort]);
-
+                                int count = random.Next(5, capacityDic[ipPort]);
+                                int index = (int)ithread;
+                                if ((index % 20) == 0)
+                                {
+                                    count = random.Next(5, 3 * capacityDic[ipPort]);
+                                }
                                 //if (j > 1)
                                 //{
                                 //    count = random.Next(5, 30);
@@ -212,7 +216,8 @@ namespace Demos.Demos2019
                             queueData.ConsumeredTimes.TryDequeue(out _);
                             queueData.ConsumeredTimes.Enqueue(DateTime.Now);
 
-                            _consumerEventHandle?.BeginInvoke(ipPort, command, null, null);
+                            //_consumerEventHandle?.BeginInvoke(ipPort, command, null, null);
+                            _consumerEventHandle?.Invoke(ipPort, command);
                         }
                         else
                         {
@@ -239,7 +244,7 @@ namespace Demos.Demos2019
 
         /// <summary>
         /// 一个消费者线程消费所有的生产者。
-        /// 如果后期消费者消费不过来（造成队列拥塞），再优化消费者。
+        /// 如果后期消费者消费不过来（造成队列拥塞）。
         /// </summary>
         private void Consumer()
         {
@@ -247,6 +252,11 @@ namespace Demos.Demos2019
             {
                 try
                 {
+                    /*
+                     * 循环中存在的问题：
+                     * 可能当前循环正在执行还没循环完，os进行任务调度，去做其他任务，之后再继续执行当前循环。
+                     * 此时就造成当前循环耗时比较长。
+                     */
                     while (true)
                     {
                         _stopwatch.Restart();
@@ -255,9 +265,8 @@ namespace Demos.Demos2019
                         {
                             //没有实现IList 接口每次都要遍历
                             //var list = _connectionData as IList<KeyValuePair<string, QueueData>>;
-                            KeyValuePair<string,QueueData> keyValuePair = _connectionData.ElementAt(i);
+                            KeyValuePair<string, QueueData> keyValuePair = _connectionData.ElementAt(i);
                             var queueData = keyValuePair.Value;
-
                             /*
                              * 循环消费该连接的Commands，直到发送间隔小于1s或者消费完。
                              */
@@ -271,18 +280,18 @@ namespace Demos.Demos2019
                                  */
                                 if (duration.TotalMilliseconds > 1000)
                                 {
-
                                     /*
                                       * 每次消费都要动态维护ConsumeredTimes队列。
                                       * ConsumeredTimes队列中始终保存Capacity个最新消费的时间。                       
                                       */
                                     queueData.ConsumeredTimes.TryDequeue(out _);
                                     queueData.ConsumeredTimes.Enqueue(DateTime.Now);
-
                                     string command;
                                     queueData.Commands.TryDequeue(out command);
-                                    _consumerEventHandle?.BeginInvoke(keyValuePair.Key, command, null, null);
-                                    //_consumerEventHandle(keyValuePair.Key, command);
+                                    //此处不能用异步，用异步可能会启动新的线程，启动新的线程耗时不定，测试来看经常耗时10ms以上，性能弱于同步。
+                                    //如采用同步，后续流程耗时未知。
+                                    //_consumerEventHandle?.BeginInvoke(keyValuePair.Key, command, null, null);
+                                    _consumerEventHandle?.Invoke(keyValuePair.Key, command);
                                 }
                                 else
                                 {
@@ -290,7 +299,6 @@ namespace Demos.Demos2019
                                 }
                             }
                         }
-
                         _stopwatch.Stop();
                         if (_stopwatch.ElapsedMilliseconds < 1)
                         {
@@ -303,7 +311,6 @@ namespace Demos.Demos2019
                         {
                             Console.WriteLine(_stopwatch.ElapsedMilliseconds);
                         }
-
                     }
                 }
                 catch (Exception ex)
@@ -333,7 +340,7 @@ namespace Demos.Demos2019
         /// <summary>
         /// 避免每次获取Count都遍历链表的长度
         /// </summary>
-        private bool _consumeredTimesCountEqualCapacity;
+        private volatile bool _consumeredTimesCountEqualCapacity;
 
         /// <summary>
         ///消费的个数达到Capacity

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -11,15 +12,42 @@ namespace Demos.Demos2019
     {
         public void Test()
         {
-            ThreadParameter();
+            //ThreadParameter();
 
-            //this 参数
-            ThreadDemo1(this);
+            ////this 参数
+            //ThreadDemo1(this);
+
+            ThreadCreateUseTime();
         }
         private void ThreadDemo1(ThreadDemo threadDemo)
         {
 
         }
+
+        private void TaskDemo1()
+        {
+            Task.Run(() =>
+            {
+
+            });
+        }
+        /// <summary>
+        /// 线程创建的耗时不能确定0---100多ms,正常10几ms.
+        /// </summary>
+        private void ThreadCreateUseTime()
+        {
+            Stopwatch stopwatch = Stopwatch.StartNew();
+            for (int i = 0; i < 30; i++)
+            {
+                stopwatch.Restart();
+                new Thread(() =>
+                 {
+                     stopwatch.Stop();
+                     Console.WriteLine(stopwatch.ElapsedMilliseconds);
+                 }).Start();
+            }
+        }
+
         #region ThreadParameter
         private void ThreadParameter()
         {
@@ -42,5 +70,25 @@ namespace Demos.Demos2019
 
         }
         #endregion
+
+        #region  线程的暂停、继续 AutoResetEvent、ManualReseDemos
+        /*
+         * AutoResetEvent、ManualReseDemos
+         *参照Demo2018下的SynchronizationDemo文件夹下的 ProducerConsumer
+         * 
+         * 
+         * 区别
+         * ManualResetEvent在Set()之后,调用WaitOne()前必须调用Reset()，不然阻止不了
+         * _produceManualResetEvent.Reset();
+         * _produceManualResetEvent.WaitOne(); 
+         * 
+         * 
+         * AutoResetEvent不用调用Reset
+         */
+
+
+
+        #endregion
+
     }
 }

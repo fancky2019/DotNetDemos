@@ -86,7 +86,7 @@ namespace Demos.Demos2018
 
                 #region Demos2019
                 //new EqualsOperatorDemo().Test();
-                //  new ThreadDemo().Test();
+                //new ThreadDemo().Test();
                 //  new StringInternDemo().Test();
 
                 // new HPSocketDemo().Test();

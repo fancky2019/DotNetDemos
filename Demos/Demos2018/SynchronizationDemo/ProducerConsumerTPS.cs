@@ -166,10 +166,10 @@ namespace Demos.Demos2018.SynchronizationDemo
                 DateTime firstTime = executeTimeList.Dequeue();
                 TimeSpan ts = DateTime.Now - firstTime;
                 //执行间隔小于1s，等待
-                if (ts.Seconds < 1)
+                if (ts.TotalMilliseconds <= 1000)
                 {
                     //多睡1ms
-                    Thread.Sleep(1000 - ts.Milliseconds + 1);
+                    Thread.Sleep(1000 - (int)ts.TotalMilliseconds + 1);
                 }
             }
 
