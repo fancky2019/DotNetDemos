@@ -1,6 +1,8 @@
-﻿using Demos.Model;
+﻿using Demos.Common;
+using Demos.Model;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -8,41 +10,56 @@ using System.Threading.Tasks;
 
 namespace Demos.Demos2018
 {
+    /// <summary>
+    /// Lock (Monitor) 排它锁
+    /// 测试发现：Debug下Monitor的性能好
+    ///           Release下InterLockedExtention拓展好。
+    /// </summary>
     class LockDemo
     {
+        /*
+         * 互斥条件：一个资源每次只能被一个进程使用，即在一段时间内某 资源仅为一个进程所占有。此时若有其他进程请求该资源，则请求进程只能等待。
+          请求与保持条件：进程已经保持了至少一个资源，但又提出了新的资源请求，而该资源 已被其他进程占有，此时请求进程被阻塞，但对自己已获得的资源保持不放。
+          不可剥夺条件:进程所获得的资源在未使用完毕之前，不能被其他进程强行夺走，即只能 由获得该资源的进程自己来释放（只能是主动释放)。
+          循环等待条件: 若干进程间形成首尾相接循环等待资源的关系
+         */
+
         static object _lock = new object();
         public void Test()
         {
-            //int i = 0;
-            //lock(i)//报错，lock 语句要求引用类型
+            ////int i = 0;
+            ////lock(i)//报错，lock 语句要求引用类型
+            ////{
+
+            ////}
+            //TestLock(20);
+            //Person person = new Person() { Age = 20 };
+            //TestLock(person);
+            //Person tp = new Person() { Age = 10 };
+            //Thread thread1 = new Thread(() =>
             //{
+            //    TwoThreadsRobLock(tp);
+            //});
+            //thread1.Name = "thread1";
+            //thread1.Start();
+            //Thread thread2 = new Thread(() =>
+            //{
+            //    TwoThreadsRobLock(tp);
+            //});
+            //thread2.Name = "thread2";
+            //thread2.Start();
+            //Thread thread3 = new Thread(() =>
+            //{
+            //    TwoThreadsRobLock(tp);
+            //});
+            //thread3.Name = "thread3";
+            //thread3.Start();
+            //Console.WriteLine($"Two Threads rob lock:");
 
-            //}
-            TestLock(20);
-            Person person = new Person() { Age = 20 };
-            TestLock(person);
-            Person tp = new Person() { Age = 10 };
-            Thread thread1 = new Thread(() =>
-            {
-                TwoThreadsRobLock(tp);
-            });
-            thread1.Name = "thread1";
-            thread1.Start();
-            Thread thread2 = new Thread(() =>
-            {
-                TwoThreadsRobLock(tp);
-            });
-            thread2.Name = "thread2";
-            thread2.Start();
-            Thread thread3 = new Thread(() =>
-            {
-                TwoThreadsRobLock(tp);
-            });
-            thread3.Name = "thread3";
-            thread3.Start();
-            Console.WriteLine($"Two Threads rob lock:");
-
-            LockFun();
+            //LockFun();
+            LockUsingTime();
+            InterLockUsingTime();
+            //WaitUtilGetLock();
         }
 
         //CLR PDF702页
@@ -62,6 +79,7 @@ namespace Demos.Demos2018
             }
             Console.WriteLine("ds");
         }
+
         void TestLock(Person i)
         {
             lock (i)
@@ -82,7 +100,6 @@ namespace Demos.Demos2018
             try
             {
                 Console.WriteLine($"CurrentThread Name={Thread.CurrentThread.Name}");
-
                 lock (_lock)//Lock内出现异常，外部有异常处理，lock会释放锁。
                 {
                     //Monitor.Enter(_lock);   //Monitor必须 Exit释放锁，其他线程才能进入
@@ -93,7 +110,7 @@ namespace Demos.Demos2018
                     //Monitor.Exit(_lock);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
 
             }
@@ -114,6 +131,111 @@ namespace Demos.Demos2018
             lock (p)//运行时报错参数为空异常，未被实例化，就没有同步索引块
             {
 
+            }
+        }
+
+
+        private void WaitUtilGetLock()
+        {
+            Task.Run(() =>
+            {
+                Stopwatch stopwatch = Stopwatch.StartNew();
+                Work();
+                stopwatch.Stop();
+                Console.WriteLine(stopwatch.ElapsedMilliseconds);
+            });
+            Task.Run(() =>
+            {
+                Stopwatch stopwatch = Stopwatch.StartNew();
+                Work();
+                stopwatch.Stop();
+                Console.WriteLine(stopwatch.ElapsedMilliseconds);
+            });
+        }
+        private void SaveGetLock()
+        {
+            if (Monitor.TryEnter(_lock, 200))//如果在200ms内获得锁
+            {
+
+            }
+        }
+        private void Work()
+        {
+            lock (_lockObj)
+            {
+                Console.WriteLine($"{Thread.CurrentThread.ManagedThreadId} Enter");
+                Thread.Sleep(3000);
+            }
+        }
+        private object _lockObj = new object();
+        public void LockUsingTime()
+        {
+            Console.WriteLine("Lock uses time");
+            Stopwatch stopwatch = Stopwatch.StartNew();
+            stopwatch.Restart();
+            for (int i = 0; i < 20000; i++)
+            {
+                //stopwatch.Restart();
+                lock (_lockObj)
+                {
+
+                }
+                //stopwatch.Stop();
+                ////Console.WriteLine(stopwatch.ElapsedMilliseconds);
+                //Console.WriteLine(stopwatch.ElapsedTicks);
+                //Console.WriteLine(stopwatch.ElapsedTicks* GetNanosecPerTick());
+            }
+            stopwatch.Stop();
+            //Console.WriteLine(stopwatch.ElapsedMilliseconds);
+            Console.WriteLine(stopwatch.ElapsedTicks);
+
+        }
+
+        public void InterLockUsingTime()
+        {
+            Console.WriteLine("InterLock uses time");
+            Stopwatch stopwatch = Stopwatch.StartNew();
+            stopwatch.Restart();
+            for (int i = 0; i < 20000; i++)
+            {
+                //stopwatch.Restart();
+                if (InterLockedExtention.Acquire())
+                {
+                    InterLockedExtention.Release();
+                }
+                //stopwatch.Stop();
+                ////Console.WriteLine(stopwatch.ElapsedMilliseconds);
+                //Console.WriteLine(stopwatch.ElapsedTicks);
+                //Console.WriteLine(stopwatch.ElapsedTicks * GetNanosecPerTick());
+            }
+            stopwatch.Stop();
+            //Console.WriteLine(stopwatch.ElapsedMilliseconds);
+            Console.WriteLine(stopwatch.ElapsedTicks);
+
+        }
+
+        /// <summary>
+        /// 获取当前系统一个时钟周期多少纳秒
+        /// </summary>
+        /// <returns></returns>
+        public long GetNanosecPerTick()
+        {
+            //1秒(s) =100厘秒(cs)= 1000 毫秒(ms) = 1,000,000 微秒(μs) = 1,000,000,000 纳秒(ns) = 1,000,000,000,000 皮秒(ps)
+            long nanosecPerTick = (1000L * 1000L * 1000L) / Stopwatch.Frequency;
+            return nanosecPerTick;
+        }
+
+        private long _nanosecPerTick = 0L;
+        public long NanosecPerTick
+        {
+            get
+            {
+                if (_nanosecPerTick == 0L)
+                {
+                    //1秒(s) =100厘秒(cs)= 1000 毫秒(ms) = 1,000,000 微秒(μs) = 1,000,000,000 纳秒(ns) = 1,000,000,000,000 皮秒(ps)
+                    _nanosecPerTick = (1000L * 1000L * 1000L) / Stopwatch.Frequency;
+                }
+                return _nanosecPerTick;
             }
         }
     }

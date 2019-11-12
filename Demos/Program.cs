@@ -143,7 +143,10 @@ namespace Demos.Demos2018
                 //  new VolatileDemo().Test();
 
                 //   new SpinWaitDemo().Test();
-                new QueueMiddleWareDemo().Test();
+                //new QueueMiddleWareDemo().Test();
+
+                new LockDemo().Test();
+                
 
                 #endregion
 
