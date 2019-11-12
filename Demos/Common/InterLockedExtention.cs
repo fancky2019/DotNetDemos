@@ -9,6 +9,8 @@ namespace Demos.Common
 {
     /// <summary>
     /// 采用CAS思想实现轻量锁。
+    /// 测试发现：Debug下Monitor的性能好
+    ///           Release下InterLockedExtention拓展好。
     /// </summary>
     public class InterLockedExtention
     {
@@ -34,7 +36,10 @@ namespace Demos.Common
         public static void Release()
         {
             //释放锁
-            Interlocked.CompareExchange(ref _lock, 0, 1);
+            //Interlocked.CompareExchange(ref _lock, 0, 1);
+            //其实不用比较，此方法只有在获取锁的块内调用
+            Interlocked.Exchange(ref _lock, 0);
+
         }
     }
 }
