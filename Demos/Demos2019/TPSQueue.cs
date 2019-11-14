@@ -108,7 +108,9 @@ namespace StockAdapterHKEX
                     this.executeTimeList.Enqueue(dequeueTime);
                     //    _produceAutoResetEvent.Set();
 
-                    callBack?.BeginInvoke(t, null, null);
+                    //callBack?.BeginInvoke(t, null, null);
+                    //若回调耗时很少采用同步调用，异步启用新线程耗时不稳定（启动线程还要占用时间）。
+                    callBack?.Invoke(t);
                 }
             });
         }

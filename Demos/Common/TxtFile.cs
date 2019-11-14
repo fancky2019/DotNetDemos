@@ -23,8 +23,11 @@ namespace Common
                     {
                         while (!sr.EndOfStream)
                         {
-                            // string line = sr.ReadLine().Trim();
-                            content.Add(sr.ReadLine().Trim());
+                            string line = sr.ReadLine().Trim();
+                            if (!string.IsNullOrEmpty(line))
+                            {
+                                content.Add(line);
+                            }
                         }
                     }
                     catch (Exception ex)
