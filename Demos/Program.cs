@@ -145,8 +145,9 @@ namespace Demos.Demos2018
                 //   new SpinWaitDemo().Test();
                 //new QueueMiddleWareDemo().Test();
 
-                new LockDemo().Test();
-                
+                //new LockDemo().Test();
+                new DateTimeDemo().Test();
+
 
                 #endregion
 
