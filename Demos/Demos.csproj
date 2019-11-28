@@ -178,6 +178,7 @@
     <Compile Include="Common\TxtFile.cs" />
     <Compile Include="Common\Utility.cs" />
     <Compile Include="Demos2019\AccessDecorateDemo.cs" />
+    <Compile Include="Demos2019\AlterPassword.cs" />
     <Compile Include="Demos2019\AutoStartProgramDemo.cs" />
     <Compile Include="Demos2018\AdoTest.cs" />
     <Compile Include="Common\Config.cs" />
@@ -198,6 +199,7 @@
     <Compile Include="Demos2019\DevisionDemo.cs" />
     <Compile Include="Demos2019\DotNetEightDemo.cs" />
     <Compile Include="Demos2019\Encrypt\AESUtil.cs" />
+    <Compile Include="Demos2019\Encrypt\EncryptDemo.cs" />
     <Compile Include="Demos2019\Encrypt\RSAUtil.cs" />
     <Compile Include="Demos2019\Encrypt\XMLHelper.cs" />
     <Compile Include="Demos2019\EqualsOperatorDemo.cs" />

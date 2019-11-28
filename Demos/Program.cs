@@ -3,6 +3,7 @@ using Demos.Demos2018.RabbitMQ;
 using Demos.Demos2018.SynchronizationDemo;
 using Demos.Demos2019;
 using Demos.Demos2019.Collections;
+using Demos.Demos2019.Encrypt;
 using Demos.Demos2019.Forms;
 using Demos.Demos2019.Proxy;
 using Demos.Demos2019.Subjects;
@@ -146,8 +147,8 @@ namespace Demos.Demos2018
                 //new QueueMiddleWareDemo().Test();
 
                 //new LockDemo().Test();
-                new DateTimeDemo().Test();
-
+                //new DateTimeDemo().Test();
+                new EncryptDemo().Test();
 
                 #endregion
 
