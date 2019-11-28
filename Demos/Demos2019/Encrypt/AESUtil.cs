@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace AuthCommon
 {
+    /// <summary>
+    /// 对称加密
+    /// </summary>
     public class AESUtil : IDisposable
     {
 
