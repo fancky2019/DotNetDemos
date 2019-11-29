@@ -198,6 +198,7 @@
     <Compile Include="Demos2019\DateTimeDemo.cs" />
     <Compile Include="Demos2019\DevisionDemo.cs" />
     <Compile Include="Demos2019\DotNetEightDemo.cs" />
+    <Compile Include="Demos2019\EFTransaction.cs" />
     <Compile Include="Demos2019\Encrypt\AESUtil.cs" />
     <Compile Include="Demos2019\Encrypt\EncryptDemo.cs" />
     <Compile Include="Demos2019\Encrypt\RSAUtil.cs" />
