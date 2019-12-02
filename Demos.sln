@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetCoreWebApi", "NetCoreWeb
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ProjectTemplete", "ProjectTemplete", "{69A9DC6A-269A-485D-92A7-041A2AFB9423}"
 	ProjectSection(SolutionItems) = preProject
-		C:\Users\Administrator\Desktop\ReadMe.txt = C:\Users\Administrator\Desktop\ReadMe.txt
+		工程说明.txt = 工程说明.txt
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinformFormUpdate", "WinformFormUpdate\WinformFormUpdate.csproj", "{5425B142-BB03-40B1-8C10-6BE0C4D8EC0B}"
