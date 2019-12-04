@@ -184,6 +184,12 @@ namespace Demos.Demos2018
             Console.WriteLine($"BatchInsert {stopwatch.ElapsedMilliseconds}ms");//14063
         }
 
+        /// <summary>
+        /// 批量插入
+        /// Insert(column1,..Column5)values(),(),()这种一次插入多条。
+        /// </summary>
+        /// <param name="dataTable"></param>
+        /// <param name="destinationTableName"></param>
         private void BatchInsert(DataTable dataTable, string destinationTableName)
         {
             string connectionString = Config.WMSConnectionString;
