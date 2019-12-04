@@ -59,7 +59,7 @@ namespace Demos.Demos2018
                 #region Demos2018
                 //new ParamsDemo().Test();
                 // string str = Test().Result;
-                //   new AdoTest().Test();
+                new AdoTest().Test();
 
                 //new TClassTest<Product>().Test();
                 //new LockDemo().Test();
@@ -148,7 +148,7 @@ namespace Demos.Demos2018
 
                 //new LockDemo().Test();
                 //new DateTimeDemo().Test();
-                new EncryptDemo().Test();
+                //  new EncryptDemo().Test();
 
                 #endregion
 

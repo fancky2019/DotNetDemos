@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\EntityFramework.6.3.0\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.3.0\build\EntityFramework.props')" />
   <Import Project="..\packages\librdkafka.redist.1.1.0\build\librdkafka.redist.props" Condition="Exists('..\packages\librdkafka.redist.1.1.0\build\librdkafka.redist.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -60,6 +61,12 @@
   <ItemGroup>
     <Reference Include="Confluent.Kafka, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Confluent.Kafka.1.1.0\lib\net46\Confluent.Kafka.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.3.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.3.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Gallio, Version=3.4.0.0, Culture=neutral, PublicKeyToken=eb9cfa67ee6ab36e, processorArchitecture=MSIL">
       <HintPath>..\packages\mbunit.3.4.14.0\lib\net40\Gallio.dll</HintPath>
@@ -124,6 +131,7 @@
       <HintPath>..\packages\System.Buffers.4.4.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Diagnostics.PerformanceCounter, Version=4.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -173,8 +181,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\BufferLog.cs" />
+    <Compile Include="Common\DataTableModels.cs" />
     <Compile Include="Common\InterLockedExtention.cs" />
     <Compile Include="Common\Log.cs" />
+    <Compile Include="Common\RandomSeed.cs" />
     <Compile Include="Common\TxtFile.cs" />
     <Compile Include="Common\Utility.cs" />
     <Compile Include="Demos2019\AccessDecorateDemo.cs" />
@@ -307,6 +317,21 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Demos2018\GenericDemo.cs" />
+    <Compile Include="WMS\Bll\ProductBll.cs" />
+    <Compile Include="WMS\Dal\ProductDal.cs" />
+    <Compile Include="WMS\Model\Entity\BarCode.cs" />
+    <Compile Include="WMS\Model\Entity\Check.cs" />
+    <Compile Include="WMS\Model\Entity\InOutStock.cs" />
+    <Compile Include="WMS\Model\Entity\Order.cs" />
+    <Compile Include="WMS\Model\Entity\OrderDetail.cs" />
+    <Compile Include="WMS\Model\Entity\Product.cs" />
+    <Compile Include="WMS\Model\Entity\Sku.cs" />
+    <Compile Include="WMS\Model\Entity\Stock.cs" />
+    <Compile Include="WMS\Model\ViewModel\PageInfo.cs" />
+    <Compile Include="WMS\Model\ViewModel\ProductQM.cs" />
+    <Compile Include="WMS\Model\ViewModel\ProductVM.cs" />
+    <Compile Include="WMS\WMSDbContext.cs" />
+    <Compile Include="WMS\Model\ViewModel\MessageResult.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -356,11 +381,15 @@
       <Name>TestDll</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>这台计算机上缺少此项目引用的 NuGet 程序包。使用“NuGet 程序包还原”可下载这些程序包。有关更多信息，请参见 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的文件是 {0}。</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\librdkafka.redist.1.1.0\build\librdkafka.redist.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\librdkafka.redist.1.1.0\build\librdkafka.redist.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.3.0\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.3.0\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.3.0\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.3.0\build\EntityFramework.targets'))" />
   </Target>
+  <Import Project="..\packages\EntityFramework.6.3.0\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.3.0\build\EntityFramework.targets')" />
 </Project>

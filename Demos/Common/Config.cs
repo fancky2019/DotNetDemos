@@ -11,6 +11,7 @@ namespace Demos
     {
 
         public static string ConStr =>  ConfigurationManager.AppSettings["ConStr"];
+        public static string WMSConnectionString => ConfigurationManager.ConnectionStrings["WMSConnectionString"].ConnectionString;
         static Config()
         {
 

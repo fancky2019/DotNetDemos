@@ -130,7 +130,7 @@ namespace Demos.Demos2019
         /// </summary>
         /// <param name="passwordLength">密码长度</param>
         /// <returns></returns>
-        private string CreateNewPassword(int passwordLength)
+        public string CreateNewPassword(int passwordLength)
         {
             //length=62:10+26+26=62
             //0-9 数字,10-35 小写,35-61 大写
