@@ -39,10 +39,32 @@ namespace Common
             return content;
         }
 
+        ///// <summary>
+        ///// 如果文件不关闭，在资源管理器中文件被占用
+        ///// </summary>
+        ///// <param name="filePath"></param>
+        ///// <param name="content"></param>
+        ///// <param name="fileMode"></param>
+        //public static void SaveTxtFile(string filePath, List<string> content, FileMode fileMode = FileMode.Append)
+        //{
+        //    using (StreamWriter sw = new StreamWriter(File.Open(filePath, fileMode, FileAccess.Write), System.Text.Encoding.UTF8))
+        //    {
+        //        foreach (string str in content)
+        //        {
+        //            sw.WriteLine(str);
+        //        }
+        //    }
+        //}
 
         public static void SaveTxtFile(string filePath, List<string> content, FileMode fileMode = FileMode.Append)
         {
-            using (StreamWriter sw = new StreamWriter(File.Open(filePath, fileMode, FileAccess.Write), System.Text.Encoding.UTF8))
+            //下面构造FileShare为 FileShare.None，在Windows资管员管理器中打开会报文件被占用的异常
+            //StreamWriter sw1 = new StreamWriter(File.Open(filePath, fileMode, FileAccess.Write), System.Text.Encoding.UTF8);
+
+            //文本追加只能以只写的方式,下面的构造FileShare为 FileShare.Read,在Windows资管员管理器中可以打开不能修改。
+            // new StreamWriter(filePath,true, System.Text.Encoding.UTF8)
+            // using (StreamWriter sw = new StreamWriter(new FileStream(filePath, FileMode.Append, FileAccess.Write), System.Text.Encoding.UTF8))
+            using (StreamWriter sw = new StreamWriter(filePath, true, System.Text.Encoding.UTF8))
             {
                 foreach (string str in content)
                 {
@@ -51,10 +73,46 @@ namespace Common
             }
         }
 
-        public static void SaveTxtFile(string filePath, string content)
+
+
+        #region  不关闭文件设计:避免频繁打开文件吞吐量降低。
+
+        /// <summary>
+        /// 文件被占用，在资源管理器中无法打开该文件
+        /// </summary>
+        StreamWriter _sw = null;
+        bool _disposed = false;
+        private void SaveTxtFile2(string filePath, List<string> content, FileMode fileMode = FileMode.Append)
         {
-            File.AppendAllText(filePath, $"\r\n{content}");
+            if (_sw == null)
+            {
+                // new StreamWriter(filePath,true, System.Text.Encoding.UTF8)
+                _sw = new StreamWriter(new FileStream(filePath, FileMode.Append, FileAccess.Write), System.Text.Encoding.UTF8);
+               // _sw.AutoFlush = true;//批量写完之后再调用sw.Flush();
+            }
+            foreach (string str in content)
+            {
+                _sw.WriteLine(str);
+            }
+            _sw.Flush();
 
         }
+
+        private void Dispose()
+        {
+            if (_sw != null) 
+            { 
+                _sw.Dispose();
+            }
+            _sw = null;
+            _disposed = true;
+        }
+
+        private bool DisposedCheck()
+        {
+            return _disposed;
+        }
+
+        #endregion
     }
 }

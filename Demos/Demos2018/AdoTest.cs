@@ -218,7 +218,7 @@ namespace Demos.Demos2018
         private static DataTable MakeTable()
         {
             DataTable newProducts = new DataTable("NewProducts");
-
+            SqlCommand cmd;
             // Add three column objects to the table. 
             DataColumn productID = new DataColumn();
             productID.DataType = System.Type.GetType("System.Int32");
