@@ -18,7 +18,7 @@ namespace Demos.Demos2019
         {
             //writeLog();
 
-            readLog();
+            ReadLog();
         }
 
         private void writeLog()
@@ -90,7 +90,7 @@ namespace Demos.Demos2019
                 }
             });
         }
-        private void readLog()
+        private void ReadLog()
         {
             var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"Log/{DateTime.Now.Year}-{DateTime.Now.Month}/{DateTime.Now.Year}-{DateTime.Now.Month.ToString("D2")}-{DateTime.Now.Day.ToString("D2")}.txt");
             QueueMiddleWareLogAnalysis(filePath);
