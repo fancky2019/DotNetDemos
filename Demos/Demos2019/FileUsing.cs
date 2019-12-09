@@ -20,7 +20,17 @@ namespace Demos.Demos2019
             string fileName = @"C:\Users\Administrator\Desktop\test.txt";
             //var re = fileName.Replace(".txt", ".zip");
             UseFile(fileName);
-            FileIsUsing(fileName);
+
+            //再次调用被占用的异常
+            //文件“C:\Users\Administrator\Desktop\test.txt”正由另一进程使用，因此该进程无法访问此文件。
+            //UseFile(fileName);
+            //string fileNameLog = @"C:\Users\Administrator\Desktop\test.log";
+            //SaveTxtFile(fileNameLog, new List<string> { "ds" });
+            //SaveTxtFile(fileNameLog, new List<string> { "ds2" });
+            string fileNameLog2 = @"C:\Users\Administrator\Desktop\test2.log";
+            SaveTxtFile2(fileNameLog2, new List<string> { "ds" });
+            SaveTxtFile2(fileNameLog2, new List<string> { "ds2" });
+            //FileIsUsing(fileName);
         }
 
         private void UseFile(string fileName)
@@ -36,7 +46,8 @@ namespace Demos.Demos2019
                     // string line = sr.ReadLine().Trim();
                     content.Add(sr.ReadLine().Trim());
                 }
-
+                //不释放资源，保持被占用。
+                //sr.Close();
             }
             catch (Exception ex)
             {
@@ -44,6 +55,7 @@ namespace Demos.Demos2019
             }
             //}
         }
+
         private void FileIsUsing(string fileName)
         {
             //string fileName = @"c:\aaa.doc";//要检查被那个进程占用的文件
@@ -102,15 +114,56 @@ namespace Demos.Demos2019
         }
 
 
-        public static void SaveTxtFile(string fllPath, List<string> content, FileMode fileMode = FileMode.Create)
+        /////// <summary>
+        /////// 如果文件不关闭，在资源管理器中文件被占用
+        /////// </summary>
+        /////// <param name="filePath"></param>
+        /////// <param name="content"></param>
+        /////// <param name="fileMode"></param>
+        ////public static void SaveTxtFile(string filePath, List<string> content, FileMode fileMode = FileMode.Append)
+        ////{
+        ////    using (StreamWriter sw = new StreamWriter(File.Open(filePath, fileMode, FileAccess.Write), System.Text.Encoding.UTF8))
+        ////    {
+        ////        foreach (string str in content)
+        ////        {
+        ////            sw.WriteLine(str);
+        ////        }
+        ////    }
+        ////}
+
+        /// <summary>
+        /// 
+        /// </summary>
+        StreamWriter sw = null;
+
+        public  void SaveTxtFile(string filePath, List<string> content, FileMode fileMode = FileMode.Append)
         {
-            using (StreamWriter sw = new StreamWriter(File.Open(fllPath, fileMode, FileAccess.ReadWrite), System.Text.Encoding.UTF8))
+            if (sw == null)
             {
-                foreach (string str in content)
-                {
-                    sw.WriteLine(str);
-                }
+                sw = new StreamWriter(new FileStream(filePath, FileMode.Append, FileAccess.Write), System.Text.Encoding.UTF8);
+                //sw.AutoFlush = true;
             }
+            foreach (string str in content)
+             {
+                sw.WriteLine(str);
+              }
+            sw.Flush();
+
+
+
+        }
+
+        public void SaveTxtFile2(string filePath, List<string> content, FileMode fileMode = FileMode.Append)
+        {
+            if (sw == null)
+            {
+                sw = new StreamWriter(filePath,true);
+            }
+            foreach (string str in content)
+            {
+                sw.WriteLine(str);
+            }
+            sw.Flush();
         }
     }
 }
