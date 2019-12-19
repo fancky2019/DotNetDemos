@@ -55,6 +55,56 @@ namespace Demos.Demos2019
             TimeSpan ts = new TimeSpan(5, 16, 27, 29, 370);
             string tsStr = ts.ToString(@"dd\.hh\:mm\:ss");
             string tsStr1 = ts.ToString("c");
+
+            //@号后的双引号转义 ""（两个双引号）
+            string ss = @"""ddd";
+            //错误
+            string ss1 = @"\""ddd";
+            //没有@的"\"转义
+            string ss2 = "\"ddd";
+            string sss = "{";
+
+            //$ 字符串插值字符串中 花括号要转义
+            /***
+             * {-->{{
+             * }-->}}
+            */
+            String script1 = $@"  {{
+                  ""query"": {{
+                   ""match"": {{
+                     ""id"":{0}
+                   }}
+                 }},
+                  ""script"": {{
+                    ""lang"": ""painless"",
+                   ""source"": ""ctx._source.name=params.name;ctx._source.age=params.age"",
+                   ""params"": {{
+                      ""name"": ""{"fancky"}"",
+                     ""age"":{27}
+                   }}
+                 }}
+                }}";
+
+            //
+            String script =string.Format( "  {\n" +
+          "          \"query\": {\n" +
+          "            \"match\": {\n" +
+          "              \"id\":{0}\n" +
+          "            }\n" +
+          "          },\n" +
+          "          \"script\": {\n" +
+          "            \"lang\": \"painless\",\n" +
+          "            \"source\": \"ctx._source.name=params.name;ctx._source.age=params.age\",\n" +
+          "            \"params\": {\n" +
+          "              \"name\": \"{1}\",\n" +
+          "              \"age\":{2}\n" +
+          "            }\n" +
+          "          }\n" +
+          "        }",1,"fancky",27);
+
+
+
+
         }
     }
 }

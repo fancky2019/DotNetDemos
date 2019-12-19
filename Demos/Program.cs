@@ -1,4 +1,5 @@
 ﻿using Common;
+using Demos.Common;
 using Demos.Demos2018.RabbitMQ;
 using Demos.Demos2018.SynchronizationDemo;
 using Demos.Demos2019;
@@ -150,6 +151,8 @@ namespace Demos.Demos2018
                 //new DateTimeDemo().Test();
                 //  new EncryptDemo().Test();
 
+                //new ParamsDemo().Test();
+                BufferLog.Test();
                 #endregion
 
 

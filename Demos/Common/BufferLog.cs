@@ -9,13 +9,18 @@ using System.Threading.Tasks;
 
 namespace Demos.Common
 {
+    /// <summary>
+    /// 经测试：
+    /// 直接往磁盘写50条/ms。
+    /// 加入并发队列200条/ms。然后再异步写log。可以提升性能。
+    /// </summary>
     public class BufferLog
     {
 
         private static ConcurrentQueue<string> _logBuffer;
         /// <summary>
-        /// 缓冲区大小。默认100。
-        /// 本机测试正常每ms可以写150左右
+        /// 缓冲区大小。默认500。
+        /// 本机测试正常每ms可以写250左右
         /// </summary>
         public static int BufferSize { get; set; }
         /// <summary>
@@ -27,15 +32,22 @@ namespace Demos.Common
         {
             get
             {
-                return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"Log/{DateTime.Now.Year}-{DateTime.Now.Month}/{DateTime.Now.Year}-{DateTime.Now.Month.ToString("D2")}-{DateTime.Now.Day.ToString("D2")}.txt");
+                return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"Log\\{DateTime.Now.Year}-{DateTime.Now.Month}\\{DateTime.Now.Year}-{DateTime.Now.Month.ToString("D2")}-{DateTime.Now.Day.ToString("D2")}.txt");
             }
         }
-
+        static StreamWriter _sw = null;
         static BufferLog()
         {
-            BufferSize = 100;
+            BufferSize = 500;
             Interval = 1;
             _logBuffer = new ConcurrentQueue<string>();
+            //_sw = new StreamWriter(File.Open(FilePath, FileMode.Append, FileAccess.Write), System.Text.Encoding.UTF8);
+            var directory = Path.GetDirectoryName(FilePath);
+            if (!Directory.Exists(directory))
+            {
+                Directory.CreateDirectory(directory);
+            }
+            _sw = new StreamWriter(FilePath, true, System.Text.Encoding.UTF8);
             Task.Run(() =>
             {
                 CountPoll();
@@ -74,17 +86,15 @@ namespace Demos.Common
 
                     while (_logBuffer.Count >= BufferSize)
                     {
-                        //++k;
-                        using (StreamWriter sw = new StreamWriter(File.Open(FilePath, FileMode.Append, FileAccess.Write), System.Text.Encoding.UTF8))
+
+                        for (int i = 0; i < BufferSize; i++)
                         {
-                            for (int i = 0; i < BufferSize; i++)
+                            if (_logBuffer.TryDequeue(out string content))
                             {
-                                if (_logBuffer.TryDequeue(out string content))
-                                {
-                                    sw.WriteLine($"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")} {content}");
-                                }
+                                _sw.WriteLine($"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")} {content}");
                             }
                         }
+                        _sw.Flush();
                     }
 
                     InterLockedExtention.Release();
@@ -100,20 +110,41 @@ namespace Demos.Common
         {
             while (!_logBuffer.IsEmpty)
             {
-                using (StreamWriter sw = new StreamWriter(File.Open(FilePath, FileMode.Append, FileAccess.Write), System.Text.Encoding.UTF8))
+                if (_logBuffer.TryDequeue(out string content))
                 {
-
-                    if (_logBuffer.TryDequeue(out string content))
-                    {
-                        sw.WriteLine($"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")} {content}");
-                    }
+                    _sw.WriteLine($"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")} {content}");
                 }
             }
+            _sw.Flush();
         }
 
         public static void LogAsync(string message)
         {
             _logBuffer.Enqueue(message);
+        }
+
+        public static void Test()
+        {
+            for (int i = 0; i < 100000; i++)
+            {
+                var str = $"Consumer {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")} Producer:{i} Commands:{i}";
+                //  Log.Info<QueueMiddleWare>(str);
+                //   QueueMiddleWareDemo.LogStr.Enqueue(str);
+                LogAsync(str);
+                //WriteDirectly(str);
+            }
+        }
+
+        /// <summary>
+        /// 每次直接写，flush: 50条/ms
+        ///经测试：
+        /// 直接往磁盘写50条/ms。
+        /// 加入并发队列200条/ms。然后再异步写log。可以提升性能。
+        /// </summary>
+        /// <param name="content"></param>
+        private static void WriteDirectly(string content)
+        {
+            _sw.WriteLine($"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")} {content}");
         }
     }
 }
