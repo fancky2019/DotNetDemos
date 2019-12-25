@@ -79,7 +79,7 @@ namespace Demos.Demos2018
                 // new AttributeDemo().Test();
                 //new ImplicitExplicitDemo().Test();
 
-                //new RabbitMQTest().Test();
+                new RabbitMQTest().Test();
                 //new TryCatchFinallyReturnDemo().Test();
 
                 //  new CollectionDemo().Test();
@@ -152,7 +152,9 @@ namespace Demos.Demos2018
                 //  new EncryptDemo().Test();
 
                 //new ParamsDemo().Test();
-                BufferLog.Test();
+                // BufferLog.Test();
+
+                //new ReflectionDemo().Test();
                 #endregion
 
 

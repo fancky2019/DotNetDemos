@@ -29,6 +29,8 @@ namespace Demos.Demos2019
 
                 //自旋3秒
                 SpinWait.SpinUntil(() => false,3*1000);
+                //自旋
+                spinWait.SpinOnce();
             }
         }
     }

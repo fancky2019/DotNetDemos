@@ -96,8 +96,9 @@ namespace Demos.OpenResource.Kafka
              acks=0: producer 不等待 Leader 确认，只管发出即可；最可能丢失消息，适用于高吞吐可丢失的业务；
              acks=1(默认值): producer 等待 Leader 写入本地日志后就确认；之后 Leader 向 Followers 同步时，如果 Leader 宕机会导致消息没同步而丢失，producer 却依旧认为成功；
              acks=all/-1: producer 等待 Leader 写入本地日志、而且 Leader 向 Followers 同步完成后才会确认；最可靠。
+             kafka采用主写主读，不为-1可能造成数据丢失
              */
-            //config.Acks = Acks.All;
+            config.Acks = Acks.All;
             using (var producer = new ProducerBuilder<string, string>(config)
                   // 如果不指定序列化类型，Confluent.Kafka 内部Producer<TKey, TValue>类的字典成员defaultSerializers
                   /*
@@ -128,7 +129,7 @@ namespace Demos.OpenResource.Kafka
                     Console.WriteLine($"delivered to: {deliveryReport.TopicPartitionOffset}");
 
 
-                    //实际生产环境使用不阻塞的方法，不使用async，上面是官方的Demo ，测试用
+                    //实际生产环境使用下面不阻塞的方法，使用async，上面是官方的Demo ，测试用
                     //producer.ProduceAsync(topicName, new Message<string, string> { Key = key, Value = val })
                     //    .ContinueWith(task =>
                     //    {
