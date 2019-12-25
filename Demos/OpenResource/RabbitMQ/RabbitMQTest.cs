@@ -54,7 +54,12 @@ namespace Demos.Demos2018.RabbitMQ
                 //http://www.rabbitmq.com/tutorials/tutorial-three-dotnet.html
                 //NuGet安装RabbitMQ.Client
                 //new FanoutExchange().Producer();
-                new DirectExchange().Producer();
+
+                //new DirectExchange().ProduceIndividually();
+                //new DirectExchange().ProduceInBatches();
+                new DirectExchange().ProduceInBatchesAsync();
+                
+
                 //new TopicExchange().Producer();
             });
  

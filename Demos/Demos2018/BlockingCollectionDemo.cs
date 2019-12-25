@@ -8,10 +8,10 @@ namespace Demos.Demos2018
 {
     class BlockingCollectionDemo
     {
-        static BlockingCollection<Product> blockingCollection = null;
+        static BlockingCollection<Product> _blockingCollection = null;
         static BlockingCollectionDemo()
         {
-            blockingCollection = new BlockingCollection<Product>();
+            _blockingCollection = new BlockingCollection<Product>();
         }
         public void Test()
         {
@@ -24,10 +24,10 @@ namespace Demos.Demos2018
             Random rd = new Random();
             Task.Run(() =>
                 {
-                    while (!blockingCollection.IsAddingCompleted)
+                    while (!_blockingCollection.IsAddingCompleted)
                     {
                         int next = rd.Next(1, 10000);
-                        blockingCollection.Add(new Product() {
+                        _blockingCollection.Add(new Product() {
                             ID= next,
                             ProductName=$"test{next}"
                         });
@@ -41,12 +41,12 @@ namespace Demos.Demos2018
             Task.Run(() =>
             {
                 int i = 0;
-                foreach (Product product in blockingCollection.GetConsumingEnumerable())
+                foreach (Product product in _blockingCollection.GetConsumingEnumerable())
                 {
                     i++;
                     if(i==100)
                     {
-                        blockingCollection.CompleteAdding();
+                        _blockingCollection.CompleteAdding();
                     }
                     Console.WriteLine($"{product.ID}:{product.ProductName} ");
                 }

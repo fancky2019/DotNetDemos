@@ -184,6 +184,7 @@
     <Compile Include="Common\DataTableModels.cs" />
     <Compile Include="Common\InterLockedExtention.cs" />
     <Compile Include="Common\Log.cs" />
+    <Compile Include="Common\LogAsync.cs" />
     <Compile Include="Common\RandomSeed.cs" />
     <Compile Include="Common\TxtFile.cs" />
     <Compile Include="Common\Utility.cs" />
@@ -238,6 +239,7 @@
     <Compile Include="Demos2019\ObjectClone.cs" />
     <Compile Include="Demos2019\AsyncDemo.cs" />
     <Compile Include="Demos2019\FileUsing.cs" />
+    <Compile Include="Demos2019\ParallelDemo.cs" />
     <Compile Include="Demos2019\ParamsDemo.cs" />
     <Compile Include="Demos2019\Proxy\ICalculate.cs" />
     <Compile Include="Demos2019\Proxy\Calculate.cs" />
@@ -249,6 +251,7 @@
     <Compile Include="Demos2019\Proxy\ProxyFactory.cs" />
     <Compile Include="Demos2019\QueueMiddleWare.cs" />
     <Compile Include="Demos2019\ReferenceDemo.cs" />
+    <Compile Include="Demos2019\ReflectionDemo.cs" />
     <Compile Include="Demos2019\RegexDemo.cs" />
     <Compile Include="Demos2019\SemaphoreDemo.cs" />
     <Compile Include="Demos2019\SpinLockDemo.cs" />

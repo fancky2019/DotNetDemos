@@ -100,10 +100,10 @@ namespace Demos.Demos2018.RabbitMQ.RabbitMQClient
                         Console.WriteLine(" [x] Received '{0}':'{1}'", routingKey, message);
 
                         //制造异常，加入死信队列。也可以设计重试几次不行才加入死信队列
-                        int m = int.Parse("m");
+                        //int m = int.Parse("m");
 
                         //http://localhost:15672/#/queues 可以查看到没有ack，队列没有移除这条信息
-                        Thread.Sleep(30000);
+                        //Thread.Sleep(30000);
                         channel.BasicAck(ea.DeliveryTag, false);//发送客户端消息任务完成的应答
                     }
                     catch (Exception ex)
