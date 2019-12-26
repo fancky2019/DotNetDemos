@@ -235,16 +235,21 @@ namespace Demos.Demos2018.RabbitMQ.RabbitMQServer
             using (var connection = factory.CreateConnection())
             using (var channel = connection.CreateModel())
             {
-
+                //RabbitMQ服务端的资源配置（内存、磁盘），服务器使用达到配置而产生警告，进而产生流控。
                 //避免消息积压，采取流控
-                //因为流控而阻塞
-                //connection.ConnectionBlocked += HandleBlocked;
-                //connection.ConnectionUnblocked += HandleUnblocked;
+                //因为流控而阻塞：提高消费能力解决消息积压，而不是采用流控。
+                connection.ConnectionBlocked += (sender, connectionBlockedEventArgs) =>
+                 {
+                     Console.WriteLine(connectionBlockedEventArgs.Reason);
+                 };
+                connection.ConnectionUnblocked += (sender, eventArgs) =>
+                {
+                };
                 ///durable 保存到本地磁盘，下次重启rabbitMQ消息还在
                 channel.ExchangeDeclare(exchange: exchange, type: ExchangeType.Direct, durable: true, autoDelete: false, arguments: null);
 
 
-      
+
 
                 //channel.QueueDelete("DirectExchangeQueue");
                 //事务：rabbitMQ确认模式的性能优于事务机制。
@@ -281,7 +286,7 @@ namespace Demos.Demos2018.RabbitMQ.RabbitMQServer
                     {
                         _outstandingConfirms.TryRemove(ea.DeliveryTag, out _);
                     }
-                     
+
                 };
 
                 //服务端没有确认的消息
@@ -328,7 +333,7 @@ namespace Demos.Demos2018.RabbitMQ.RabbitMQServer
                     //实际超时抛IOException异常，注释可能有问题。
                     channel.WaitForConfirmsOrDie(new TimeSpan(0, 0, 5));
                 }
-                catch(IOException  ex)
+                catch (IOException ex)
                 {
                     Console.WriteLine(ex.ToString());
                     Console.WriteLine($"生产失败！");
@@ -357,6 +362,8 @@ namespace Demos.Demos2018.RabbitMQ.RabbitMQServer
             }
 
         }
+
+
     }
 }
 
