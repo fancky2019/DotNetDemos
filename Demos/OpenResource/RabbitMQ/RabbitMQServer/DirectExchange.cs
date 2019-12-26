@@ -236,6 +236,7 @@ namespace Demos.Demos2018.RabbitMQ.RabbitMQServer
             using (var channel = connection.CreateModel())
             {
                 //RabbitMQ服务端的资源配置（内存、磁盘），服务器使用达到配置而产生警告，进而产生流控。
+               // RabbitMQ服务器资源（磁盘、内存）达到服务端配置而产生警报造成流控。
                 //避免消息积压，采取流控
                 //因为流控而阻塞：提高消费能力解决消息积压，而不是采用流控。
                 connection.ConnectionBlocked += (sender, connectionBlockedEventArgs) =>
