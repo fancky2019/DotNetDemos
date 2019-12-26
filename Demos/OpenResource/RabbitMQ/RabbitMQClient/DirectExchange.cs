@@ -48,6 +48,7 @@ namespace Demos.Demos2018.RabbitMQ.RabbitMQClient
                 channel.QueueBind(queue: DeadLetterQueue,
                          exchange: DeadLetterExchange,
                          routingKey: DeadLetterRoutingKey);
+
                 #region  设置队列长度
                 //Dictionary<string, object> arguments = new Dictionary<string, object>();
                 //arguments.Add("x-max-length", 10);
