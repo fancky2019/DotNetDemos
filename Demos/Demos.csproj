@@ -96,6 +96,9 @@
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.6.8\lib\net45\NLog.dll</HintPath>
+    </Reference>
     <Reference Include="Pipelines.Sockets.Unofficial, Version=1.0.0.0, Culture=neutral, PublicKeyToken=42ea0a778e13fbe2, processorArchitecture=MSIL">
       <HintPath>..\packages\Pipelines.Sockets.Unofficial.2.0.22\lib\net472\Pipelines.Sockets.Unofficial.dll</HintPath>
     </Reference>
@@ -164,6 +167,8 @@
       <Private>True</Private>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Threading.Channels, Version=4.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Threading.Channels.4.5.0\lib\netstandard2.0\System.Threading.Channels.dll</HintPath>
@@ -171,6 +176,7 @@
     <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.1\lib\netstandard2.0\System.Threading.Tasks.Extensions.dll</HintPath>
     </Reference>
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -186,6 +192,7 @@
     <Compile Include="Common\Log.cs" />
     <Compile Include="Common\LogAsync.cs" />
     <Compile Include="Common\RandomSeed.cs" />
+    <Compile Include="Common\StopwatchHelper.cs" />
     <Compile Include="Common\TxtFile.cs" />
     <Compile Include="Common\Utility.cs" />
     <Compile Include="Demos2019\AccessDecorateDemo.cs" />
@@ -236,6 +243,7 @@
     <Compile Include="Demos2019\Forms\FrmTest.Designer.cs">
       <DependentUpon>FrmTest.cs</DependentUpon>
     </Compile>
+    <Compile Include="Demos2019\NLogDemo.cs" />
     <Compile Include="Demos2019\ObjectClone.cs" />
     <Compile Include="Demos2019\AsyncDemo.cs" />
     <Compile Include="Demos2019\FileUsing.cs" />
@@ -261,8 +269,11 @@
     <Compile Include="Demos2019\StaticInnerClassDemo.cs" />
     <Compile Include="Demos2019\StopwatchDemo.cs" />
     <Compile Include="Demos2019\StringInternDemo.cs" />
+    <Compile Include="Demos2019\TaskDemo.cs" />
     <Compile Include="Demos2019\TextTest.cs" />
+    <Compile Include="Demos2019\ThreadLocalDemo.cs" />
     <Compile Include="Demos2019\ThreadTimeOutDemo.cs" />
+    <Compile Include="Demos2019\TimerDemo.cs" />
     <Compile Include="Demos2019\TPSQueue.cs" />
     <Compile Include="Demos2019\UnitTestAutoFixtureDemo.cs" />
     <Compile Include="Demos2019\UnitTestDemo.cs" />
@@ -342,6 +353,9 @@
     <None Include="log4net.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Content Include="NLog.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

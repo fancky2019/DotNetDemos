@@ -11,7 +11,8 @@ namespace Demos.Demos2019
     {
         public void  Test()
         {
-            Minus();
+            //Minus();
+            DateTimeToString();
         }
 
         private void ConvertExact()
@@ -24,6 +25,20 @@ namespace Demos.Demos2019
             DateTime start = DateTime.Parse("2018-01-02 12:35:50");
             DateTime end = DateTime.Now;
             TimeSpan timeSpan = end - start;
+        }
+
+        private void DateTimeToString()
+        {
+            //2020-1-6
+            var toShortDateString = DateTime.Now.ToShortDateString();
+            //2020年1月6日
+            var toLongDateString = DateTime.Now.ToLongDateString();
+            //2020-01
+            var yearMonthStr = DateTime.Now.ToString("yyyy-MM");
+            //2020-01-06
+            var dateStr = DateTime.Now.ToString("yyyy-MM-dd");
+            //2020-01-06 13:41:38.890
+            var longDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
         }
     
     }
