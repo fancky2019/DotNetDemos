@@ -79,7 +79,7 @@ namespace Demos.Demos2018
                 // new AttributeDemo().Test();
                 //new ImplicitExplicitDemo().Test();
 
-                new RabbitMQTest().Test();
+                //new RabbitMQTest().Test();
                 //new TryCatchFinallyReturnDemo().Test();
 
                 //  new CollectionDemo().Test();
@@ -155,6 +155,13 @@ namespace Demos.Demos2018
                 // BufferLog.Test();
 
                 //new ReflectionDemo().Test();
+                //new ThreadLocalDemo().Test();
+                //new ParallelDemo().Test();
+
+                //new TimerDemo().Test();
+
+                new NLogDemo().Test();
+                
                 #endregion
 
 

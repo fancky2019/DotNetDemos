@@ -84,5 +84,10 @@ namespace Demos.Model
         //    }
         //    return false;
         //}
+
+        public override string ToString()
+        {
+            return $"Name:{this.Name},Age:{this.Age}";
+        }
     }
 }
