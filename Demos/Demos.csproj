@@ -215,7 +215,7 @@
     <Compile Include="Demos2019\CovarianceContravarianceDemo.cs" />
     <Compile Include="Demos2019\DateTimeDemo.cs" />
     <Compile Include="Demos2019\DevisionDemo.cs" />
-    <Compile Include="Demos2019\DistributedTranscationDemo.cs" />
+    <Compile Include="OpenResource\DistributedTranscation\DistributedTranscationDemo.cs" />
     <Compile Include="Demos2019\DotNetEightDemo.cs" />
     <Compile Include="Demos2019\DatabaseTransaction.cs" />
     <Compile Include="Demos2019\Encrypt\AESUtil.cs" />
