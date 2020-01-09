@@ -17,7 +17,8 @@ namespace Demos.Demos2019
             ////this 参数
             //ThreadDemo1(this);
 
-            ThreadCreateUseTime();
+            //ThreadCreateUseTime();
+            LockMethod();
         }
         private void ThreadDemo1(ThreadDemo threadDemo)
         {
@@ -90,6 +91,102 @@ namespace Demos.Demos2019
 
 
         #endregion
+
+
+
+        private object _lockObj1 = new object();
+        private object _lockObj2 = new object();
+        int i = 0;
+        private void LockMethod()
+        {
+            //Task.Run(() =>
+            //{
+            //    for(int i=0;i<100;i++)
+            //    {
+            //        RunMethod1();
+            //    }
+            //});
+            //Task.Run(() =>
+            //{
+            //    for (int i = 0; i < 100; i++)
+            //    {
+            //        //RunMethod1();//i=200
+            //        RunMethod2();
+            //    }
+            //});
+            //i=200
+
+            //for (int i = 0; i < 100; i++)
+            //{
+            //    Task.Run(() =>
+            //    {
+            //        //RunMethod1();//i=200
+            //        RunLockMethod1();
+            //    });
+            //}
+            //for (int i = 0; i < 100; i++)
+            //{
+            //    Task.Run(() =>
+            //    {
+            //        //RunMethod1();//i=200
+            //        RunLockMethod2();
+            //    });
+            //}
+            //i=200
+
+            for (int i = 0; i < 100; i++)
+            {
+                Task.Run(() =>
+                {
+                    //runmethod1();//i=200
+                    RunMethod();
+                });
+            }
+
+            for (int i = 0; i < 100; i++)
+            {
+                Task.Run(() =>
+                {
+                    //runmethod1();//i=200
+                    RunMethod1();
+                });
+            }
+            Thread.Sleep(3000);
+            Console.WriteLine(i);
+        }
+
+        private void RunLockMethod1()
+        {
+            lock (_lockObj1)
+            {
+                Console.WriteLine($"RunMethod1:{Thread.CurrentThread.ManagedThreadId}");
+                i = i + 1;
+            }
+        }
+
+        private void RunMethod()
+        {
+          //  Console.WriteLine($"RunMethod1:{Thread.CurrentThread.ManagedThreadId}");
+            i = i + 2;
+            Thread.Sleep(3000);
+            Console.WriteLine($"i={i}");
+        }
+
+        private void RunMethod1()
+        {
+            Console.WriteLine($"RunMethod1:{Thread.CurrentThread.ManagedThreadId}");
+            i = i + 2;
+        }
+
+        private void RunLockMethod2()
+        {
+            lock (_lockObj2)
+            {
+                Console.WriteLine($"RunMethod2:{Thread.CurrentThread.ManagedThreadId}");
+                i = i + 1;
+            }
+        }
+
 
     }
 }

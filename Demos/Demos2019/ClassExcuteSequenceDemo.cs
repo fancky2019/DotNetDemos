@@ -5,8 +5,11 @@ namespace Demos.Demos2019
     /// <summary>
     /// 类执行顺序：静态字段-->静态构造函数-->类成员字段-->父类静态字段-->父类静态构造函数-->
     ///             父类成员字段-->父类非静态构造函数-->类非静态构造函数            
-    ///静态构造函数执行：new、访问当前类静态成员时候（注：子类访问父类静态成员（此时当前类是父类，不会执行子类的静态函数），
-    ///                                                  子类访问子类的静态成员，当前类是子类，只执行子类的静态构造函数，不会执行父类的静态构造函数）
+    ///静态构造函数执行：new、访问当前类静态成员（非常量）时候（ 注：子类访问父类静态成员
+    ///（此时当前类是父类，不会执行子类的静态函数），子类访问子类的静态成员，当前类是子类，
+    ///只执行子类的静态构造函数，不会执行父类的静态构造函数）。
+    ///
+    /// 
     ///总结：父类信息执行在子类非静态构造函数执行前执行。和java类加载顺序不一样。
     /// </summary>
     class ClassExcuteSequenceDemo
@@ -21,12 +24,18 @@ namespace Demos.Demos2019
             //new N();
 
 
-            //和java的一样
+
             //访问的是父类的静态成员，当前类是父类，只执行父类的静态构造函数
             //int x = N.X;
+            //  int x = N.Y;
             //N.FunM();
             //子类访问子类的静态成员，当前类是子类，只执行子类的静态构造函数，不会执行父类的静态构造函数
-            N.FunN();
+            //和java的不一样:java会执行父类的
+            //N.FunN();
+            //访问常量不执行静态构造函数
+            // var va = N.NConstVar;
+
+            var va = N.MConstVar;
         }
     }
 
@@ -99,6 +108,7 @@ namespace Demos.Demos2019
 
     class M
     {
+        public const int MConstVar = 1;
         public static int X = 1;
         private int p = 1;
         static M()
@@ -121,6 +131,7 @@ namespace Demos.Demos2019
         //类执行顺序：静态字段-->静态构造函数-->类成员字段-->父类静态字段-->父类静态构造函数-->
         //            父类成员字段-->父类非静态构造函数-->类非静态构造函数
         public static int Y = 1;
+        public const int NConstVar = 1;
         private int q = 1;
         static N()
         {
