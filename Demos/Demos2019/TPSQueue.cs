@@ -22,12 +22,34 @@ namespace StockAdapterHKEX
         //    Capacity = capacity;
         //    this.TPS = tps;
         //}
-     
+
+
+        static DateTime _createLogTime;
+        private static Timer _timer;
+        static volatile bool _logChanged;
+        private object _lockObj = new object();
+        AutoResetEvent _autoResetEvent = new AutoResetEvent(false);
+
         public TPSQueue(int tps = int.MaxValue)
         {
             this.TPS = tps;
             //_logger = new SynWriteLogger("TPSQueue.log");
             //_logger.setLogLevel(1);
+            _timer = new Timer((o) =>
+            {
+                if (DateTime.Now.Day != _createLogTime.Day)
+                {
+                    lock (_lockObj)
+                    {
+                        //_createLogTime = DateTime.Now;
+                        //_logChanged = true;
+                        //_logger.Dispose();
+                        //_logger = new SynWriteLogger("TPSQueue.log");
+                        //_logChanged = false;
+                        //_autoResetEvent.Set();
+                    }
+                }
+            }, null, 1000, 1000);
         }
         private void LogAsync(string msg)
         {
@@ -48,7 +70,12 @@ namespace StockAdapterHKEX
             //    //}
             //    _logger.log(1, msg);
             //});
-             //_logger.log(1, msg);
+
+            if (_logChanged)
+            {
+                _autoResetEvent.WaitOne();
+            }
+            //_logger.log(1, msg);
         }
         public void Producer(T t)
         {

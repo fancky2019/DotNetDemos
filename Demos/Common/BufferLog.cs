@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 namespace Demos.Common
 {
     /// <summary>
+    /// D:\fancky\Git\C#\Demos\Demos\Demos2019\NLogDemo.cs
     /// 经测试：
     /// 直接往磁盘写50条/ms。
     /// 加入并发队列200条/ms。然后再异步写log。可以提升性能。
@@ -28,26 +29,65 @@ namespace Demos.Common
         /// </summary>
         public static int Interval { get; set; }
 
-        static string FilePath
-        {
-            get
-            {
-                return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"Log\\{DateTime.Now.Year}-{DateTime.Now.Month.ToString("D2")}\\{DateTime.Now.Year}-{DateTime.Now.Month.ToString("D2")}-{DateTime.Now.Day.ToString("D2")}.txt");
-            }
-        }
-        static StreamWriter _sw = null;
+        static DateTime _createLogTime;
+
+        //static volatile bool _logChanged;
+        //static string FilePath
+        //{
+        //    get
+        //    {
+
+        //        return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"Log\\{DateTime.Now.Year}-{DateTime.Now.Month.ToString("D2")}\\{DateTime.Now.Year}-{DateTime.Now.Month.ToString("D2")}-{DateTime.Now.Day.ToString("D2")}.txt");
+        //    }
+        //}
+        static volatile StreamWriter _sw = null;
+
+        private static Timer _timer;
         static BufferLog()
         {
             BufferSize = 500;
             Interval = 1;
             _logBuffer = new ConcurrentQueue<string>();
+            _createLogTime = DateTime.Now;
+            var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"Log\\{DateTime.Now.Year}-{DateTime.Now.Month.ToString("D2")}\\{DateTime.Now.Year}-{DateTime.Now.Month.ToString("D2")}-{DateTime.Now.Day.ToString("D2")}.txt");
+
             //_sw = new StreamWriter(File.Open(FilePath, FileMode.Append, FileAccess.Write), System.Text.Encoding.UTF8);
-            var directory = Path.GetDirectoryName(FilePath);
+            var directory = Path.GetDirectoryName(filePath);
             if (!Directory.Exists(directory))
             {
                 Directory.CreateDirectory(directory);
             }
-            _sw = new StreamWriter(FilePath, true, System.Text.Encoding.UTF8);
+            _sw = new StreamWriter(filePath, true, System.Text.Encoding.UTF8);
+
+            _timer = new Timer((o) =>
+              {
+                  if(DateTime.Now.Day!= _createLogTime.Day)
+                  {
+              
+                      while (true)
+                      {
+                          if (InterLockedExtention.Acquire())
+                          {
+                              _createLogTime = DateTime.Now;
+                              //_logChanged = true;
+                              _sw.Close();
+                     
+
+                              filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"Log\\{DateTime.Now.Year}-{DateTime.Now.Month.ToString("D2")}\\{DateTime.Now.Year}-{DateTime.Now.Month.ToString("D2")}-{DateTime.Now.Day.ToString("D2")}.txt");
+                              _sw = new StreamWriter(filePath, true, System.Text.Encoding.UTF8);
+                              //_logChanged = false;
+                              InterLockedExtention.Release();
+                              break;
+                          }
+                          else
+                          {
+                              SpinWait spinWait = default(SpinWait);
+                              spinWait.SpinOnce();
+                          }
+                      }
+                  }
+              }, null, 1000, 1000);
+
             Task.Run(() =>
             {
                 CountPoll();
@@ -99,7 +139,11 @@ namespace Demos.Common
 
                     InterLockedExtention.Release();
                 }
+        
                 Thread.Sleep(1);
+                //如果并发量过大
+                //SpinWait spinWait = default(SpinWait);
+                //spinWait.SpinOnce();
             }
         }
 

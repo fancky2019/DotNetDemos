@@ -10,6 +10,10 @@ using System.Threading.Tasks;
 namespace Demos.Common
 {
 
+    /// <summary>
+    /// 频繁打开IO，不可取。
+    /// </summary>
+
     public class LogAsync
     {
 
