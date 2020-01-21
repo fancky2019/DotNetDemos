@@ -88,7 +88,7 @@ namespace Demos.Demos2018
 
                 #region Demos2019
                 //new EqualsOperatorDemo().Test();
-                new ThreadDemo().Test();
+                //new ThreadDemo().Test();
                 //  new StringInternDemo().Test();
 
                 // new HPSocketDemo().Test();
@@ -152,8 +152,8 @@ namespace Demos.Demos2018
                 //  new EncryptDemo().Test();
 
                 //new ParamsDemo().Test();
-                // BufferLog.Test();
-
+                //BufferLog.Test();
+                new DailyFile("log").Test();
                 //new ReflectionDemo().Test();
                 //new ThreadLocalDemo().Test();
                 //new ParallelDemo().Test();
