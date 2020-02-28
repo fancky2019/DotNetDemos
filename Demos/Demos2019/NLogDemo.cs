@@ -21,8 +21,8 @@ namespace Demos.Demos2019
 
         public void Test()
         {
-            //Fun();
-            ThroughputTest();
+            Fun();
+            //ThroughputTest();
         }
 
         /// <summary>
@@ -47,6 +47,7 @@ namespace Demos.Demos2019
         public  void Fun()
         {
             nLog.Debug("Debug1");
+            nLog.Info("NLogDemo info ");
             nLog.Info("info2");
             nLog.Warn("Warn3");
             try
