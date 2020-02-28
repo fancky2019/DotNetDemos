@@ -17,6 +17,12 @@ namespace Demos.Demos2019
         {
             StringIntern();
         }
+
+        /// <summary>
+        /// Intern():果暂存了 str，则返回系统对其的引用；否则返回对值为 str 的字符串的新引用。 
+        ///          如果存在str,返回str的引用，否则将str加入池中并返回str的引用。和java一样。
+        ///IsInterned():如果 str 在公共语言运行时的暂存池中，则返回对它的引用；否则返回 null。
+        /// </summary>
         void StringIntern()
         {
             //编译时候能认识的变量都会驻留
@@ -25,12 +31,12 @@ namespace Demos.Demos2019
             //String str1 is known at compile time, and is automatically interned.
             string a = "abc";
             string b = "abc";
-            var r1 = a == b;
-            var r2 = a.Equals(b);
-            var r3 = object.ReferenceEquals(a, b);
+            var r1 = a == b;//true
+            var r2 = a.Equals(b);//true
+            var r3 = object.ReferenceEquals(a, b);//true
             string str = new string(new char[] { 'a', 'b', 'c' });//实例化一个新的String实例
-            var r4 = a == str;
-            var r5 = a.Equals(str);
+            var r4 = a == str;//true ： string 类型，== 比较字符串的值 和java 不同
+            var r5 = a.Equals(str);//true
             var r6 = object.ReferenceEquals(a, str);//false
             var r61 = a == str;
             string s = string.IsInterned("abc");
@@ -39,8 +45,8 @@ namespace Demos.Demos2019
             string s3 = string.Intern("ab1");
             string s4 = string.Intern("def");
             var r7 = object.ReferenceEquals(a, s);//true
-            var r8 = object.ReferenceEquals(s1, s2);
-            var r9 = object.ReferenceEquals(s2, s3);
+            var r8 = object.ReferenceEquals(s1, s2);//true
+            var r9 = object.ReferenceEquals(s2, s3);//true
 
             string s51 = "abcd";
             //new  

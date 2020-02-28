@@ -89,7 +89,7 @@ namespace Demos.Demos2018
                 #region Demos2019
                 //new EqualsOperatorDemo().Test();
                 //new ThreadDemo().Test();
-                //  new StringInternDemo().Test();
+                //new StringInternDemo().Test();
 
                 // new HPSocketDemo().Test();
                 //   new CharDemo().Test();
@@ -153,14 +153,14 @@ namespace Demos.Demos2018
 
                 //new ParamsDemo().Test();
                 //BufferLog.Test();
-                new DailyFile("log").Test();
+                //new DailyFile("log").Test();
                 //new ReflectionDemo().Test();
                 //new ThreadLocalDemo().Test();
                 //new ParallelDemo().Test();
 
                 //new TimerDemo().Test();
 
-                //new NLogDemo().Test();
+                new NLogDemo().Test();
 
                 #endregion
 

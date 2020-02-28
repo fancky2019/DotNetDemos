@@ -10,7 +10,7 @@ namespace Demos.Demos2019.Subjects
     {
         public void Test()
         {
-            //  new B();//1,0
+            //  new B();//x=1,y=0
 
             Console.WriteLine("X={0},Y={1}", A.X, B.Y);//X=2,Y=1
         }
