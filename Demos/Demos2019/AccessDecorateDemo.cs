@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace Demos.Demos2019
 {
     /// <summary>
+    /// https://docs.microsoft.com/zh-cn/dotnet/csharp/programming-guide/classes-and-structs/access-modifiers
     /// 命名空间内的访问修饰符:public、internal
     /// 
     /// 
@@ -18,16 +19,17 @@ namespace Demos.Demos2019
     /// protected internal：当前程序集或派生自包含类的类型。
     /// private protected：包含类或当前程序集内派生自包含类的类型。
     /// </summary>
-    class AccessDecorateDemo
+    public class AccessDecorateDemo
     {
-        public  void  Test()
+        protected internal int var1;
+        public void Test()
         {
             //c# 接口成员的访问修饰符只能是公有的。
 
             //public：访问不受限制。
             //protected：访问限于包含类或派生自包含类的类型。
             //internal：访问限于当前程序集。
-            //protected internal：访问限于当前程序集或派生自包含类的类型。
+            //protected internal：访问限于当前程序集或派生自包含类的类型(另一个程序集的派生类内，其他类内访问不了)。
             //private：访问限于包含类。
             //private protected：访问限于包含类或当前程序集中派生自包含类的类型。
 

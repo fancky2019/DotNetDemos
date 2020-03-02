@@ -16,8 +16,21 @@ namespace TestDll
 
     class Class2
     {
-
+        private void Fun1()
+        {
+            Class3 cl3 = new Class3();
+            
+        }
     }
+
+    class Class3 : Demos.Demos2019.AccessDecorateDemo
+    {
+       private void  Fun1()
+        {
+            this.var1 = 0;
+        }
+    }
+
     //接口可以声明为公共或内部，就像类和结构一样，接口默认设置为内部访问。 接口成员始终为公共的
     public interface Interface1
     {
@@ -28,4 +41,6 @@ namespace TestDll
     {
 
     }
+
+
 }
