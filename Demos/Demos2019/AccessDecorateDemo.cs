@@ -16,7 +16,7 @@ namespace Demos.Demos2019
     /// private:包含类的类型。
     /// protected:访问限于包含类或派生自包含类的类型。
     /// internal:当前程序集。
-    /// protected internal：当前程序集或派生自包含类的类型。
+    /// protected internal：当前程序集或派生自包含类的类型(另一个程序集的派生类内，其他类内访问不了)。
     /// private protected：包含类或当前程序集内派生自包含类的类型。
     /// </summary>
     public class AccessDecorateDemo
