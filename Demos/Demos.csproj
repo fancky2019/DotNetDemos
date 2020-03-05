@@ -216,6 +216,10 @@
     <Compile Include="Demos2019\CovarianceContravarianceDemo.cs" />
     <Compile Include="Demos2019\DateTimeDemo.cs" />
     <Compile Include="Demos2019\DevisionDemo.cs" />
+    <Compile Include="Demos2019\TcpClientDemo.cs" />
+    <Compile Include="Demos2019\TCPServerDemo.cs" />
+    <Compile Include="Demos2019\UDPClientDemo.cs" />
+    <Compile Include="Demos2019\UDPServerDemo.cs" />
     <Compile Include="OpenResource\DistributedTranscation\DistributedTranscationDemo.cs" />
     <Compile Include="Demos2019\DotNetEightDemo.cs" />
     <Compile Include="Demos2019\DatabaseTransaction.cs" />

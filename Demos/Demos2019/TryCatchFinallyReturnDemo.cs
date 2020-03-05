@@ -13,8 +13,8 @@ namespace Demos.Demos2019
         {
             //  finally没return: try、catch有return 执行return之后再执行finally块，try、catch内return的值如果
             //                        是基本数据类型不受finally语句影响，如果是引用类型将改变暂存值。
-            Console.WriteLine($"Get()={Get()}");//异常：2，正常：1。
-            Console.WriteLine($"a={a}");//2
+            Console.WriteLine($"Get()={Get()}");//异常：0，正常：1。
+            Console.WriteLine($"a={a}");//异常：2，正常：1。
 
             string str = GetString();
             Console.WriteLine(str);
