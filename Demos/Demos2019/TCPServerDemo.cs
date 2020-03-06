@@ -71,22 +71,27 @@ namespace Demos.Demos2019
                         //    stream.Write(msg, 0, msg.Length);
                         //    Console.WriteLine("Server Sent: {0}", data);
                         //}
-                     
-                            while ((i = stream.Read(bytes, 0, 2)) != 0)
-                            {
-                                //stream.Read(bytes, 0, 2);
-                                var msgLength = BitConverter.ToInt16(bytes, 0);
-                                Array.Clear(bytes, 0, 2);
-                                stream.Read(bytes, 0, msgLength);
-                                var data1 = System.Text.Encoding.ASCII.GetString(bytes, 0, 4);
-                                var data2 = BitConverter.ToUInt64(bytes.Skip(4).Take(8).ToArray(), 0);//timestamp
-                                var data3 = System.Text.Encoding.ASCII.GetString(bytes, 12, msgLength - 12);
-                                data = $"{data1}{data2}{data3}";
-                                Console.WriteLine("Server Received: {0}", data);
 
-                                _nLog.Info(data);
-                            }
-                        
+                        while ((i = stream.Read(bytes, 0, 2)) != 0)
+                        {
+                            byte[] lengthBytes = bytes.Take(2).Reverse().ToArray();
+
+                            //stream.Read(bytes, 0, 2);
+                            var msgLength = BitConverter.ToInt16(lengthBytes, 0);
+                            Array.Clear(bytes, 0, 2);
+                            stream.Read(bytes, 0, msgLength);
+                            var data1 = System.Text.Encoding.ASCII.GetString(bytes, 0, 2);//1C
+                            var data2 = bytes.Skip(2).Take(1).ToArray()[0];//5档
+                            var data3 = bytes.Skip(3).Take(1).ToArray()[0]; //1档
+                            var data4 = BitConverter.ToUInt64(bytes.Skip(4).Take(8).ToArray(), 0);//timestamp
+                            var data5 = System.Text.Encoding.ASCII.GetString(bytes, 12, msgLength - 12);//消息
+
+                            data = $"{data1}{data2}{data3}{data4}{data5}";
+                            Console.WriteLine("Server Received: {0}", data);
+
+                            _nLog.Info(data);
+                        }
+
 
                         //byte[] msg = System.Text.Encoding.ASCII.GetBytes(data);
 

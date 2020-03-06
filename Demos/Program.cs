@@ -162,10 +162,10 @@ namespace Demos.Demos2018
 
                 //new NLogDemo().Test();
 
-                //Task.Run(() =>
-                //{
-                //    new TCPServerDemo().Test();
-                //});
+                Task.Run(() =>
+                {
+                    new TCPServerDemo().Test();
+                });
                 //Task.Run(() =>
                 //{
                 //    Thread.Sleep(1000);
@@ -175,11 +175,11 @@ namespace Demos.Demos2018
                 {
                     new UDPServerDemo().Test();
                 });
-                Task.Run(() =>
-                {
-                    Thread.Sleep(1000);
-                    new UDPClientDemo().Test();
-                });
+                //Task.Run(() =>
+                //{
+                //    Thread.Sleep(1000);
+                //    new UDPClientDemo().Test();
+                //});
 
                 #endregion
 
