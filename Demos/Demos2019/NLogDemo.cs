@@ -59,7 +59,6 @@ namespace Demos.Demos2019
                 nLog.Error(ex, ex.Message);
                 nLog.Error(ex, ex.ToString());
             }
-    
         }
 
         public void ThroughputTest()

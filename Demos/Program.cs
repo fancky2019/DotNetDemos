@@ -160,21 +160,21 @@ namespace Demos.Demos2018
 
                 //new TimerDemo().Test();
 
-                //new NLogDemo().Test();
+                new NLogDemo().Test();
 
-                Task.Run(() =>
-                {
-                    new TCPServerDemo().Test();
-                });
+                //Task.Run(() =>
+                //{
+                //    new TCPServerDemo().Test();
+                //});
                 //Task.Run(() =>
                 //{
                 //    Thread.Sleep(1000);
                 //    new TcpClientDemo().Test();
                 //});
-                Task.Run(() =>
-                {
-                    new UDPServerDemo().Test();
-                });
+                //Task.Run(() =>
+                //{
+                //    new UDPServerDemo().Test();
+                //});
                 //Task.Run(() =>
                 //{
                 //    Thread.Sleep(1000);
