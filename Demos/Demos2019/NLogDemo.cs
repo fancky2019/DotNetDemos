@@ -28,11 +28,12 @@ namespace Demos.Demos2019
 
         private void  Fun1()
         {
-            for(int i=0;i<150000;i++)
+            for(int i=0;i<1000000;i++)
             {
                 nLog.Info($"Debug-{i}");
             }
             Console.WriteLine("completed!");
+            NLog.LogManager.Shutdown();
         }
 
         /// <summary>
