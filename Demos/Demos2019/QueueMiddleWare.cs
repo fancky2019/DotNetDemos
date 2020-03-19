@@ -357,6 +357,48 @@ namespace Demos.Demos2019
             }
         }
 
+        public bool Rejected
+        {
+            get
+            {
+                if (ConsumeredTimesCountEqualCapacity)
+                {
+                    /*
+                     * 如果缓存的命令为空，需要判断对头时间和Now间隔是否超过1s决定是否消费，
+                     * 如果命令不为空，直接入队。
+                     */
+
+                    DateTime headerTime;
+                    ConsumeredTimes.TryPeek(out headerTime);
+                    var duration = DateTime.Now - headerTime;
+                    /*
+                     * 对量容量已满，如果队头时间和now间隔超过一秒直接消费，否则入队处理
+                     */
+                    if (duration.TotalMilliseconds > 1000)
+                    {
+                        /*
+                         * 每次消费都要动态维护ConsumeredTimes队列。
+                         * ConsumeredTimes队列中始终保存Capacity个最新消费的时间。                       
+                         */
+                        ConsumeredTimes.TryDequeue(out _);
+                        ConsumeredTimes.Enqueue(DateTime.Now);
+                        return false;
+                    }
+                    else
+                    {
+                        return true;
+                    }
+
+                }
+                else
+                {
+                    //队列未满直接将消费时间入队，同时消费
+                    ConsumeredTimes.Enqueue(DateTime.Now);
+                    return false;
+                }
+            }
+        }
+
         public QueueData(int capacity = 50)
         {
             ConsumeredTimes = new ConcurrentQueue<DateTime>();
