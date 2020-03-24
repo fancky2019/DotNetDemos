@@ -136,7 +136,7 @@ namespace Demos.Demos2018
 
                 //new KeyValuePairDemo().Test();
 
-                //new StackExchangeDemo().Test();
+                new StackExchangeDemo().Test();
                 //new ServiceStackRedisDemo().Test();
                 //new SpinLockDemo().Test();
 
@@ -160,7 +160,7 @@ namespace Demos.Demos2018
 
                 //new TimerDemo().Test();
 
-                new NLogDemo().Test();
+                //new NLogDemo().Test();
 
                 //Task.Run(() =>
                 //{
