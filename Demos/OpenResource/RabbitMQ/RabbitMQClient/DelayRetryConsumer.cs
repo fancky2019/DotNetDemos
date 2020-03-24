@@ -19,6 +19,11 @@ namespace Demos.OpenResource.RabbitMQ.RabbitMQClient
     ///  
     ///       设置:x-dead-letter-exchange 指定死信送往的交换机
     ///       设置:x-dead-letter-routing-key 指定死信的routingkey
+    ///       
+    /// 
+    /// 重复消费：
+    ///         原因：发生超时消费者未ack消息，造成消息重新投递。
+    ///         解决：对消息加主键，消费前到Redis判断是否消费，消费成功主键加入Redis.
     /// </summary>
     public class DelayRetryConsumer
     {
