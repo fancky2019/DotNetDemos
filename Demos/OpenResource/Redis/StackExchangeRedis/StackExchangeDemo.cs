@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Demos.OpenResource.Redis.StackExchangeRedis
@@ -31,9 +32,11 @@ namespace Demos.OpenResource.Redis.StackExchangeRedis
             //ListOperaton();
             //SetOperaton();
             //SortedSetOperaton();
-            //ExpiryKey();
+            ExpiryKey();
             //Increment();
-            Transaction();
+            //Transaction();
+
+
         }
         void StackExchangeTest()
         {
@@ -466,12 +469,28 @@ namespace Demos.OpenResource.Redis.StackExchangeRedis
         #region Expiry
         /// <summary>
         /// key 到期redis会删除
+        /// 两个时间差是2秒就过期
         /// </summary>
         private void ExpiryKey()
         {
+           
+            SpinWait spinWait = default(SpinWait);
             //string 添加的key的时候可以直接添加过期时间，其他设置key的到期时间
             IDatabase iDatabase = GetDatabase();
-            iDatabase.StringSet("ExpiryKey", "ExpiryKeyValue", TimeSpan.FromSeconds(20));
+            iDatabase.KeyDelete("ExpiryKey");
+
+            //两个时间差是2秒就过期
+            Console.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+            StopwatchHelper.Instance.Start();
+            iDatabase.StringSet("ExpiryKey", "ExpiryKeyValue", TimeSpan.FromSeconds(2));
+            while(iDatabase.KeyExists("ExpiryKey"))
+            {
+                spinWait.SpinOnce();
+            }
+            Console.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+            StopwatchHelper.Instance.Stop();
+            Console.WriteLine(StopwatchHelper.Instance.Stopwatch.ElapsedMilliseconds);
+
 
 
             iDatabase.HashSet("hashKey1", "hashField1", "张三");
