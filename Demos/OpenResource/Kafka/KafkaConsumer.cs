@@ -8,28 +8,31 @@ using System.Threading.Tasks;
 
 namespace Demos.OpenResource.Kafka
 {
-    /// <summary>
-    /// 
-    /// </summary>
+    /*
+        *  Kafka 每个topic下有多个partion,每个partion有一个leader多个follower，
+        *  Kafka 采用leader读写，follower备份，leader宕机，从zookeeper从follower中选举一个leader.
+        *        producer往partion的leader写，follower发起同步。
+        *        comsumer从partion的leader读
+        *        
+        *  
+        *  
+        *  默认是latest。
+        *  
+        *  Earliest 
+           当各分区下有已提交的offset时，从提交的offset开始消费；无提交的offset时，从头开始消费 
+           Latest （默认）
+           当各分区下有已提交的offset时，从提交的offset开始消费；无提交的offset时，消费新产生的该分区下的数据 
+          （之前的数据不消费，只消费当前新生产的数据）
+           Error 
+           topic各分区都存在已提交的offset时，从offset后开始消费；只要有一个分区不存在已提交的offset，则抛出异常
+
+
+           消费：
+           每个分区内的同一消息只会分同一消费组内的一个消费者，该分区的不同消息可分配给部分消费组的不同消费者
+        */
     class KafkaConsumer
     {
-        /*
-         *  Kafka 每个topic下有多个partion,每个partion有一个leader多个follower，
-         *  Kafka 采用leader读写，follower备份，leader宕机，从zookeeper从follower中选举一个leader.
-         *        producer往partion的leader写，follower发起同步。
-         *        comsumer从partion的leader读
-         *        
-         *  
-         *  
-         *  
-         *  
-         *  Earliest 
-            当各分区下有已提交的offset时，从提交的offset开始消费；无提交的offset时，从头开始消费 
-            Latest 
-            当各分区下有已提交的offset时，从提交的offset开始消费；无提交的offset时，消费新产生的该分区下的数据 
-            Error 
-            topic各分区都存在已提交的offset时，从offset后开始消费；只要有一个分区不存在已提交的offset，则抛出异常
-         */
+     
         /// <summary>
         ///     In this example
         ///         - offsets are manually committed.
