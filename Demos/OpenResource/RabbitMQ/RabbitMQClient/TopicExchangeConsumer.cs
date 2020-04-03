@@ -13,7 +13,7 @@ namespace Demos.Demos2018.RabbitMQ.RabbitMQClient
     /// 通配符模式（Topic Exchange）
     /// 路由键支持模糊匹配，符号“#”匹配一个或多个词，符号“*”匹配不多不少一个词
     /// </summary>
-    class TopicExchange
+    class TopicExchangeConsumer
     {
         public void Consumer()
         {

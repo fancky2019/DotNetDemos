@@ -79,7 +79,7 @@ namespace Demos.Demos2018
                 // new AttributeDemo().Test();
                 //new ImplicitExplicitDemo().Test();
 
-                //new RabbitMQTest().Test();
+                new RabbitMQTest().Test();
                 //new TryCatchFinallyReturnDemo().Test();
 
                 //  new CollectionDemo().Test();

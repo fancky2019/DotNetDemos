@@ -14,7 +14,7 @@ namespace Demos.Demos2018.RabbitMQ.RabbitMQClient
     /// 路由模式(Direct Exchange)
     ///  direct类型要求routingkey完全相等，
     /// </summary>
-    class DirectExchange
+    class DirectExchangeConsumer
     {
         /*
         * 持久化：
@@ -108,6 +108,9 @@ namespace Demos.Demos2018.RabbitMQ.RabbitMQClient
                         var body = ea.Body;
                         var message = Encoding.UTF8.GetString(body);
                         Console.WriteLine($"Thread - {Thread.CurrentThread.ManagedThreadId} [x] Received '{routingKey}':'{message}'" );
+
+                        //模拟消费耗时
+                        Thread.Sleep(200);
 
                         //制造异常，加入死信队列。也可以设计重试几次不行才加入死信队列
                         //int m = int.Parse("m");

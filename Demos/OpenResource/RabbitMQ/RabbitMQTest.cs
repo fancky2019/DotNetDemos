@@ -32,17 +32,26 @@ namespace Demos.Demos2018.RabbitMQ
                 //http://www.rabbitmq.com/tutorials/tutorial-three-dotnet.html
                 //NuGet安装RabbitMQ.Client
 
-                //new Demos.Demos2018.RabbitMQ.RabbitMQClient.FanoutExchange().Consumer();
-                new Demos.Demos2018.RabbitMQ.RabbitMQClient.DirectExchange().Consumer();
-                //new Demos.Demos2018.RabbitMQ.RabbitMQClient.TopicExchange().Consumer();
+                //new Demos.Demos2018.RabbitMQ.RabbitMQClient.FanoutExchangeConsumer().Consumer();
+                //new Demos.Demos2018.RabbitMQ.RabbitMQClient.DirectExchangeConsumer().Consumer();
+                //new Demos.Demos2018.RabbitMQ.RabbitMQClient.TopicExchangeConsumer().Consumer();
 
                 //new DelayRetryConsumer().Consumer();
             });
-            //Task.Run(() =>
-            //{
-            //    new Demos.Demos2018.RabbitMQ.RabbitMQClient.DirectExchange().Consumer();
 
-            //});
+
+            //模拟两个消费者：两个线程消。
+            Task.Run(() =>
+            {
+                new Demos.Demos2018.RabbitMQ.RabbitMQClient.DirectExchangeConsumer().Consumer();
+
+            });
+            Task.Run(() =>
+            {
+                new Demos.Demos2018.RabbitMQ.RabbitMQClient.DirectExchangeConsumer().Consumer();
+
+            });
+
             Thread.Sleep(1000);
             //生产者没有创建队列。
             Task.Run(() =>
@@ -57,14 +66,14 @@ namespace Demos.Demos2018.RabbitMQ
 
                 //http://www.rabbitmq.com/tutorials/tutorial-three-dotnet.html
                 //NuGet安装RabbitMQ.Client
-                //new FanoutExchange().Producer();
+                //new FanoutExchangeProducer().Producer();
 
-                new DirectExchange().ProduceIndividually();
-                //new DirectExchange().ProduceInBatches();
-                //new DirectExchange().ProduceInBatchesAsync();
+                //new DirectExchangeProducer().ProduceIndividually();
+                //new DirectExchangeProducer().ProduceInBatches();
+                //new DirectExchangeProducer().ProduceInBatchesAsync();
 
 
-                //new TopicExchange().Producer();
+                //new TopicExchangeProducer().Producer();
             });
  
         }
