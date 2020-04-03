@@ -11,7 +11,7 @@ namespace Demos.Demos2018.RabbitMQ.RabbitMQServer
     /// http://www.rabbitmq.com/tutorials/tutorial-three-dotnet.html
     /// 订阅模式(Fanout Exchange)
     /// </summary>
-    class FanoutExchange
+    class FanoutExchangeProducer
     {
         public void Producer()
         {

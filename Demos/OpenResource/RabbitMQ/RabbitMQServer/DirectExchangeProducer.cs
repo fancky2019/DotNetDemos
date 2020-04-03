@@ -18,7 +18,7 @@ namespace Demos.Demos2018.RabbitMQ.RabbitMQServer
     /// http://www.rabbitmq.com/tutorials/tutorial-four-dotnet.html
     /// direct类型要求routingkey完全相等，
     /// </summary>
-    class DirectExchange
+    class DirectExchangeProducer
     {
         /*
          * 持久化：

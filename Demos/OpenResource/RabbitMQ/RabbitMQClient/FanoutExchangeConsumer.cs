@@ -12,7 +12,7 @@ namespace Demos.Demos2018.RabbitMQ.RabbitMQClient
     /// http://www.rabbitmq.com/tutorials/tutorial-three-dotnet.html
     /// 订阅模式(Fanout Exchange)Publish/Subscribe
     /// </summary>
-    class FanoutExchange
+    class FanoutExchangeConsumer
     {
         public void Consumer()
         {
