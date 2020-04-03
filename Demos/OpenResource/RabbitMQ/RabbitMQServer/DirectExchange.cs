@@ -25,6 +25,14 @@ namespace Demos.Demos2018.RabbitMQ.RabbitMQServer
          * Exchange：ExchangeDeclare 参数durable: true，宕机只保存Exchange元数据 ，Queue、Message丢失
          * Queue:QueueDeclare 参数durable: true         宕机只保存Queue元数据，Message丢失
          * Message:BasicProperties 属性 Persistent = true;   宕机只保存Queue元数据。
+         * 
+         * 信道：TCP连接的复用，一个TCP连接可以有多个channel。
+         * 消息生产：
+         * 消息发布到交换机同时指定路由key，交换机根据路由key，将消息存储到指定队列上。
+         * 队列：队列和交换机、路由key绑定在一起。
+         * 消费：
+         * 消费指定队列的数据。
+         * 
        */
 
         public void ProduceIndividually()
@@ -46,6 +54,20 @@ namespace Demos.Demos2018.RabbitMQ.RabbitMQServer
                 ///durable 保存到本地磁盘，下次重启rabbitMQ消息还在
                 channel.ExchangeDeclare(exchange: exchange, type: ExchangeType.Direct, durable: true, autoDelete: false, arguments: null);
 
+                //生产端声明队列，避免消息因队列不存在而无法投递。
+                //当队列存在不会重复创建
+                //var queue = "DirectExchangeQueue";
+                //channel.QueueDeclare(queue: queue,
+                //              durable: true,
+                //              exclusive: false,
+                //              autoDelete: false,
+                //              arguments: null);
+
+                //channel.QueueBind(queue: queue,
+                //                  exchange: exchange,
+                //                  routingKey: routingKey);
+
+
 
                 var message = "DirectExchange:Hello World!";
                 var body = Encoding.UTF8.GetBytes(message);
@@ -62,7 +84,9 @@ namespace Demos.Demos2018.RabbitMQ.RabbitMQServer
 
 
 
-                //没有路由的消息将会回退,消息没有找到可路由转发的队里，立即回发给生产者。
+                //在rabbitMQ后台管理（http://localhost:15672/#/queues）删除DirectExchange队列，消息无法投递到队列将进入此回调
+                //没有路由的消息： channel.BasicPublish方法参数设置 mandatory: true,
+                //没有路由的消息将会回退,消息没有找到可路由转发的队列，立即回发给生产者。
                 channel.BasicReturn += (object sender, global::RabbitMQ.Client.Events.BasicReturnEventArgs e) =>
                 {
 

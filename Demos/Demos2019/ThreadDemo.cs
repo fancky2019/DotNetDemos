@@ -8,6 +8,13 @@ using System.Threading.Tasks;
 
 namespace Demos.Demos2019
 {
+    /*
+     * 当lock(_lockObj):
+     * 1):CLR分配内存：对象存储数据内存+类型对象指针+同步索引块
+     * 2)：_lockObj的同步索引块会引用同步块数组（SyncBlock）中的同步块，同步块会记录当前线程的信息（如线程ID)。
+     * 3):如果有其他线程试图进入lock块前，会判断同步块中线程的信息，是否是当前的线程。
+     * 4):线程退出时候会将_lockObj的同步索引块设置-1。
+     */
     class ThreadDemo
     {
         public void Test()

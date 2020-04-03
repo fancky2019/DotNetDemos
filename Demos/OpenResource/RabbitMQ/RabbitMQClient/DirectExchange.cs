@@ -17,11 +17,18 @@ namespace Demos.Demos2018.RabbitMQ.RabbitMQClient
     class DirectExchange
     {
         /*
-    * 持久化：
-    * Exchange：ExchangeDeclare 参数durable: true，宕机只保存Exchange元数据 ，Queue、Message丢失
-    * Queue:QueueDeclare 参数durable: true         宕机只保存Queue元数据，Message丢失
-    * Message:BasicProperties 属性 Persistent = true;   宕机只保存Queue元数据。
-  */
+        * 持久化：
+        * Exchange：ExchangeDeclare 参数durable: true，宕机只保存Exchange元数据 ，Queue、Message丢失
+        * Queue:QueueDeclare 参数durable: true         宕机只保存Queue元数据，Message丢失
+        * Message:BasicProperties 属性 Persistent = true;   宕机只保存Queue元数据。
+        * 
+        * 信道：TCP连接的复用，一个TCP连接可以有多个channel。
+        * 消息生产：
+        * 消息发布到交换机同时指定路由key，交换机根据路由key，将消息存储到指定队列上。
+        * 队列：队列和交换机、路由key绑定在一起。
+        * 消费：
+        * 消费指定队列的数据。
+       */
         public const string DeadLetterExchange = "DeadLetterExchange";
         public const string DeadLetterQueue = "DeadLetterQueue";
         public const string DeadLetterRoutingKey = "DeadLetterRoutingKey";
@@ -39,6 +46,8 @@ namespace Demos.Demos2018.RabbitMQ.RabbitMQClient
             {
                 //创建死信交换机队列：用于存储死信
                 channel.ExchangeDeclare(exchange: DeadLetterExchange, type: ExchangeType.Direct, durable: true, autoDelete: false, arguments: null);
+                //生产端声明队列，避免消息因队列不存在而无法投递。
+                //当队列存在不会重复创建
                 channel.QueueDeclare(queue: DeadLetterQueue,
                                 durable: true,
                                 exclusive: false,
@@ -98,7 +107,7 @@ namespace Demos.Demos2018.RabbitMQ.RabbitMQClient
 
                         var body = ea.Body;
                         var message = Encoding.UTF8.GetString(body);
-                        Console.WriteLine(" [x] Received '{0}':'{1}'", routingKey, message);
+                        Console.WriteLine($"Thread - {Thread.CurrentThread.ManagedThreadId} [x] Received '{routingKey}':'{message}'" );
 
                         //制造异常，加入死信队列。也可以设计重试几次不行才加入死信队列
                         //int m = int.Parse("m");

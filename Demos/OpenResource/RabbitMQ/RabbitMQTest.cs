@@ -38,7 +38,11 @@ namespace Demos.Demos2018.RabbitMQ
 
                 //new DelayRetryConsumer().Consumer();
             });
+            //Task.Run(() =>
+            //{
+            //    new Demos.Demos2018.RabbitMQ.RabbitMQClient.DirectExchange().Consumer();
 
+            //});
             Thread.Sleep(1000);
             //生产者没有创建队列。
             Task.Run(() =>
@@ -55,10 +59,10 @@ namespace Demos.Demos2018.RabbitMQ
                 //NuGet安装RabbitMQ.Client
                 //new FanoutExchange().Producer();
 
-                //new DirectExchange().ProduceIndividually();
+                new DirectExchange().ProduceIndividually();
                 //new DirectExchange().ProduceInBatches();
-                new DirectExchange().ProduceInBatchesAsync();
-                
+                //new DirectExchange().ProduceInBatchesAsync();
+
 
                 //new TopicExchange().Producer();
             });
