@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Common;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -25,7 +26,9 @@ namespace Demos.Demos2019
             //ThreadDemo1(this);
 
             //ThreadCreateUseTime();
-            LockMethod();
+            //LockMethod();
+            //DeadLock();
+            UserThreadDaemonThread();
         }
         private void ThreadDemo1(ThreadDemo threadDemo)
         {
@@ -100,7 +103,7 @@ namespace Demos.Demos2019
         #endregion
 
 
-
+        #region  锁
         private object _lockObj1 = new object();
         private object _lockObj2 = new object();
         int i = 0;
@@ -173,7 +176,7 @@ namespace Demos.Demos2019
 
         private void RunMethod()
         {
-          //  Console.WriteLine($"RunMethod1:{Thread.CurrentThread.ManagedThreadId}");
+            //  Console.WriteLine($"RunMethod1:{Thread.CurrentThread.ManagedThreadId}");
             i = i + 2;
             Thread.Sleep(3000);
             Console.WriteLine($"i={i}");
@@ -194,6 +197,142 @@ namespace Demos.Demos2019
             }
         }
 
+        #endregion
 
+        #region 死锁
+
+         Object _a = new Object();
+         Object _b = new Object();
+
+        /*
+        当发生的死锁后，JDK自带了两个工具(jstack和JConsole)，可以用来监测分析死锁的发生原因。
+        JConsole目录位置:C:\Java\jdk1.8.0_151\bin
+                         使用方法：1）、选中一个进程，连接
+                                   2）、在线程tab页下方，点击检测到死锁。
+         */
+        private void DeadLock()
+        {
+            try
+            {
+                /*
+                线程产生死锁
+                输出：
+                 A-3 Enter Thread A
+                 B-5 Enter Thread B
+                */
+                Task.Run(() =>
+                 {
+                     lock (_a)
+                     {
+                         try
+                         {
+                             Console.WriteLine($"A-{Thread.CurrentThread.ManagedThreadId} Enter Thread A");
+                             //睡100ms,确保下面线程执行，否则下面线程还没执行，此线程就执行完，无法锁住。
+                             Thread.Sleep(100);
+                             int m = 0;
+                         }
+                         catch (Exception ex)
+                         {
+                             Console.WriteLine(ex.Message);
+                         }
+                         //线程会阻塞在此处。
+                         lock (_b)
+                         {
+                             Console.WriteLine("A Enter Thread B");
+                         }
+                     }
+                     Console.WriteLine("A  Thread  Complete");
+                 });
+
+                Task.Run(() =>
+                 {
+                     lock (_b)
+                     {
+                         try
+                         {
+                             Console.WriteLine($"B-{Thread.CurrentThread.ManagedThreadId} Enter Thread B");
+                             //   Thread.sleep(100);
+                         }
+                         catch (Exception ex)
+                         {
+                             Console.WriteLine(ex.Message);
+                         }
+                         lock (_a)
+                         {
+                             Console.WriteLine("B Enter Thread A");
+                         }
+                     }
+                     Console.WriteLine("B  Thread  Complete");
+                 });
+
+                //            CompletableFuture.runAsync(()->
+                //            {
+                //                while (true)
+                //                {
+                //
+                //                }
+                //            });
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+
+        }
+        #endregion
+
+        #region 用户线程、守护线程
+        /*
+         * 
+         *当程序有用户程序存在时候，守护线程就不会退出。
+         *控制台在dos窗关闭时候前台线程可以退出
+         * Winform窗体关闭，前台线程不能退出，后台线程可以退出。
+         */
+        volatile int _i = 1;
+
+        private void UserThreadDaemonThread()
+        {
+            Thread userThread = new Thread(() =>
+            {
+                try
+                {
+                    while (true)
+                    {
+
+                        TxtFile.SaveTxtFile("UserThread.txt", new List<string>() { "userThread - " + _i.ToString() });
+
+                        Thread.Sleep(1000);
+                        ++_i;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            });
+            userThread.Start();
+
+            Thread daemonThread = new Thread(() =>
+            {
+                try
+                {
+                    while (true)
+                    {
+                        TxtFile.SaveTxtFile("DaemonThread.txt", new List<string>() { "daemonThread - " + _i.ToString() });
+                        Thread.Sleep(1000);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            });
+            daemonThread.IsBackground = true;
+            daemonThread.Start();
+        }
+
+        #endregion
     }
 }
