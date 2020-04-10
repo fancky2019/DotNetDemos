@@ -102,7 +102,6 @@ namespace Demos.Demos2019
 
         #endregion
 
-
         #region  锁
         private object _lockObj1 = new object();
         private object _lockObj2 = new object();
@@ -333,6 +332,69 @@ namespace Demos.Demos2019
             daemonThread.Start();
         }
 
+        #endregion
+
+        #region  while(true)线程退出
+        bool _stop = false;
+        //MSDN 官方实例
+        // volatile  bool _stop=false;
+
+        private void  ThreadExit()
+        {
+            /*
+             * 存储结构：寄存器缓存+主存
+             * volatile不在线程内缓存，会强制刷新到主存
+             * 每个线程内会有一个变量的副本，线程改变变量会将改变量刷新到主存。
+             * 
+             * 
+             * threadStop可能执行_stop为true,可能未及时刷新到主存，所以
+             * thread可能还会继续运行。所以做好把_stop声明为volatile  bool _stop
+             */
+            Thread thread = new Thread(() =>
+             {
+                 while (!_stop)
+                 {
+                    //DoWork()
+                }
+             });
+            thread.IsBackground = true;
+            thread.Start();
+
+            Thread threadStop = new Thread(() =>
+             {
+                 //当满足某个条件将_stop设为false。
+                 _stop = true;
+             });
+            threadStop.IsBackground = true;
+            threadStop.Start();
+        }
+        #endregion
+
+        #region 线程状态
+        private void ThreadState()
+        {
+            /*
+             *ThreadState: Unstarted
+             *ThreadState: WaitSleepJoin
+             *ThreadState: Stopped
+             */
+            Thread newThread = new Thread(()=>
+            {
+                Thread.Sleep(1000);
+            });
+
+            Console.WriteLine("ThreadState: {0}", newThread.ThreadState);
+            newThread.Start();
+
+            // Wait for newThread to start and go to sleep.
+            Thread.Sleep(300);
+            Console.WriteLine("ThreadState: {0}", newThread.ThreadState);
+
+            // Wait for newThread to restart.
+            Thread.Sleep(1000);
+            Console.WriteLine("ThreadState: {0}", newThread.ThreadState);
+
+        }
         #endregion
     }
 }
