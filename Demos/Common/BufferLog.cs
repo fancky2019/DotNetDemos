@@ -28,7 +28,7 @@ namespace Demos.Common
         /// 写日记间隔，单位秒。默认1s。
         /// </summary>
         public static int Interval { get; set; }
-
+        private static DateTime _lastLogTime = DateTime.Now;
         static DateTime _createLogTime;
 
         //static volatile bool _logChanged;
@@ -46,7 +46,7 @@ namespace Demos.Common
         static BufferLog()
         {
             BufferSize = 500;
-            Interval = 1;
+            Interval = 30;
             _logBuffer = new ConcurrentQueue<string>();
             _createLogTime = DateTime.Now;
             var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"Log\\{DateTime.Now.Year}-{DateTime.Now.Month.ToString("D2")}\\{DateTime.Now.Year}-{DateTime.Now.Month.ToString("D2")}-{DateTime.Now.Day.ToString("D2")}.txt");
@@ -61,9 +61,9 @@ namespace Demos.Common
 
             _timer = new Timer((o) =>
               {
-                  if(DateTime.Now.Day!= _createLogTime.Day)
+                  if (DateTime.Now.Day != _createLogTime.Day)
                   {
-              
+
                       while (true)
                       {
                           if (InterLockedExtention.Acquire())
@@ -71,7 +71,7 @@ namespace Demos.Common
                               _createLogTime = DateTime.Now;
                               //_logChanged = true;
                               _sw.Close();
-                     
+
 
                               filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"Log\\{DateTime.Now.Year}-{DateTime.Now.Month.ToString("D2")}\\{DateTime.Now.Year}-{DateTime.Now.Month.ToString("D2")}-{DateTime.Now.Day.ToString("D2")}.txt");
                               _sw = new StreamWriter(filePath, true, System.Text.Encoding.UTF8);
@@ -104,8 +104,17 @@ namespace Demos.Common
             while (true)
             {
                 Thread.Sleep(Interval * 1000);
+
                 if (InterLockedExtention.Acquire())
                 {
+                    var duration = DateTime.Now - _lastLogTime;
+                    //如果当前间隔小于Interval不刷盘，这样有可能造成接近2*Interval时间内不刷盘，
+                    //假设Interval=10，duration.TotalSeconds=9，之后数据不活跃继续等10s,就造成
+                    //duration.TotalSeconds+10=19s没有刷盘，因为要设置合理的Interval避免这种极端情况。
+                    if (duration.TotalSeconds <= Interval)
+                    {
+                        continue;
+                    }
                     WriteLog();
                     InterLockedExtention.Release();
                 }
@@ -126,6 +135,7 @@ namespace Demos.Common
 
                     while (_logBuffer.Count >= BufferSize)
                     {
+                        _lastLogTime = DateTime.Now;
 
                         for (int i = 0; i < BufferSize; i++)
                         {
@@ -139,7 +149,7 @@ namespace Demos.Common
 
                     InterLockedExtention.Release();
                 }
-        
+
                 Thread.Sleep(1);
                 //如果并发量过大
                 //SpinWait spinWait = default(SpinWait);
@@ -167,9 +177,17 @@ namespace Demos.Common
             _logBuffer.Enqueue(message);
         }
 
+        /// <summary>
+        /// 将剩余的刷盘
+        /// </summary>
+        public static void  Flush()
+        {
+            WriteLog();
+        }
+
         public static void Test()
         {
-            for (int i = 0; i < 100000; i++)
+            for (int i = 0; i < 100010; i++)
             {
                 var str = $"Consumer {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")} Producer:{i} Commands:{i}";
                 //  Log.Info<QueueMiddleWare>(str);
@@ -177,6 +195,9 @@ namespace Demos.Common
                 LogAsync(str);
                 //WriteDirectly(str);
             }
+
+            Thread.Sleep(2000);
+            Flush();
         }
 
         /// <summary>
