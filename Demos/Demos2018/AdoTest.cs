@@ -199,6 +199,9 @@ namespace Demos.Demos2018
                 connection.Open();
                 using (SqlBulkCopy bulkCopy = new SqlBulkCopy(connection))
                 {
+                    //单位s:解决：执行已超时。完成操作之前
+                    bulkCopy.BulkCopyTimeout = 72000;
+                    bulkCopy.BatchSize = 1000;
                     bulkCopy.DestinationTableName = destinationTableName;
                     try
                     {
@@ -211,6 +214,8 @@ namespace Demos.Demos2018
                     }
                 }
             }
+
+            dataTable.Dispose();
         }
 
 
@@ -288,7 +293,7 @@ namespace Demos.Demos2018
             List<Product> list = new List<Product>();
             Random random = new Random();
 
-            for (int i = 0; i < 2000000; i++)
+            for (int i = 0; i < 5000000; i++)
             {
 
 
