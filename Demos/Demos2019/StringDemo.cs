@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Demos.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,11 +12,15 @@ namespace Demos.Demos2019
     /// 对于 string 以外的引用类型，如果两个操作数引用同一个对象，则 == 返回 true。
     /// 对于 string 类型，== 比较字符串的值。
     /// </summary>
-    class StringInternDemo
+    class StringDemo
     {
         public void Test()
         {
-            StringIntern();
+            //StringIntern();
+            Person person = new Person();
+            person.Name = "fancky";
+            string name = "fancky";
+            ParametersFunction(name, person);
         }
 
         /// <summary>
@@ -85,6 +90,20 @@ namespace Demos.Demos2019
             str3 = "str3";//str3指向"str3"的地址。
             var rstt = str3 == str;
             Console.ReadLine();
+        }
+
+        /*
+          String 作为参数(形参)，不改变原参数值（实参），
+         String以外 引用类型作为参数（形参），会改变原参数值（实参）。
+
+         基本类型按值传递;传值
+        string 以为 引用类型按引用传递：传地址
+        string 可以理解按值传递
+         */
+        private void ParametersFunction(String name, Person person)
+        {
+            name = "rui";//name形参副本指向新的地址，name实参指向的地址没变
+            person.Name="rui";
         }
     }
 }

@@ -273,7 +273,7 @@
     <Compile Include="Demos2019\StaticClassTest.cs" />
     <Compile Include="Demos2019\StaticInnerClassDemo.cs" />
     <Compile Include="Demos2019\StopwatchDemo.cs" />
-    <Compile Include="Demos2019\StringInternDemo.cs" />
+    <Compile Include="Demos2019\StringDemo.cs" />
     <Compile Include="Demos2019\TaskDemo.cs" />
     <Compile Include="Demos2019\TextTest.cs" />
     <Compile Include="Demos2019\ThreadLocalDemo.cs" />
