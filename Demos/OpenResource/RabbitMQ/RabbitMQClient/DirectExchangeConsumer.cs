@@ -107,7 +107,7 @@ namespace Demos.Demos2018.RabbitMQ.RabbitMQClient
 
                         var body = ea.Body;
                         var message = Encoding.UTF8.GetString(body);
-                        Console.WriteLine($"Thread - {Thread.CurrentThread.ManagedThreadId} [x] Received '{routingKey}':'{message}'" );
+                        Console.WriteLine($"Thread - {Thread.CurrentThread.ManagedThreadId} [x] Received '{routingKey}':'{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")} {message}'" );
 
                         //模拟消费耗时
                         Thread.Sleep(200);

@@ -134,5 +134,19 @@ namespace Common
             var logger = LogManager.GetLogger(type);
             logger.Debug(message, exception);
         }
+
+
+
+        /*
+         * 25条/ms
+         */
+        static ILog _logger = LogManager.GetLogger(typeof(Log));
+        public static  void  Test()
+        {
+             for(int i=0;i<10000;i++)
+            {
+                _logger.Info($"message-{i} :dssddsdsdssdsdsdsdsdd");
+            }
+        }
     }
 }

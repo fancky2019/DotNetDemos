@@ -35,7 +35,7 @@ namespace Demos.Demos2018.RabbitMQ.RabbitMQServer
          * 
        */
 
-        public void ProduceIndividually()
+        public void ProduceIndividually(int i=0)
         {
             var exchange = "DirectExchange";
             var routingKey = "DirectExchangeRoutingKey";
@@ -69,7 +69,7 @@ namespace Demos.Demos2018.RabbitMQ.RabbitMQServer
 
 
 
-                var message = "DirectExchange:Hello World!";
+                var message = $"Message-{i} {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}- DirectExchange:Hello World!";
                 var body = Encoding.UTF8.GetBytes(message);
                 // 将消息标记为持久性。
                 var properties = channel.CreateBasicProperties();
