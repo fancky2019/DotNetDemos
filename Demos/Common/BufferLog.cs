@@ -59,6 +59,7 @@ namespace Demos.Common
             }
             _sw = new StreamWriter(filePath, true, System.Text.Encoding.UTF8);
 
+            //一天生成一个日志文件逻辑控制
             _timer = new Timer((o) =>
               {
                   if (DateTime.Now.Day != _createLogTime.Day)

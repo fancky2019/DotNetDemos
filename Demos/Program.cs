@@ -43,14 +43,14 @@ namespace Demos.Demos2018
                 AppDomain.CurrentDomain.UnhandledException += (sender, e) =>
                   {
                       Console.WriteLine(e.ToString());
-                      Log.Error<QueueMiddleWare>(e.ToString());
+                      //Log.Error<QueueMiddleWare>(e.ToString());
                       Console.ReadLine();
                   };
 
                 Application.ThreadException += (sender, e) =>
                       {
                           Console.WriteLine(e.ToString());
-                          Log.Error<QueueMiddleWare>(e.ToString());
+                          //Log.Error<QueueMiddleWare>(e.ToString());
                           Console.ReadLine();
                       };
 
@@ -89,7 +89,7 @@ namespace Demos.Demos2018
                 #region Demos2019
                 //new EqualsOperatorDemo().Test();
                 //new ThreadDemo().Test();
-                new StringDemo().Test();
+                //new StringDemo().Test();
 
                 // new HPSocketDemo().Test();
                 //   new CharDemo().Test();
@@ -181,6 +181,8 @@ namespace Demos.Demos2018
                 //    new UDPClientDemo().Test();
                 //});
 
+
+                //Log.Test();
                 #endregion
 
 

@@ -17,8 +17,8 @@ namespace Demos.Demos2019
             try
             {
                 // Set the TcpListener on port 13000.
-                Int32 port = 7776;
-                IPAddress localAddr = IPAddress.Parse("127.0.0.1");
+                Int32 port = 10000;
+                IPAddress localAddr = IPAddress.Parse("192.168.1.105");
 
                 // TcpListener server = new TcpListener(port);
                 server = new TcpListener(localAddr, port);
@@ -107,6 +107,7 @@ namespace Demos.Demos2019
             catch (SocketException e)
             {
                 Console.WriteLine("SocketException: {0}", e);
+                _nLog.Error(e.Message);
             }
             finally
             {
