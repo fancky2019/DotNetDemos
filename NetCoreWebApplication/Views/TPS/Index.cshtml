@@ -1,7 +1,8 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
 }
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -27,6 +28,9 @@
     <!-- Font-icon css-->
     <link rel="stylesheet" type="text/css"
           href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-table.min.css">
 </head>
 <body class="app sidebar-mini">
     <!-- Navbar-->
@@ -153,69 +157,103 @@
                  src="image/cat.png"
                  alt="User Image">
             <div>
-                <p class="app-sidebar__user-name">fancky 有限公司</p>
+                <p class="app-sidebar__user-name">fancky后台日志分析</p>
                 <!--<p class="app-sidebar__user-designation">Frontend Developer</p>-->
             </div>
         </div>
         <ul class="app-menu">
             <!--<li><a class="app-menu__item" href="dashboard.html"><i class="app-menu__icon fa fa-dashboard"></i><span-->
             <!--class="app-menu__label">Dashboard</span></a></li>-->
-            <li class="treeview">
+            <li class="treeview is-expanded">
                 <a class="app-menu__item" href="#" data-toggle="treeview">
                     <i class="app-menu__icon fa fa-laptop"></i>
                     <span class="app-menu__label">OCG日志分析</span><i class="treeview-indicator fa fa-angle-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a class="treeview-item" href="/FileUpLoad"><i class="icon fa fa-circle-o"></i>  FileUpLoad</a></li>
-                    <li><a class="treeview-item" href="/TPS"><i class="icon fa fa-circle-o"></i>  TPS</a></li>
-                    <li><a class="treeview-item" href="/clientInTPS1"><i class="icon fa fa-circle-o"></i>  ClientInTPS</a></li>
+                    <li><a class="treeview-item" href="/FileUpLoad"><i class="icon fa fa-circle-o"></i> FileUpLoad</a></li>
+                    <li><a class="treeview-item active" href="/TPS"><i class="icon fa fa-circle-o"></i> TPS</a></li>
+                    <li>
+                        <a class="treeview-item" href="/clientInTPS"><i class="icon fa fa-circle-o"></i> ClientInTPS</a>
+                    </li>
                 </ul>
             </li>
 
         </ul>
     </aside>
     <main class="app-content">
-        <div style="background: white">
-            <!--    <div class="app-title">-->
 
 
+        <div class="row">
+            <div class="col-md-12">
 
+                <!--            <div id="top1" class="tile" style="height: 70px">-->
+                <!--                <input type="file" id="uploadTPSFile" style="display: none;" multiple="multiple" accept=".log,.txt"/>-->
+                <!--                <input id="selectTPSFilePath" readonly>-->
+                <!--                <input id="uploadTPSPath" type="hidden">-->
+                <!--                <input type="button" id="openTPSFile" value="选择TPS日志文件">-->
+                <!--                <input id="uploadTPS" type="button" value="上传TPS"/>-->
+                <!--            </div>-->
+
+
+                <div id="top" class="tile" style="height: 70px">
+
+
+                    <input type="file" id="uploadTPSFile" style="display: none;" multiple="multiple" accept=".log,.txt" />
+                    <input id="selectTPSFilePath" readonly>
+                    <input id="uploadTPSPath" type="hidden">
+                    <input type="button" id="openTPSFile" value="选择TPS日志文件">
+                    <input id="uploadTPS" type="button" value="上传TPS" />
+
+
+                    <label>&nbsp;&nbsp;&nbsp;&nbsp;系统号:</label>
+                    <input id="sysNo">
+                    <label>&nbsp;&nbsp;&nbsp;&nbsp;排队个数:</label>
+                    <input id="tPSQueueCount">
+                    <button id="btnSearch"> 查询</button>
+                </div>
+                <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
+                <!--            <div id="main" style="width: 1600px;height:600px;">-->
+                <div id="main" class="tile">
+                    <table id="myTable"></table>
+                </div>
+            </div>
 
         </div>
-
-        <!--   </div>-->
-
 
 
     </main>
     <!-- Essential javascripts for application to work-->
     <script src="js/jquery-3.3.1.min.js"></script>
     <script src="js/popper.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/main.js"></script>
+
+
     <!-- The javascript plugin to display page loading on top-->
     <script src="js/plugins/pace.min.js"></script>
     <!-- Page specific javascripts-->
     <!-- Google analytics script-->
     <script type="text/javascript">
-        if (document.location.hostname == 'pratikborsadiya.in') {
-            (function (i, s, o, g, r, a, m) {
-                i['GoogleAnalyticsObject'] = r;
-                i[r] = i[r] || function () {
-                    (i[r].q = i[r].q || []).push(arguments)
-                }, i[r].l = 1 * new Date();
-                a = s.createElement(o),
-                    m = s.getElementsByTagName(o)[0];
-                a.async = 1;
-                a.src = g;
-                m.parentNode.insertBefore(a, m)
-            })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
-            ga('create', 'UA-72504830-1', 'auto');
-            ga('send', 'pageview');
-        }
+    if (document.location.hostname == 'pratikborsadiya.in') {
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r;
+            i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+        ga('create', 'UA-72504830-1', 'auto');
+        ga('send', 'pageview');
+    }
     </script>
 
-    <script src="js/echarts.min.js"></script>
-    <script src="js/index.js"></script>
+
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/bootstrap-table.min.js"></script>
+    <script src="js/bootstrap-table-zh-CN.min.js"></script>
+    <script src="js/clienttps.js"></script>
+    <script src="js/tps.js"></script>
 </body>
 </html>

@@ -1,8 +1,4 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta name="description"
@@ -153,38 +149,66 @@
                  src="image/cat.png"
                  alt="User Image">
             <div>
-                <p class="app-sidebar__user-name">fancky 有限公司</p>
+                <p class="app-sidebar__user-name">fancky后台日志分析</p>
                 <!--<p class="app-sidebar__user-designation">Frontend Developer</p>-->
             </div>
         </div>
         <ul class="app-menu">
             <!--<li><a class="app-menu__item" href="dashboard.html"><i class="app-menu__icon fa fa-dashboard"></i><span-->
             <!--class="app-menu__label">Dashboard</span></a></li>-->
-            <li class="treeview">
+            <li class="treeview is-expanded">
                 <a class="app-menu__item" href="#" data-toggle="treeview">
                     <i class="app-menu__icon fa fa-laptop"></i>
                     <span class="app-menu__label">OCG日志分析</span><i class="treeview-indicator fa fa-angle-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a class="treeview-item" href="/FileUpLoad"><i class="icon fa fa-circle-o"></i>  FileUpLoad</a></li>
-                    <li><a class="treeview-item" href="/TPS"><i class="icon fa fa-circle-o"></i>  TPS</a></li>
-                    <li><a class="treeview-item" href="/clientInTPS1"><i class="icon fa fa-circle-o"></i>  ClientInTPS</a></li>
+                    <li><a class="treeview-item active" href="/FileUpLoad"><i class="icon fa fa-circle-o"></i>  FileUpLoad</a></li>
+                    <li><a class="treeview-item" href="/TPS"> <i class="icon fa fa-circle-o"></i> TPS</a></li>
+                    <li><a class="treeview-item" href="/clientInTPS"><i class="icon fa fa-circle-o"></i>  ClientInTPS</a></li>
                 </ul>
             </li>
 
         </ul>
     </aside>
     <main class="app-content">
-        <div style="background: white">
-            <!--    <div class="app-title">-->
+        <div class="row">
+            <div class="col-md-12">
+
+                <!--    <div class="app-title">-->
+                <div id="top" class="tile" style="height: 70px">
 
 
+                    <input type="file" id="uploadFile" style="display: none;" multiple="multiple" accept=".log,.txt" />
+                    <input id="selectFilePath" readonly>
+                    <input id="uploadPath" type="hidden">
+                    <input type="button" id="openFile" value="选择ClientIn日志文件">
+                    <input id="upload" type="button" value="上传" />
 
+
+                    <!--    <input id="uploadFile" type="file" />-->
+                    <!--    <input id="upload" type="button" value="上传"  />-->
+                    <!--    <input id="uploadPath" type="hidden">-->
+
+
+                    <label>&nbsp;&nbsp;&nbsp;&nbsp;统计时长:</label>
+                    <select id="statisticsKind">
+                        <option value="second">second</option>
+                        <option value="minute">minute</option>
+                        <option value="hour">hour</option>
+                    </select>
+                    <button id="statisticsAnalysis"> 统计</button>
+                </div>
+                <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
+                <!--                <div id="main" style="width: 1200px;height:600px;">-->
+
+                <div id="main" class="tile" style="height:600px;">
+
+                </div>
+            </div>
 
         </div>
 
         <!--   </div>-->
-
 
 
     </main>
@@ -195,6 +219,9 @@
     <script src="js/main.js"></script>
     <!-- The javascript plugin to display page loading on top-->
     <script src="js/plugins/pace.min.js"></script>
+
+    <script src="js/echarts.min.js"></script>
+    <script src="js/index.js"></script>
     <!-- Page specific javascripts-->
     <!-- Google analytics script-->
     <script type="text/javascript">
@@ -215,7 +242,6 @@
         }
     </script>
 
-    <script src="js/echarts.min.js"></script>
-    <script src="js/index.js"></script>
+
 </body>
 </html>
