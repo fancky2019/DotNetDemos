@@ -39,5 +39,63 @@ namespace NetCoreWebApplication.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        [HttpGet("GetMenus")]
+        public IActionResult GetMenus([FromQuery]User user)
+        {
+            List<Menus> list = new List<Menus>();
+            list.Add(new Menus()
+            {
+                ID = 1,
+                ParentID = 0,
+                MenuName = "OCG日志分析",
+                URL = "#"
+            });
+            list.Add(new Menus()
+            {
+                ID = 2,
+                ParentID = 1,
+                MenuName = "FileUpLoad",
+                URL = "/FileUpLoad"
+            });
+            list.Add(new Menus()
+            {
+                ID = 3,
+                ParentID = 1,
+                MenuName = "TPS",
+                URL = "/TPS"
+            });
+
+            list.Add(new Menus()
+            {
+                ID = 4,
+                ParentID = 0,
+                MenuName = "UserManager",
+                URL = "/UserManager"
+            });
+
+            list.Add(new Menus()
+            {
+                ID = 5,
+                ParentID = 0,
+                MenuName = "SystemManager",
+                URL = "#"
+            });
+            list.Add(new Menus()
+            {
+                ID = 6,
+                ParentID = 5,
+                MenuName = "AccountManager",
+                URL = "AccountManager"
+            });
+
+            return Json(list);
+        }
+
+        // POST api/values
+        [HttpPost("Add")]
+        public void Add([FromBody] User user)
+        {
+        }
     }
 }
