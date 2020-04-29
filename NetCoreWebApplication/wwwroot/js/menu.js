@@ -88,61 +88,7 @@
 
 
                 ////ajax 默认异步，生成html之后再绑定事件，否则找不到html元素进而无法绑定事件。
-                //var treeviewMenu = $('.app-menu');
-
-                //// Toggle Sidebar
-                //$('[data-toggle="sidebar"]').click(function (event) {
-                //    event.preventDefault();
-                //    $('.app').toggleClass('sidenav-toggled');
-                //});
-
-                //// Activate sidebar treeview toggle
-                //$("[data-toggle='treeview']").click(function (event) {
-                //    event.preventDefault();
-                //    if (!$(this).parent().hasClass('is-expanded')) {
-                //        treeviewMenu.find("[data-toggle='treeview']").parent().removeClass('is-expanded');
-                //    }
-                //    $(this).parent().toggleClass('is-expanded');
-                //});
-
-                //// Set initial active toggle
-                //$("[data-toggle='treeview.'].is-expanded").parent().toggleClass('is-expanded');
-
-                ////Activate bootstrip tooltips
-                //$("[data-toggle='tooltip']").tooltip();
-
-
-                //$(".app-menu__item").click(function (event) {
-                //    debugger;
-                //    event.preventDefault();
-
-                //    let hrefURL = $(this).attr('href');
-
-                //    //have children node
-                //    if (hrefURL.indexOf("#") == -1) {
-
-                //        let href = hrefURL.substring(1, hrefURL.length);
-                //        $.cookie('currentMenu', href);
-                //        let currentMenu = $.cookie('currentMenu');
-                //        debugger;
-                //        let m = 0;
-                //    }
-
-                //});
-
-                //$(".treeview-item").click(function (event) {
-                //    debugger;
-                //    event.preventDefault();
-                //    let hrefURL = $(this).attr('href');
-                //    let href = hrefURL.substring(1, hrefURL.length);
-                //});
-
-
-
-
-
-
-
+  
             }
         });
 
@@ -158,58 +104,5 @@
             return false;
         }
     }
-    //let displayCurrentActiveNode = function () {
-    //    let currentMenu = $.cookie('currentMenu');
-    //    let sourceEvent = $.cookie('sourceEvent');
-    //    if (!isEmpty(currentMenu)) {
-    //        if (!isEmpty(sourceEvent)) {
 
-    //            let idStr = "#" + currentMenu;
-    //            $("#" + currentMenu).addClass("active");
-    //            let id = $("#" + currentMenu).attr("id");
-    //            let hrefff = $("#" + currentMenu).attr('href');
-    //            let hreff = $(idStr).attr('href');
-    //            let sss = "ss";
-    //            let hra = $(idStr);
-    //            alert($("#UserManager").attr('href'))
-    //            //parent node
-    //            if (sourceEvent == "app-menu__item") {
-    //                //let aElements = treeviewMenu.find('a');
-    //                //aElements.forEach(p => {
-    //                //    if (p.attr("href") == currentMenu) {
-    //                //        let m = 0;
-    //                //        debugger;
-    //                //    }
-    //                //});
-
-    //                //for (let item of aElements) {
-    //                //    let href = item.href;
-    //                //    let hrefs = href.split('/');
-    //                //    let last = hrefs[hrefs.length - 1];//TPS#
-    //                //    if (last.indexOf('#') != -1) {
-    //                //        last = last.substring(0, last.length - 1);//TPS
-    //                //    }
-    //                //    if (last == currentMenu) {
-    //                //        item.classList.add("active");
-    //                //        let n = 0;
-    //                //    }
-    //                //    debugger;
-    //                //    //if (item.attr("href") == currentMenu) {
-    //                //    //    let m = 0;
-    //                //    //    debugger;
-    //                //    //}
-    //                //}
-
-
-
-    //            }
-    //            //children node
-    //            else if (sourceEvent == "treeview-item") {
-    //                $("#" + currentMenu).parent().parent().addClass("is-expanded");
-    //            }
-    //        }
-    //    }
-    //}
-
-    //displayCurrentActiveNode();
 })();
