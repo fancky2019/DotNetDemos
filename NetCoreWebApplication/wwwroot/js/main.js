@@ -61,4 +61,10 @@
         alert(1)
     });
 
+    function clearCookie() {
+        $.cookie('currentMenu', null);
+        let m = 0;
+        debugger;
+   
+    }
 })();
