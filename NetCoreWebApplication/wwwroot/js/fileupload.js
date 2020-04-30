@@ -73,7 +73,7 @@ $("#upload").click(function (e) {
     formData.append(type, $("#" + id)[0].files[0]);    //生成一对表单属性
     $.ajax({
         type: "POST",           //因为是传输文件，所以必须是post
-        url: '/UploadFile',         //对应的后台处理类的地址
+        url: '/UploadFileWithProgress',         //对应的后台处理类的地址
         data: formData,
         processData: false,
         contentType: false,

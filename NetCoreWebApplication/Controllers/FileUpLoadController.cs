@@ -64,8 +64,60 @@ namespace NetCoreWebApplication.Controllers
                 Directory.CreateDirectory(filePhysicalPath); //创建文件夹
             }
 
-            this.HttpContext.Session.Remove("progress");
+
             var file = files[0];
+            //this.HttpContext.Session.Remove("progress");
+            //byte[] buffer = new byte[1024];
+            //Stream stream = file.OpenReadStream();
+            //long totalReadLength = 0;
+            //using (var fileStream = new FileStream(Path.Combine(filePhysicalPath, file.FileName), FileMode.Create))
+            //{
+            //    int readLength = 0;
+            //    while ((readLength = stream.Read(buffer, 0, buffer.Length)) != 0)
+            //    {
+            //        totalReadLength += readLength;
+            //        var progress = totalReadLength*100 / file.Length;
+            //        this.HttpContext.Session.Set("progress", BitConverter.GetBytes(progress));
+            //        fileStream.Write(buffer, 0, readLength);
+            //    }
+            //}
+
+            //int progressSession = 0;
+            //if (this.HttpContext.Session.TryGetValue("progress", out byte[] progressBytes))
+            //{
+            //    progressSession = BitConverter.ToInt32(progressBytes, 0);
+            //}
+            //stream.Close();
+            if (file.Length > 0)//此处可添加对大小进行判断
+            {
+
+                using (var stream = new FileStream(Path.Combine(filePhysicalPath, file.FileName), FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+
+            }
+            return Json(new MessageResult<int>() { Success = true, Message = "上传成功" });
+        }
+
+        [HttpPost("UploadFileWithProgress")]
+        public async Task<IActionResult> UploadFileWithProgress()
+        {
+
+            var files = Request.Form.Files;
+            //long size = files.Sum(f => f.Length);
+
+            //  string filePhysicalPath = MapPath("~/Content" + shortTime);  //文件路径  可以通过注入 IHostingEnvironment 服务对象来取得Web根目录和内容根目录的物理路径
+
+            string filePhysicalPath = $"upload/{DateTime.Now.ToString("yyyy-MM-dd")}";
+            if (!Directory.Exists(filePhysicalPath)) //判断上传文件夹是否存在，若不存在，则创建
+            {
+                Directory.CreateDirectory(filePhysicalPath); //创建文件夹
+            }
+
+
+            var file = files[0];
+            this.HttpContext.Session.Remove("progress");
             byte[] buffer = new byte[1024];
             Stream stream = file.OpenReadStream();
             long totalReadLength = 0;
@@ -75,7 +127,7 @@ namespace NetCoreWebApplication.Controllers
                 while ((readLength = stream.Read(buffer, 0, buffer.Length)) != 0)
                 {
                     totalReadLength += readLength;
-                    var progress = totalReadLength*100 / file.Length;
+                    var progress = totalReadLength * 100 / file.Length;
                     this.HttpContext.Session.Set("progress", BitConverter.GetBytes(progress));
                     fileStream.Write(buffer, 0, readLength);
                 }
