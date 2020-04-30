@@ -3,5 +3,4 @@ obj/
 bin/
 packages/
 .vs/Demos/v15/.suo
-
-/upload/
+upload/
