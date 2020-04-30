@@ -1,9 +1,5 @@
 
-(function () {
-    $("#FileUpLoad").addClass('active');
-    $("#Expand").addClass('is-expanded');
-    
-})();
+
 
 
 $("#btnSetProgress").click(function () {
@@ -25,27 +21,27 @@ $("#btnSetProgress").click(function () {
 /*
 按钮触发File,File-->change-->Input显示路径
  */
-$("#openTPSFile").click(function () {
-    $("#uploadTPSFile").click();
+$("#openFile").click(function () {
+    $("#uploadFile").click();
 });
 
 
 //弹出文件对话框，选择的文件发生改变
-$("#uploadTPSFile").change(function () {
+$("#uploadFile").change(function () {
 
     // $("#selectFilePath").val($("#uploadFile").val());
 
     // $("#selectFilePath").val($("#uploadFile").val());
     // let file = $("#uploadFile");
-    let fullName = $("#uploadTPSFile").val();
+    let fullName = $("#uploadFile").val();
     let fileNames = fullName.split("\\");
     let fileName = fileNames[fileNames.length - 1]
-    $("#selectTPSFilePath").val(fileName);
+    $("#selectFilePath").val(fileName);
 });
 
 
 //  上传，同时显示进度
-$("#uploadTPS").click(function (e) {
+$("#upload").click(function (e) {
 
 
     $(".progress-bar").css("width", 0 + "%");
@@ -57,8 +53,9 @@ $("#uploadTPS").click(function (e) {
         $.ajax({
             type: "get",
             dataType: 'json',
-            url: "/fileupload/uploadStatus",
+            url: "/UploadStatus",
             success: function (progress) {
+                console.log(progress);
                 $(".progress-bar").css("width", progress + "%");
                 $(".progress-bar").attr("aria-valuenow", progress)
                 $(".progress-bar").html(progress + "%");
@@ -71,19 +68,19 @@ $("#uploadTPS").click(function (e) {
 
 
     let type = "file";          //后台接收时需要的参数名称，自定义即可
-    let id = "uploadTPSFile";            //即input的id，用来寻找值
+    let id = "uploadFile";            //即input的id，用来寻找值
     let formData = new FormData();
     formData.append(type, $("#" + id)[0].files[0]);    //生成一对表单属性
     $.ajax({
         type: "POST",           //因为是传输文件，所以必须是post
-        url: '/fileupload/upload',         //对应的后台处理类的地址
+        url: '/UploadFile',         //对应的后台处理类的地址
         data: formData,
         processData: false,
         contentType: false,
         success: function (data) {
             // alert('上传成功！');
             // alert(data);
-            $("#uploadTPSPath").val(data);
+            $("#uploadPath").val(data);
         }
     });
 });
@@ -97,7 +94,7 @@ $("#btnDeleteFile").click(function (e) {
     //一、参数JSON序列化；二、指定contentType。
     $.ajax({
         type: "post",//向后台请求的方式，有post，get两种方法
-        url: '/fileupload/deleteFile',         //对应的后台处理类的地址
+        url: '/deleteFile',         //对应的后台处理类的地址
         cache: false,//缓存是否打开
         data: JSON.stringify({filePath: filePath}),
         dataType: 'json',//请求的数据类型
@@ -132,7 +129,7 @@ $("#btnQuery").click(function (e) {
 
     $.ajax({
         type: "GET",
-        url: "/fileupload/getQuery",
+        url: "/getQuery",
         data: {customerNo: 'fancky', tPSQueueCount: 5},
         dataType: "JSON",
         success: function (result) {
