@@ -16,6 +16,7 @@ namespace Demos.Demos2018.RabbitMQ.RabbitMQClient
     /// </summary>
     class DirectExchangeConsumer
     {
+        private static readonly NLog.Logger _nLog = NLog.LogManager.GetCurrentClassLogger();
         /*
         * 持久化：
         * Exchange：ExchangeDeclare 参数durable: true，宕机只保存Exchange元数据 ，Queue、Message丢失
@@ -107,10 +108,12 @@ namespace Demos.Demos2018.RabbitMQ.RabbitMQClient
 
                         var body = ea.Body;
                         var message = Encoding.UTF8.GetString(body);
-                        Console.WriteLine($"Thread - {Thread.CurrentThread.ManagedThreadId} [x] Received '{routingKey}':'{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")} {message}'" );
-
+                        string msg = $"Thread - {Thread.CurrentThread.ManagedThreadId} [x]{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")} Received '{routingKey}':' {message}'";
+                        
+                        Console.WriteLine(msg);
+                        _nLog.Info(msg);
                         //模拟消费耗时
-                        Thread.Sleep(200);
+                        //Thread.Sleep(200);
 
                         //制造异常，加入死信队列。也可以设计重试几次不行才加入死信队列
                         //int m = int.Parse("m");
