@@ -146,6 +146,11 @@ namespace Demos.Demos2018.RabbitMQ.RabbitMQServer
 
         }
 
+        /*
+         * 测试:
+         *     生产:不超过5条/ms,
+         *     消费:不超过5条/ms
+         */
         public void ProduceInBatches()
         {
             var exchange = "DirectExchange";
@@ -186,9 +191,9 @@ namespace Demos.Demos2018.RabbitMQ.RabbitMQServer
                 //2:持久化，1：不持久化
                 properties.Persistent = true;
 
-                for (int i = 0; i < 100; i++)
+                for (int i = 0; i < 100000; i++)
                 {
-                    var message = $"Message{i}:DirectExchange:Hello World!";
+                    var message = $"Message-{i} {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}- DirectExchange:Hello World!";
                     var body = Encoding.UTF8.GetBytes(message);
                     // 当mandatory标志位设置为true时，如果exchange根据自身类型和消息routingKey无法找到一个合适的queue存储消息，
                     //那么broker会调用basic.return方法将消息返还给生产者;当mandatory设置为false时，出现上述情况broker会直接将消息丢弃;通俗的讲，
@@ -248,6 +253,9 @@ namespace Demos.Demos2018.RabbitMQ.RabbitMQServer
         /// </summary>
         private ConcurrentDictionary<ulong, string> _outstandingConfirms = new ConcurrentDictionary<ulong, string>();
 
+        /*
+         * 测试发现相比同步，每ms多处理一个，没明显优势
+         */
         public void ProduceInBatchesAsync()
         {
             var exchange = "DirectExchange";
@@ -282,6 +290,8 @@ namespace Demos.Demos2018.RabbitMQ.RabbitMQServer
                 channel.ConfirmSelect();
 
 
+                #region 注册异步回调
+
                 //没有路由的消息将会回退,消息没有找到可路由转发的队里，立即回发给生产者。
                 channel.BasicReturn += (object sender, global::RabbitMQ.Client.Events.BasicReturnEventArgs e) =>
                 {
@@ -293,6 +303,7 @@ namespace Demos.Demos2018.RabbitMQ.RabbitMQServer
                 channel.BasicAcks += (sender, ea) =>
                 {
                     // code when message is confirmed
+
                     var type = sender.GetType();
                     var ch = sender as IModel;
 
@@ -319,11 +330,12 @@ namespace Demos.Demos2018.RabbitMQ.RabbitMQServer
                 {
 
                     //code when message is nack-ed
+
                     _outstandingConfirms.TryGetValue(ea.DeliveryTag, out string body);
                     Console.WriteLine($"Message with body {body} has been nack-ed. Sequence number: {ea.DeliveryTag}, multiple: {ea.Multiple}");
                     //日志记录单独处理确认失败的消息，一般不会确认失败。
                 };
-
+                #endregion
 
                 // 将消息标记为持久性。
                 var properties = channel.CreateBasicProperties();
@@ -332,9 +344,9 @@ namespace Demos.Demos2018.RabbitMQ.RabbitMQServer
                 properties.Persistent = true;
 
 
-                for (int i = 0; i < 100; i++)
+                for (int i = 0; i < 100000; i++)
                 {
-                    var message = $"Message{i}:DirectExchange:Hello World!";
+                    var message = $"Message-{i} {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}- DirectExchange:Hello World!";
                     var body = Encoding.UTF8.GetBytes(message);
                     // 当mandatory标志位设置为true时，如果exchange根据自身类型和消息routingKey无法找到一个合适的queue存储消息，
                     //那么broker会调用basic.return方法将消息返还给生产者;当mandatory设置为false时，出现上述情况broker会直接将消息丢弃;通俗的讲，
