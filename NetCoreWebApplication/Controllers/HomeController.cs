@@ -86,7 +86,7 @@ namespace NetCoreWebApplication.Controllers
                 ID = 6,
                 ParentID = 5,
                 MenuName = "AccountManager",
-                URL = "AccountManager"
+                URL = "/AccountManager"
             });
 
             return Json(list);

@@ -253,8 +253,10 @@ namespace Demos.Demos2018.RabbitMQ.RabbitMQServer
         /// </summary>
         private ConcurrentDictionary<ulong, string> _outstandingConfirms = new ConcurrentDictionary<ulong, string>();
 
-        /*
-         * 测试发现相比同步，每ms多处理一个，没明显优势
+        /**
+         * 批量异步插入，性能最好,
+         * Waiting for a batch of messages to be confirmed improves throughput drastically over waiting for a confirm for individual message
+         * (up to 20-30 times with a remote RabbitMQ node).
          */
         public void ProduceInBatchesAsync()
         {

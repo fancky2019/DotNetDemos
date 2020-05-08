@@ -1,6 +1,10 @@
 ﻿(function () {
     "use strict";
-
+    //FileUpLoad
+    ///DW/gateway.html
+    //var path = document.location.pathname;
+    //let currentMenu = document.location.pathname.replace("/","");
+    //debugger;
     let menusFuncation = function () {
         $.ajax({
             type: "GET",
@@ -9,6 +13,7 @@
             dataType: "JSON",
             async: false,//设置同步请求
             success: function (result) {
+                let currentMenu = document.location.pathname.replace("/", "");
                 var parentMenus = new Array()
                 result.forEach(menu => {
                     if (menu.parentID == 0) {
@@ -24,17 +29,17 @@
                             children.push(c);
                         }
                     });
-                    let id = p.url.substring(1, p.url.length);
-                    let menuName = id;
-                    let currentMenu = $.cookie('currentMenu');
+                    //let id = p.url.substring(1, p.url.length);
+                    //let menuName = id;
+                    //let currentMenu = $.cookie('currentMenu');
 
-
+     
 
                     if (children.length == 0) {
                         //父节点是否是选中状态
                         let activeClass = "";
                         if (!isEmpty(currentMenu)) {
-                            if (currentMenu == menuName) {
+                            if (currentMenu == p.menuName) {
                                 activeClass = "active";
                             }
                         }
@@ -48,9 +53,10 @@
                         //设置父节点是否展开
                         let expandedClass = "";
                         children.forEach(child => {
-                            menuName = child.url.substring(1, child.url.length);
+                            //menuName = child.url.substring(1, child.url.length);
+                            debugger;
                             if (!isEmpty(currentMenu)) {
-                                if (currentMenu == menuName) {
+                                if (currentMenu == child.menuName) {
                                     expandedClass = "is-expanded";
                                 }
                             }
@@ -67,9 +73,9 @@
                         children.forEach(child => {
                             //子节点是否是选中状态
                             let childrenActiveClass = "";
-                            menuName = child.url.substring(1, child.url.length);
+                            //menuName = child.url.substring(1, child.url.length);
                             if (!isEmpty(currentMenu)) {
-                                if (currentMenu == menuName) {
+                                if (currentMenu == child.menuName) {
                                     childrenActiveClass = "active";
                                 }
                             }
