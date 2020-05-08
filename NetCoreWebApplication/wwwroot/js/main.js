@@ -26,45 +26,45 @@
     $("[data-toggle='tooltip']").tooltip();
 
 
-    $(".app-menu__item").click(function (event) {
+    //$(".app-menu__item").click(function (event) {
 
-        //event.preventDefault();
+    //    //event.preventDefault();
 
-        let hrefURL = $(this).attr('href');
+    //    let hrefURL = $(this).attr('href');
 
-        //have children node
-        if (hrefURL.indexOf("#") == -1) {
+    //    //have children node
+    //    if (hrefURL.indexOf("#") == -1) {
 
-            let href = hrefURL.substring(1, hrefURL.length);
-            $.cookie('currentMenu', href);
-            let currentMenu = $.cookie('currentMenu');
+    //        let href = hrefURL.substring(1, hrefURL.length);
+    //        $.cookie('currentMenu', href);
+    //        let currentMenu = $.cookie('currentMenu');
 
-            let m = 0;
-        }
+    //        let m = 0;
+    //    }
 
-    });
+    //});
 
-    $(".treeview-item").click(function (event) {
+    //$(".treeview-item").click(function (event) {
 
-        //event.preventDefault();
-        let hrefURL = $(this).attr('href');
-        let href = hrefURL.substring(1, hrefURL.length);
+    //    //event.preventDefault();
+    //    let hrefURL = $(this).attr('href');
+    //    let href = hrefURL.substring(1, hrefURL.length);
 
-        $.cookie('currentMenu', href);
+    //    $.cookie('currentMenu', href);
 
-        // return false;//不执行a标签的href
-    });
+    //    // return false;//不执行a标签的href
+    //});
 
 
-    //：jquery1.7之后用on()方法，1.7之前用live(),可以为未来创建的元素绑定事件.
-    $("body").on("click", "#myid", function () {
-        alert(1)
-    });
+    ////：jquery1.7之后用on()方法，1.7之前用live(),可以为未来创建的元素绑定事件.
+    //$("body").on("click", "#myid", function () {
+    //    alert(1)
+    //});
 
-    function clearCookie() {
-        $.cookie('currentMenu', null);
-        let m = 0;
-        debugger;
+    //function clearCookie() {
+    //    $.cookie('currentMenu', null);
+    //    let m = 0;
+    //    debugger;
    
-    }
+    //}
 })();
