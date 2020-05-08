@@ -16,11 +16,28 @@ namespace Demos.Demos2019
     {
         public void Test()
         {
+            Concat();
             //StringIntern();
             Person person = new Person();
             person.Name = "fancky";
             string name = "fancky";
             ParametersFunction(name, person);
+        }
+
+        private void Concat()
+        {
+            int m = 1;
+            //可以直接转成str，类似javascript
+            String str = m + "";
+
+            char ch = 'b';
+            int chi = ch - 1;//b 转ascii 码 98-1=97(a)
+
+            //减不能成立
+            //String sub = "A" - 1;
+            //不能转数字
+            //int num = "1" + 2;
+            int n = 0;
         }
 
         /// <summary>
