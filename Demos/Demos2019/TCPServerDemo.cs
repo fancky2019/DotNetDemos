@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net;
 using System.Net.Sockets;
+using System.Configuration;
 
 namespace Demos.Demos2019
 {
@@ -16,9 +17,12 @@ namespace Demos.Demos2019
             TcpListener server = null;
             try
             {
+                string ipPortStr = ConfigurationManager.AppSettings["TCPServer"];
+                var ipPortArray = ipPortStr.Split(':');
+
                 // Set the TcpListener on port 13000.
-                Int32 port = 10000;
-                IPAddress localAddr = IPAddress.Parse("192.168.1.105");
+                Int32 port = int.Parse(ipPortArray[1]);
+                IPAddress localAddr = IPAddress.Parse(ipPortArray[0]);
 
                 // TcpListener server = new TcpListener(port);
                 server = new TcpListener(localAddr, port);
