@@ -195,12 +195,49 @@ namespace Demos.Demos2019
                 i = i + 1;
             }
         }
+        //私有成员实现对象锁。保证该对象线程安全。
+        private readonly object _objectLock = new object();
+        //static  实现类锁。类锁保证该类的对象线程安全。
+        private static readonly object _classLock = new object();
+        private readonly string _lockStr = "_lockStr";
+        private readonly int _lockInt = 1;
+
+        /*
+         * 通常，应避免锁定 public 类型，否则实例将超出代码的控制范围。 
+         * 常见的结构 lock (this)、lock (typeof (MyType)) 和 lock ("myLock") 违反此准则：
+                      一、 如果实例可以被公共访问，将出现 lock (this) 问题。
+                      二、如果 MyType 可以被公共访问，将出现 lock (typeof (MyType)) 问题。
+                      三、由于进程中使用同一字符串的任何其他代码都将共享同一个锁，
+                          所以出现 lock("myLock") 问题。
+          最佳做法是定义 private 对象来锁定, 或 private static 
+          对象变量来保护所有实例所共有的数据。
+
+         */
+        private void  LockObject()
+        {
+            //以下三种可能造成死锁问题。
+            //如果this 是共有的可能在类外 lock(_obj),就造成在类内，类外被lock造成线程不安全。
+            //lock (this)
+
+
+            //同字符串一样，多个线程锁同一个对象
+            //typeof 操作符幂等性.多次调用返回值相同（详细参见 Demos.Demos2019.ReflectionDemo）
+            // lock (typeof(MyType))
+
+            //字符串驻留，多个线程锁同一个对象
+            //lock(_lockStr)
+            //{
+
+            //}
+
+
+        }
 
         #endregion
 
         #region 死锁
 
-         Object _a = new Object();
+        Object _a = new Object();
          Object _b = new Object();
 
         /*
