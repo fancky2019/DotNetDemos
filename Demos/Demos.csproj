@@ -216,6 +216,8 @@
     <Compile Include="Demos2019\CovarianceContravarianceDemo.cs" />
     <Compile Include="Demos2019\DateTimeDemo.cs" />
     <Compile Include="Demos2019\DevisionDemo.cs" />
+    <Compile Include="Demos2019\SocketClientDemo.cs" />
+    <Compile Include="Demos2019\SocketServerDemo.cs" />
     <Compile Include="Demos2019\TcpClientDemo.cs" />
     <Compile Include="Demos2019\TCPServerDemo.cs" />
     <Compile Include="Demos2019\UDPClientDemo.cs" />
