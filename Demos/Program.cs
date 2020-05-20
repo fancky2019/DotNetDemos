@@ -154,7 +154,7 @@ namespace Demos.Demos2018
                 //new ParamsDemo().Test();
                 //BufferLog.Test();
                 //new DailyFile("log").Test();
-                //new ReflectionDemo().Test();
+                new ReflectionDemo().Test();
                 //new ThreadLocalDemo().Test();
                 //new ParallelDemo().Test();
 
@@ -180,16 +180,16 @@ namespace Demos.Demos2018
                 //    Thread.Sleep(1000);
                 //    new UDPClientDemo().Test();
                 //});
-                Task.Run(() =>
-                {
-                  
-                    new SocketServerDemo().Test();
-                });
-                Task.Run(() =>
-                {
-                    Thread.Sleep(1000);
-                    new SocketClientDemo().Test();
-                });
+                //Task.Run(() =>
+                //{
+
+                //    new SocketServerDemo().Test();
+                //});
+                //Task.Run(() =>
+                //{
+                //    Thread.Sleep(1000);
+                //    new SocketClientDemo().Test();
+                //});
                 //Log.Test();
                 #endregion
 
