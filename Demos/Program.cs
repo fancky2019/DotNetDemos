@@ -154,7 +154,7 @@ namespace Demos.Demos2018
                 //new ParamsDemo().Test();
                 //BufferLog.Test();
                 //new DailyFile("log").Test();
-                new ReflectionDemo().Test();
+                //new ReflectionDemo().Test();
                 //new ThreadLocalDemo().Test();
                 //new ParallelDemo().Test();
 
@@ -192,7 +192,9 @@ namespace Demos.Demos2018
                 //});
                 //Log.Test();
                 #endregion
-
+                #region
+                new Demos.Demos2020.TxtFile().Test();
+                #endregion
 
             }
             catch (Exception ex)

@@ -222,6 +222,8 @@
     <Compile Include="Demos2019\TCPServerDemo.cs" />
     <Compile Include="Demos2019\UDPClientDemo.cs" />
     <Compile Include="Demos2019\UDPServerDemo.cs" />
+    <Compile Include="Demos2020\Class1.cs" />
+    <Compile Include="Demos2020\TxtFile.cs" />
     <Compile Include="OpenResource\DistributedTranscation\DistributedTranscationDemo.cs" />
     <Compile Include="Demos2019\DotNetEightDemo.cs" />
     <Compile Include="Demos2019\DatabaseTransaction.cs" />
@@ -400,9 +402,7 @@
       <DependentUpon>FrmTest.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Demos2020\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

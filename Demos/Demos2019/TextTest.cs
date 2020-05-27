@@ -20,7 +20,7 @@ namespace Demos.Demos2019
             var dic = AppDomain.CurrentDomain.BaseDirectory;
             string fileName = Path.Combine(dic, $"{DateTime.Now.Day}.txt");
             //每次都创建sw实例，每ms写平均2次左右，如果只创建一次平均可达到200次。
-            using (StreamWriter sw = new StreamWriter(File.Open(fileName, FileMode.Append, FileAccess.Write), System.Text.Encoding.UTF8))
+            using (StreamWriter sw = new StreamWriter(File.Open(fileName, FileMode.Append, FileAccess.ReadWrite), System.Text.Encoding.UTF8))
             {
                 for (int i = 0; i < 100000; i++)
                 {
@@ -40,7 +40,7 @@ namespace Demos.Demos2019
             //{
 
             //}
-            using (FileStream fs = new FileStream(fileName, FileMode.Append, FileAccess.Write))
+            using (FileStream fs = new FileStream(fileName, FileMode.Append, FileAccess.ReadWrite))
             {
                 using (StreamWriter sw = new StreamWriter(fs, System.Text.Encoding.Default))
                 {
@@ -56,7 +56,7 @@ namespace Demos.Demos2019
                 Directory.CreateDirectory(dir);
             }
             string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $@"data\{fileName}.csv");
-            using (StreamWriter sw = new StreamWriter(File.Open(path, FileMode.Append, FileAccess.Write), System.Text.Encoding.Default))
+            using (StreamWriter sw = new StreamWriter(File.Open(path, FileMode.Append, FileAccess.ReadWrite), System.Text.Encoding.Default))
             {
                 sw.WriteLine(content);
             }
