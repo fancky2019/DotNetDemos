@@ -39,14 +39,24 @@ namespace Demos.Demos2019
                 Console.WriteLine("连接已经建立");
                 string recStr = "";
                 byte[] recByte = new byte[1024];
-                int receiveLength = serverSocket.Receive(recByte, recByte.Length, 0);
-                recStr += Encoding.ASCII.GetString(recByte, 0, receiveLength);
+                //生产环境此处要开启一个线程取接收,每个TCP连接都会有一个线程负责接收，这就比NIO的一个
+                //线程维护多个Chanel的方式性能差。
+                Task.Run(() =>
+                {
+                    int receiveLength = 0;
+                    while ((receiveLength = serverSocket.Receive(recByte, recByte.Length, 0)) > 0)
+                    {
+                        recStr += Encoding.ASCII.GetString(recByte, 0, receiveLength);
+                        //send message
+                        Console.WriteLine("server receives:{0}", recStr);
+                        string sendStr = "server message";
+                        byte[] sendByte = Encoding.ASCII.GetBytes(sendStr);
+                        serverSocket.Send(sendByte, sendByte.Length, 0);
+                    }
 
-                //send message
-                Console.WriteLine("server receives:{0}", recStr);
-                string sendStr = "server message";
-                byte[] sendByte = Encoding.ASCII.GetBytes(sendStr);
-                serverSocket.Send(sendByte, sendByte.Length, 0);
+                });
+         
+                
                 //serverSocket.Close();
                 //sSocket.Close();
             }

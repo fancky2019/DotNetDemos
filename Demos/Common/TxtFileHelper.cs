@@ -3,17 +3,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
-namespace Demos.Demos2020
+namespace Demos.Common
 {
-    public class TxtFile
+    public class TxtFileHelper
     {
-        public void Test()
-        {
-            SaveTxtFile("data/test.txt",new List<string>() { "2112"});
-        }
-        private readonly NLog.Logger nLog = NLog.LogManager.GetCurrentClassLogger();
-        private List<string> ReadTxtFile(string fllPath)
+
+        public static List<string> ReadTxtFile(string fllPath)
         {
             List<string> content = new List<string>();
             if (File.Exists(fllPath))
@@ -30,6 +27,7 @@ namespace Demos.Demos2020
                     }
                     catch (Exception ex)
                     {
+                        throw ex;
                         // TT.Common.NLogUtility.Error(ex.ToString());
                     }
                 }
@@ -38,7 +36,7 @@ namespace Demos.Demos2020
         }
 
 
-        private void SaveTxtFile(string fllPath, List<string> content, FileMode fileMode = FileMode.Create)
+        public static void SaveTxtFile(string fllPath, List<string> content, FileMode fileMode = FileMode.Create)
         {
             var directory = Path.GetDirectoryName(fllPath);
             if (!Directory.Exists(directory))
