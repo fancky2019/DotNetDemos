@@ -5,12 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Common
+namespace Demos.Common
 {
     public class TxtFile
     {
-
-
 
         public static List<string> ReadTxtFile(string fllPath)
         {
@@ -63,7 +61,7 @@ namespace Common
 
             //文本追加只能以只写的方式,下面的构造FileShare为 FileShare.Read,在Windows资管员管理器中可以打开不能修改。
             // new StreamWriter(filePath,true, System.Text.Encoding.UTF8)
-            // using (StreamWriter sw = new StreamWriter(new FileStream(filePath, FileMode.Append, FileAccess.Write), System.Text.Encoding.UTF8))
+        //    using (StreamWriter sw = new StreamWriter(new FileStream(filePath, FileMode.Append, FileAccess.ReadWrite), System.Text.Encoding.UTF8))
             using (StreamWriter sw = new StreamWriter(filePath, true, System.Text.Encoding.UTF8))
             {
                 foreach (string str in content)
@@ -87,7 +85,7 @@ namespace Common
             if (_sw == null)
             {
                 // new StreamWriter(filePath,true, System.Text.Encoding.UTF8)
-                _sw = new StreamWriter(new FileStream(filePath, FileMode.Append, FileAccess.Write), System.Text.Encoding.UTF8);
+                _sw = new StreamWriter(new FileStream(filePath, FileMode.Append, FileAccess.ReadWrite), System.Text.Encoding.UTF8);
                // _sw.AutoFlush = true;//批量写完之后再调用sw.Flush();
             }
             foreach (string str in content)

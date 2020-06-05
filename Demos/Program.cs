@@ -9,6 +9,7 @@ using Demos.Demos2019.Forms;
 using Demos.Demos2019.Proxy;
 using Demos.Demos2019.Subjects;
 using Demos.Model;
+using Demos.OpenResource.DotNetty;
 using Demos.OpenResource.HPSocket;
 using Demos.OpenResource.Json;
 using Demos.OpenResource.Jwt;
@@ -193,7 +194,10 @@ namespace Demos.Demos2018
                 //Log.Test();
                 #endregion
                 #region
-                new Demos.Demos2020.TxtFile().Test();
+          
+                //new Demos.Demos2020.CSVComma().Test();
+
+                new NettyTest().Test();
                 #endregion
 
             }
