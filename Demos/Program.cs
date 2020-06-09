@@ -14,6 +14,7 @@ using Demos.OpenResource.HPSocket;
 using Demos.OpenResource.Json;
 using Demos.OpenResource.Jwt;
 using Demos.OpenResource.Kafka;
+using Demos.OpenResource.MessagePackDemo;
 using Demos.OpenResource.Redis;
 using Demos.OpenResource.Redis.ServiceStackRedis;
 using Demos.OpenResource.Redis.StackExchangeRedis;
@@ -193,11 +194,14 @@ namespace Demos.Demos2018
                 //});
                 //Log.Test();
                 #endregion
-                #region
-          
+
+                #region Demos2020
+
                 //new Demos.Demos2020.CSVComma().Test();
 
-                new NettyTest().Test();
+                //new NettyTest().Test();
+
+                new MessagePackDemo().Test();
                 #endregion
 
             }
