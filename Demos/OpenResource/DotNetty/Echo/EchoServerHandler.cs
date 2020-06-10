@@ -1,6 +1,9 @@
-﻿using DotNetty.Buffers;
+﻿using Demos.Model;
+using DotNetty.Buffers;
 using DotNetty.Handlers.Timeout;
 using DotNetty.Transport.Channels;
+using MessagePack;
+using MessagePack.Resolvers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,7 +40,7 @@ namespace Demos.OpenResource.DotNetty.Echo
 
         public override void ChannelActive(IChannelHandlerContext context) => base.ChannelActive(context);
 
-      
+
         public override void ChannelInactive(IChannelHandlerContext context) => base.ChannelInactive(context);
 
         public override void ChannelRead(IChannelHandlerContext context, object message)
@@ -45,7 +48,26 @@ namespace Demos.OpenResource.DotNetty.Echo
             var buffer = message as IByteBuffer;
             if (buffer != null)
             {
+
                 Console.WriteLine("Received from client: " + buffer.ToString(Encoding.UTF8));
+
+
+
+                //ArraySegment<byte> ioBuf = buffer.GetIoBuffer(0, buffer.Capacity);
+                //var array = ioBuf.ToArray();
+
+                // return encoding.GetString(ioBuf.Array, ioBuf.Offset, ioBuf.Count);
+                //这样会造成从堆外的直接内存将数据拷贝到内存堆内，
+                //但是可以用Netty的其他特性，比传统Socket仍有优势。
+                ////MessagePackSerializer.DefaultOptions = ContractlessStandardResolver.Options;
+                //var bytes = new byte[buffer.Capacity];
+                //buffer.GetBytes(0, bytes);//将数据复制到堆内
+                //var contractlessSample = MessagePackSerializer.Deserialize<Person>(bytes);
+                //var jsonStr = MessagePackSerializer.ConvertToJson(bytes);
+                //Console.WriteLine("Received from client: " + jsonStr);
+
+
+
             }
             context.WriteAsync(message);
         }
@@ -73,7 +95,7 @@ namespace Demos.OpenResource.DotNetty.Echo
                         case IdleState.AllIdle:
                             //6秒既没有读，也没有写，即发生了3次没有读写，可认为网络断开。
                             context.DisconnectAsync().Wait();
-                             break;
+                            break;
                     }
                 }
             }

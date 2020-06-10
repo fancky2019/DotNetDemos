@@ -1,6 +1,10 @@
-﻿using DotNetty.Buffers;
+﻿using Demos.Common;
+using Demos.Model;
+using DotNetty.Buffers;
 using DotNetty.Handlers.Timeout;
 using DotNetty.Transport.Channels;
+using MessagePack;
+using MessagePack.Resolvers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,9 +33,16 @@ namespace Demos.OpenResource.DotNetty.Echo
 
         public EchoClientHandler()
         {
-            this.initialMessage = Unpooled.Buffer(256);
-            byte[] messageBytes = Encoding.UTF8.GetBytes("Hello world");
-            this.initialMessage.WriteBytes(messageBytes);
+            /*
+             * 如果使用传统的堆内存分配，当我们需要将数据通过socket发送的时候，就需要从堆内存拷贝到直接内存，
+             * 然后再由直接内存拷贝到网卡接口层。Netty提供的直接Buffer，直接将数据分配到内存空间，
+             * 从而避免了数据的拷贝，实现了零拷贝
+             */
+
+            //从堆上分配
+            //this.initialMessage = Unpooled.Buffer(256);
+            //直接从内存分配
+            this.initialMessage = Unpooled.DirectBuffer(1024); 
         }
 
         //channelInactive： 处于非活跃状态，没有连接到远程主机。
@@ -50,14 +61,47 @@ namespace Demos.OpenResource.DotNetty.Echo
         /// 连接建立想服务器发送消息
         /// </summary>
         /// <param name="context"></param>
-        public override void ChannelActive(IChannelHandlerContext context) => context.WriteAndFlushAsync(this.initialMessage);
+        public override void ChannelActive(IChannelHandlerContext context)
+        {
+            byte[] messageBytes = Encoding.UTF8.GetBytes("Hello world");
+            this.initialMessage.WriteBytes(messageBytes);
+            context.WriteAndFlushAsync(this.initialMessage);
 
+
+
+
+            //Person data = new Person
+            //{
+            //    Name = "rui",
+            //    Age = 6
+            //};
+
+            //MessagePackSerializer.DefaultOptions = ContractlessStandardResolver.Options;
+
+            //// Now serializable...
+            ////15byte
+            //var messageBytes = MessagePackSerializer.Serialize(data);
+            ////175 byte
+            ////var daBytes = Serialization.Serialize<Person>(data);
+            ////var obj= Serialization.Deserialize<Person>(daBytes);
+            //this.initialMessage.WriteBytes(messageBytes);
+            //context.WriteAndFlushAsync(this.initialMessage);
+
+        }
         public override void ChannelRead(IChannelHandlerContext context, object message)
         {
             var byteBuffer = message as IByteBuffer;
             if (byteBuffer != null)
             {
                 Console.WriteLine("Received from server: " + byteBuffer.ToString(Encoding.UTF8));
+
+                //这样会造成从堆外的直接内存将数据拷贝到内存堆内，
+                //但是可以用Netty的其他特性，比传统Socket仍有优势。
+                //var bytes = new byte[byteBuffer.Capacity];
+                //byteBuffer.GetBytes(0, bytes);//将数据复制到堆内
+                //var contractlessSample = MessagePackSerializer.Deserialize<Person>(bytes);
+                //var jsonStr = MessagePackSerializer.ConvertToJson(bytes);
+                //Console.WriteLine("Received from server: " + jsonStr);
             }
             //避免死循环，客户服务端不停互相发消息
             //context.WriteAsync(message);
