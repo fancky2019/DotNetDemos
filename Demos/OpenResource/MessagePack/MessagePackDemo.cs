@@ -77,7 +77,6 @@ namespace Demos.OpenResource.MessagePackDemo
 
             //实体不带特性
             MessagePackSerializer.DefaultOptions = ContractlessStandardResolver.Options;
-
             var lz4Options1 = MessagePackSerializer.DefaultOptions.WithCompression(MessagePackCompression.Lz4BlockArray);
             var bytesLZ41 = MessagePackSerializer.Serialize(data, lz4Options);
             var data11 = MessagePackSerializer.Deserialize<Sample3>(bytesLZ4, lz4Options);

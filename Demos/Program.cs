@@ -199,9 +199,9 @@ namespace Demos.Demos2018
 
                 //new Demos.Demos2020.CSVComma().Test();
 
-                //new NettyTest().Test();
+                new NettyTest().Test();
 
-                new MessagePackDemo().Test();
+                //new MessagePackDemo().Test();
                 #endregion
 
             }

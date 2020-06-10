@@ -351,6 +351,7 @@
     <Compile Include="Common\Log.cs" />
     <Compile Include="Common\LogAsync.cs" />
     <Compile Include="Common\RandomSeed.cs" />
+    <Compile Include="Common\Serialization.cs" />
     <Compile Include="Common\StopwatchHelper.cs" />
     <Compile Include="Common\TxtFile.cs" />
     <Compile Include="Common\TxtFileHelper.cs" />
@@ -456,8 +457,6 @@
     <Compile Include="OpenResource\DotNetty\Echo\EchoNettyClient.cs" />
     <Compile Include="OpenResource\DotNetty\Echo\EchoNettyServer.cs" />
     <Compile Include="OpenResource\DotNetty\Echo\EchoServerHandler.cs" />
-    <Compile Include="OpenResource\DotNetty\Marshalling\MarshallingDecoder.cs" />
-    <Compile Include="OpenResource\DotNetty\Marshalling\MarshallingEncoder.cs" />
     <Compile Include="OpenResource\DotNetty\NettyTest.cs" />
     <Compile Include="OpenResource\Json\JsonDemo.cs" />
     <Compile Include="OpenResource\Jwt\JWTDemo.cs" />
