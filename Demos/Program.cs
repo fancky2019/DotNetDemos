@@ -173,23 +173,25 @@ namespace Demos.Demos2018
                 //    Thread.Sleep(1000);
                 //    new TcpClientDemo().Test();
                 //});
-                //Task.Run(() =>
-                //{
-                //    new UDPServerDemo().Test();
-                //});
+                Task.Run(() =>
+                {
+                    Thread.Sleep(1000);
+                    new UDPServerDemo().Test();
+                });
+                Task.Run(() =>
+                {
+              
+                    new UDPClientDemo().Test();
+                });
+
                 //Task.Run(() =>
                 //{
                 //    Thread.Sleep(1000);
-                //    new UDPClientDemo().Test();
-                //});
-                //Task.Run(() =>
-                //{
-
                 //    new SocketServerDemo().Test();
                 //});
                 //Task.Run(() =>
                 //{
-                //    Thread.Sleep(1000);
+
                 //    new SocketClientDemo().Test();
                 //});
                 //Log.Test();
@@ -199,7 +201,7 @@ namespace Demos.Demos2018
 
                 //new Demos.Demos2020.CSVComma().Test();
 
-                new NettyTest().Test();
+                //new NettyTest().Test();
 
                 //new MessagePackDemo().Test();
                 #endregion

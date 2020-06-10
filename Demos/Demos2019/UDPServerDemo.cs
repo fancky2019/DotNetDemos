@@ -8,13 +8,20 @@ using System.Threading.Tasks;
 
 namespace Demos.Demos2019
 {
+    /*
+     * RTP:实时传输协议，UDP。单个数据丢失不影响应用。
+     */
     class UDPServerDemo
     {
         private static readonly NLog.Logger _nLog = NLog.LogManager.GetCurrentClassLogger();
         public void Test()
         {
-            Receive();
+            //Receive();
+            //UDPClientUDPMulticast();
+            UDPClientUDPBroadcast();
         }
+
+        #region  单播
         private void Receive()
         {
             //要绑定本地接收消息的端口号
@@ -74,5 +81,48 @@ namespace Demos.Demos2019
 
             }
         }
+        #endregion
+
+        #region  组播
+        private void UDPClientUDPMulticast()
+        {
+            //要绑定本地接收消息的端口号
+            UdpClient udpClient = new UdpClient(6001);
+            string msg = "UDPServer Multicast message";
+            Byte[] sendBytes = Encoding.ASCII.GetBytes(msg);
+            //声明组播组IP
+            IPAddress multicasIP = IPAddress.Parse("225.0.0.1");
+            IPEndPoint multicastIPEndPoint = new IPEndPoint(multicasIP, 6000);
+
+            ////指定要发送的服务地址，不过不连接要在发送的时候指定，采用下面的重载
+            //udpClient.Connect("127.0.0.1", 7777);
+            ////Sends a message to the host to which you have connected.
+            //udpClient.Send(sendBytes, sendBytes.Length);
+            //或者
+            //直接往多播地址扔数据
+            udpClient.Send(sendBytes, sendBytes.Length, multicastIPEndPoint);
+        }
+        #endregion
+
+        #region  广播
+        private void UDPClientUDPBroadcast()
+        {
+            //要绑定本地接收消息的端口号
+            UdpClient udpClient = new UdpClient(6001);
+            string msg = "UDPServer Broadcast message";
+            Byte[] sendBytes = Encoding.ASCII.GetBytes(msg);
+            //声明组播组IP
+            IPAddress broadcastIP = IPAddress.Parse("192.168.1.255");
+            IPEndPoint broadcastIPEndPoint = new IPEndPoint(broadcastIP, 6000);
+
+            ////指定要发送的服务地址，不过不连接要在发送的时候指定，采用下面的重载
+            //udpClient.Connect("127.0.0.1", 7777);
+            ////Sends a message to the host to which you have connected.
+            //udpClient.Send(sendBytes, sendBytes.Length);
+            //或者
+            //直接往广播地址扔数据
+            udpClient.Send(sendBytes, sendBytes.Length, broadcastIPEndPoint);
+        }
+        #endregion
     }
 }
