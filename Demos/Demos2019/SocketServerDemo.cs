@@ -8,6 +8,12 @@ using System.Threading.Tasks;
 
 namespace Demos.Demos2019
 {
+    /*
+     * UDP 包的大小就应该是 1500 - IP头(20) - UDP头(8) = 1472(Bytes)
+     * TCP 包的大小就应该是 1500 - IP头(20) - TCP头(20) = 1460 (Bytes)
+     * MTC:1500,分片，租包
+     * UPD:于Internet(非局域网)上的标准MTU值为576字节，最好548字节 (576-8-20)以内。
+     */
     class SocketServerDemo
     {
         public void Test()
@@ -68,9 +74,11 @@ namespace Demos.Demos2019
 
         #endregion
 
-        /*TCP连接可能要求丢包重发或者延时或重组顺序。这些操作可能很消耗资源。不适于很多使用多播的应用场景。
+        /*TCP建立连接，连接可能要求丢包重发或者延时或重组顺序。这些操作可能很消耗资源。不适于很多使用多播的应用场景。
         （同一时候多播不知道发出的包是不是已经到达，这个也导致不能使用TCP）
         */
+        #endregion
+
         #region  UDP
 
         #region  单播
@@ -85,6 +93,7 @@ namespace Demos.Demos2019
                 EndPoint remoteEndPoint = new IPEndPoint(IPAddress.Any, 0);
                 //buffer 尽可能大
                 // 如果您使用的是不可靠协议，多余的数据将会丢失。
+                //设置UDP包小点，防止包过大容易丢包
                 byte[] buffer = new byte[4096];
                 //未收到数据前一直阻塞
                 int length = udpServer.ReceiveFrom(buffer, ref remoteEndPoint);
