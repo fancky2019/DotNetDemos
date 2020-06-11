@@ -8,6 +8,12 @@ using System.Threading.Tasks;
 
 namespace Demos.Demos2019
 {
+    /*
+    * UDP 包的大小就应该是 1500 - IP头(20) - UDP头(8) = 1472(Bytes)
+    * TCP 包的大小就应该是 1500 - IP头(20) - TCP头(20) = 1460 (Bytes)
+    * MTC:1500,分片，租包
+    * UPD:于Internet(非局域网)上的标准MTU值为576字节，最好548字节 (576-8-20)以内。
+    */
     public class UDPClientDemo
     {
         public void Test()
@@ -72,7 +78,7 @@ namespace Demos.Demos2019
         {
             //要绑定本地接收消息的端口号
             UdpClient udpClient = new UdpClient(6000, AddressFamily.InterNetwork);
-        
+
             //IPEndPoint object will allow us to read datagrams sent from any source.
             IPEndPoint remoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
             while (true)

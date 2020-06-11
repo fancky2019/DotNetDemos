@@ -8,13 +8,19 @@ using System.Threading.Tasks;
 
 namespace Demos.Demos2019
 {
+    /*
+    * UDP 包的大小就应该是 1500 - IP头(20) - UDP头(8) = 1472(Bytes)
+    * TCP 包的大小就应该是 1500 - IP头(20) - TCP头(20) = 1460 (Bytes)
+    * MTC:1500,分片，租包
+    * UPD:于Internet(非局域网)上的标准MTU值为576字节，最好548字节(576-8-20)以内。
+    */
     class TcpClientDemo
     {
         public void Test()
         {
-            Connect("127.0.0.1","heartBeart");
+            Connect("127.0.0.1", "heartBeart");
         }
-         void Connect(String server, String message)
+        void Connect(String server, String message)
         {
             try
             {

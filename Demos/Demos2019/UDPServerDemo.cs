@@ -9,7 +9,13 @@ using System.Threading.Tasks;
 namespace Demos.Demos2019
 {
     /*
-     * RTP:实时传输协议，UDP。单个数据丢失不影响应用。
+     * RTP:实时传输协议。UDP：单个数据丢失不影响应用。
+     * 
+     * 
+     * UDP 包的大小就应该是 1500 - IP头(20) - UDP头(8) = 1472(Bytes)
+     * TCP 包的大小就应该是 1500 - IP头(20) - TCP头(20) = 1460 (Bytes)
+     * MTC:1500,分片，租包
+     * UPD:于Internet(非局域网)上的标准MTU值为576字节，最好548字节 (576-8-20)以内。
      */
     class UDPServerDemo
     {
@@ -26,13 +32,13 @@ namespace Demos.Demos2019
         {
             //要绑定本地接收消息的端口号
             UdpClient udpClient = new UdpClient(7777, AddressFamily.InterNetwork);
-      
+
             //IPEndPoint object will allow us to read datagrams sent from any source.
             IPEndPoint remoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
-            
+
             while (true)
             {
-  
+
                 string data = string.Empty;
                 //接收任意的远程主机端口号的信息
                 // Blocks until a message returns on this socket from a remote host.
@@ -60,7 +66,7 @@ namespace Demos.Demos2019
                 data = $"{data1}{data2}{data3}{data4}{data5}{data6}";
                 Console.WriteLine("Server Received: {0}", data);
 
-        
+
 
 
 
