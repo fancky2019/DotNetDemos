@@ -10,6 +10,7 @@ using Demos.Demos2019.Proxy;
 using Demos.Demos2019.Subjects;
 using Demos.Model;
 using Demos.OpenResource.DotNetty;
+using Demos.OpenResource.DotNetty.UDP;
 using Demos.OpenResource.HPSocket;
 using Demos.OpenResource.Json;
 using Demos.OpenResource.Jwt;
@@ -173,16 +174,16 @@ namespace Demos.Demos2018
                 //    Thread.Sleep(1000);
                 //    new TcpClientDemo().Test();
                 //});
-                Task.Run(() =>
-                {
-                    Thread.Sleep(1000);
-                    new UDPServerDemo().Test();
-                });
-                Task.Run(() =>
-                {
+                //Task.Run(() =>
+                //{
+                //    Thread.Sleep(1000);
+                //    new UDPServerDemo().Test();
+                //});
+                //Task.Run(() =>
+                //{
               
-                    new UDPClientDemo().Test();
-                });
+                //    new UDPClientDemo().Test();
+                //});
 
                 //Task.Run(() =>
                 //{
@@ -204,6 +205,9 @@ namespace Demos.Demos2018
                 //new NettyTest().Test();
 
                 //new MessagePackDemo().Test();
+
+                new NettyUDPServer().Test();
+                new NettyUDPClient().Test();
                 #endregion
 
             }

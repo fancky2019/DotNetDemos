@@ -458,6 +458,10 @@
     <Compile Include="OpenResource\DotNetty\Echo\EchoNettyServer.cs" />
     <Compile Include="OpenResource\DotNetty\Echo\EchoServerHandler.cs" />
     <Compile Include="OpenResource\DotNetty\NettyTest.cs" />
+    <Compile Include="OpenResource\DotNetty\UDP\NettyUDPClient.cs" />
+    <Compile Include="OpenResource\DotNetty\UDP\NettyUDPClientHnadler.cs" />
+    <Compile Include="OpenResource\DotNetty\UDP\NettyUDPServer.cs" />
+    <Compile Include="OpenResource\DotNetty\UDP\NettyUDPServerHnadler.cs" />
     <Compile Include="OpenResource\Json\JsonDemo.cs" />
     <Compile Include="OpenResource\Jwt\JWTDemo.cs" />
     <Compile Include="OpenResource\Kafka\KafkaConsumer.cs" />
