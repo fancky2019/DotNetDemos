@@ -22,23 +22,17 @@ namespace Demos.OpenResource.DotNetty.UDP
         {
             Task.Run(() =>
             {
-        
-                //Client();
-                //MulticastClient();
-                Multicast();
-            });
 
-            Task.Run(() =>
-            {
-                Thread.Sleep(1000);
                 //Client();
-                T();
-                //Multicast();
+                MulticastClient();
             });
 
         }
 
         #region 单播,广播
+        /// <summary>
+        /// 可以收到服务端单播、广播信息，收不到多播
+        /// </summary>
         public async void Client()
         {
             Bootstrap bootstrap = new Bootstrap();
@@ -51,10 +45,6 @@ namespace Demos.OpenResource.DotNetty.UDP
                 bootstrap.Handler(new NettyUDPClientHnadler());
                 SocketDatagramChannel channel = (SocketDatagramChannel)bootstrap.BindAsync(6000).Result;
                 //task.Result.CloseAsync();
-
-
-
-
             }
             catch (Exception e)
             {
@@ -68,23 +58,33 @@ namespace Demos.OpenResource.DotNetty.UDP
 
         #endregion
 
+        #region 单播、多播、广播
+        /// <summary>
+        ///  可以收到服务端单播、多播、广播信息
+        /// </summary>
         private async void MulticastClient()
         {
             Bootstrap bootstrap = new Bootstrap();
             var group = new MultithreadEventLoopGroup();
             try
             {
-                NetworkInterface ni = LoopbackInterface(AddressFamily.InterNetwork);
-                bootstrap.Group(group);
-                bootstrap.ChannelFactory(() => new SocketDatagramChannel(AddressFamily.InterNetwork));
+                var clientBootstrap = new Bootstrap();
+                clientBootstrap
+                    .Group(group)
+                    //多播要指定寻址方案为IPV4
+                    .ChannelFactory(() => new SocketDatagramChannel(AddressFamily.InterNetwork))
+                    .Handler(new NettyUDPClientHnadler());
 
 
-                bootstrap.Handler(new NettyUDPClientHnadler());
-                SocketDatagramChannel channel = (SocketDatagramChannel)bootstrap.BindAsync(6000).Result;
-                //task.Result.CloseAsync();
-                IPEndPoint multicastAddress = new IPEndPoint(IPAddress.Parse("225.0.0.1"), 6000);
-                await channel.JoinGroup(multicastAddress, ni);
-                //Task leaveTask = serverChannel.LeaveGroup(groupAddress, loopback);
+                IChannel channel = clientBootstrap.BindAsync(6000).Result;
+
+                SocketDatagramChannel serverChannel = (SocketDatagramChannel)channel;
+                //var serverEndPoint = (IPEndPoint)serverChannel.LocalAddress;
+
+                IPAddress multicastAddress = IPAddress.Parse("225.0.0.1");
+                var groupAddress = new IPEndPoint(multicastAddress, 6000);
+                Task joinTask = serverChannel.JoinGroup(groupAddress);
+
             }
             catch (Exception e)
             {
@@ -92,40 +92,14 @@ namespace Demos.OpenResource.DotNetty.UDP
             }
             finally
             {
-                await group.ShutdownGracefullyAsync();
+                //Task leaveTask = serverChannel.LeaveGroup(groupAddress, loopback);
+                //await group.ShutdownGracefullyAsync();
             }
         }
-        //region 多播：可以接受单播、多播、广播信息
-        //        private void runMulticastClient() throws InterruptedException
-        //        {
-        //            EventLoopGroup workerGroup = new NioEventLoopGroup();
-        //        try {
+        #endregion
 
-        //            NetworkInterface ni = NetUtil.LOOPBACK_IF;
-        //        // InetSocketAddress相当于c#IPEndPoint
-        //        InetSocketAddress multicastAddress = new InetSocketAddress(InetAddress.getByName("225.0.0.1"), 6000);
-
-        //        Bootstrap bootstrap = new Bootstrap(); // (1)
-        //        bootstrap.group(workerGroup); // (2)
-        //            bootstrap.channel(NioDatagramChannel.class);
-        //            bootstrap.handler(new NettyUDPClientHandler());
-
-        //           //加入多播组：和单播多播区别就是：加入了多播组。但是可以收到单播，多播的信息。
-        //            NioDatagramChannel ch = (NioDatagramChannel)bootstrap.bind(multicastAddress.getPort()).sync().channel();
-        //        ch.joinGroup(multicastAddress, ni).sync();
-
-        //        ch.closeFuture().await();
-
-        //    } catch (Exception ex) {
-        //            System.out.println(ex.toString());
-        //} finally {
-        //            workerGroup.shutdownGracefully();
-        //        }
-        //    }
-        //endregion
-
-
-        public NetworkInterface LoopbackInterface(AddressFamily addressFamily)
+        #region  github 多播单元测试
+        private NetworkInterface LoopbackInterface(AddressFamily addressFamily)
         {
             NetworkInterface[] networkInterfaces = NetworkInterface.GetAllNetworkInterfaces();
             if (addressFamily == AddressFamily.InterNetwork)
@@ -143,83 +117,80 @@ namespace Demos.OpenResource.DotNetty.UDP
 
 
 
-        public void Multicast()
+        private void MulticastClinetServer()
         {
             SocketDatagramChannel serverChannel = null;
             IChannel clientChannel = null;
             var serverGroup = new MultithreadEventLoopGroup(1);
-
+            var clientGroup = new MultithreadEventLoopGroup(1);
             NetworkInterface loopback = LoopbackInterface(AddressFamily.InterNetwork);
 
+            //IPAddress address = IPAddress.Loopback;
             try
             {
-
+                var multicastHandler = new NettyUDPServerHnadler();
                 var serverBootstrap = new Bootstrap();
                 serverBootstrap
                     .Group(serverGroup)
                     .ChannelFactory(() => new SocketDatagramChannel(AddressFamily.InterNetwork))
                     //.Option(ChannelOption.Allocator, allocator)
-                    .Option(ChannelOption.SoReuseaddr, true)
-                    .Option(ChannelOption.IpMulticastLoopDisabled, false)
-                    .Handler(new NettyUDPClientHnadler());
+                    //.Option(ChannelOption.SoReuseaddr, true)
+                    //.Option(ChannelOption.IpMulticastLoopDisabled, false)
+                    .Handler(multicastHandler);
 
-                IPAddress address = IPAddress.Loopback;
 
-                Task<IChannel> task = serverBootstrap.BindAsync(6000);
+                Task<IChannel> task = serverBootstrap.BindAsync(IPAddress.Parse("192.168.1.114"), 6000);
 
                 serverChannel = (SocketDatagramChannel)task.Result;
                 var serverEndPoint = (IPEndPoint)serverChannel.LocalAddress;
 
 
-                IPAddress multicastAddress =
-              IPAddress.Parse("225.0.0.1");
+
+
+                var clientBootstrap = new Bootstrap();
+                clientBootstrap
+                    .Group(clientGroup)
+                    .ChannelFactory(() => new SocketDatagramChannel(AddressFamily.InterNetwork))
+                    //.Option(ChannelOption.Allocator, allocator)
+                    //.Option(ChannelOption.SoReuseaddr, true)
+                    //.Option(ChannelOption.IpMulticastLoopDisabled, false)
+                    .Handler(new NettyUDPClientHnadler());
+
+
+                task = clientBootstrap.BindAsync(IPAddress.Parse("192.168.1.114"), 6001);
+
+                clientChannel = (SocketDatagramChannel)task.Result;
+
+                IPAddress multicastAddress = IPAddress.Parse("230.0.0.1");//: IPAddress.Parse("ff12::1");
                 var groupAddress = new IPEndPoint(multicastAddress, 6000);
-                Task joinTask = serverChannel.JoinGroup(groupAddress, loopback);
+                Task joinTask = serverChannel.JoinGroup(groupAddress);
+
+                clientChannel.WriteAndFlushAsync(new DatagramPacket(Unpooled.Buffer().WriteBytes(
+                    Encoding.UTF8.GetBytes("Hello world")), groupAddress)).Wait();
+
+                //Task leaveTask = serverChannel.LeaveGroup(groupAddress, loopback);
+
+                // sleep half a second to make sure we left the group
+                Task.Delay(1000).Wait();
+
+                // we should not receive a message anymore as we left the group before
+                //clientChannel.WriteAndFlushAsync(new DatagramPacket(Unpooled.Buffer().WriteInt(1), groupAddress)).Wait();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
             }
             finally
             {
-                serverChannel?.CloseAsync().Wait(TimeSpan.FromMilliseconds(1000));
-                clientChannel?.CloseAsync().Wait(TimeSpan.FromMilliseconds(1000));
+                //serverChannel?.CloseAsync().Wait(TimeSpan.FromMilliseconds(1000));
+                //clientChannel?.CloseAsync().Wait(TimeSpan.FromMilliseconds(1000));
 
-                Task.WaitAll(
-                    serverGroup.ShutdownGracefullyAsync(TimeSpan.FromMilliseconds(100), TimeSpan.FromSeconds(1)));
+                //Task.WaitAll(
+                //    serverGroup.ShutdownGracefullyAsync(TimeSpan.FromMilliseconds(100), TimeSpan.FromSeconds(1)),
+                //    clientGroup.ShutdownGracefullyAsync(TimeSpan.FromMilliseconds(100), TimeSpan.FromSeconds(1)));
             }
         }
-
-        private void T()
-        {
-            var clientGroup = new MultithreadEventLoopGroup(1);
-            var clientBootstrap = new Bootstrap();
-            clientBootstrap
-                .Group(clientGroup)
-                .ChannelFactory(() => new SocketDatagramChannel(AddressFamily.InterNetwork))
-                //.Option(ChannelOption.Allocator, allocator)
-                .Option(ChannelOption.SoReuseaddr, true)
-                .Option(ChannelOption.IpMulticastLoopDisabled, false)
-                .Handler(new NettyUDPServerHnadler());
-
-
-            IPAddress address = IPAddress.Loopback;
-            Task<IChannel> task = clientBootstrap.BindAsync(address,6001);
-            
-            SocketDatagramChannel clientChannel = (SocketDatagramChannel)task.Result;
-
-            IPAddress multicastAddress =
-                IPAddress.Parse("225.0.0.1");
-            var groupAddress = new IPEndPoint(multicastAddress, 6000);
-            //Task joinTask = serverChannel.JoinGroup(groupAddress, loopback);
-
-            clientChannel.WriteAndFlushAsync(new DatagramPacket(Unpooled.Buffer().WriteInt(1), groupAddress)).Wait();
-
-            //    Task leaveTask = serverChannel.LeaveGroup(groupAddress, loopback);
-
-            // sleep half a second to make sure we left the group
-            Task.Delay(1000).Wait();
-
-            // we should not receive a message anymore as we left the group before
-            clientChannel.WriteAndFlushAsync(new DatagramPacket(Unpooled.Buffer().WriteInt(1), groupAddress)).Wait();
-
-        }
+        #endregion
 
     }
 }
