@@ -13,6 +13,10 @@ namespace Demos.Demos2019
      * TCP 包的大小就应该是 1500 - IP头(20) - TCP头(20) = 1460 (Bytes)
      * MTC:1500,分片，租包
      * UPD:于Internet(非局域网)上的标准MTU值为576字节，最好548字节 (576-8-20)以内。
+     * 
+     * 
+     * 端口的作用是对TCP/IP体系的应用进程进行统一的标志，使运行不同操作系统的计算机的应用
+     * 进程能够互相通信
      */
     class SocketServerDemo
     {
@@ -38,13 +42,14 @@ namespace Demos.Demos2019
 
             Socket sSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             sSocket.Bind(ipe);
+            //backlog 参数指定队列中最多可容纳的等待接受的传入连接数
             sSocket.Listen(0);
             Console.WriteLine("监听已经打开，请等待");
 
             while (true)
             {
                 //没有新的连接会一直阻塞
-                Socket serverSocket = sSocket.Accept();
+                Socket connectedClientSocket = sSocket.Accept();
                 Console.WriteLine("连接已经建立");
                 string recStr = "";
                 byte[] recByte = new byte[1024];
@@ -53,19 +58,19 @@ namespace Demos.Demos2019
                 Task.Run(() =>
                 {
                     int receiveLength = 0;
-                    while ((receiveLength = serverSocket.Receive(recByte, recByte.Length, 0)) > 0)
+                    while ((receiveLength = connectedClientSocket.Receive(recByte, recByte.Length, 0)) > 0)
                     {
                         recStr += Encoding.ASCII.GetString(recByte, 0, receiveLength);
                         //send message
                         Console.WriteLine("server receives:{0}", recStr);
                         string sendStr = "server message";
                         byte[] sendByte = Encoding.ASCII.GetBytes(sendStr);
-                        serverSocket.Send(sendByte, sendByte.Length, 0);
+                        connectedClientSocket.Send(sendByte, sendByte.Length, 0);
                     }
 
                 });
-         
-                
+
+
                 //serverSocket.Close();
                 //sSocket.Close();
             }
@@ -98,7 +103,7 @@ namespace Demos.Demos2019
                 //未收到数据前一直阻塞
                 int length = udpServer.ReceiveFrom(buffer, ref remoteEndPoint);
                 string message = Encoding.UTF8.GetString(buffer, 0, length);
-                Console.WriteLine($"UDPServer receives:{remoteEndPoint.ToString()} - {message}"  );
+                Console.WriteLine($"UDPServer receives:{remoteEndPoint.ToString()} - {message}");
 
 
                 //回答客户端
@@ -143,7 +148,7 @@ namespace Demos.Demos2019
                 IPEndPoint remoteEndPoint = new IPEndPoint(multicasIP, 6000);
                 udpServer.SendTo(Encoding.UTF8.GetBytes(serverMsg), remoteEndPoint);
             });
-         
+
         }
         #endregion
 
@@ -184,7 +189,7 @@ namespace Demos.Demos2019
                 //C类子网广播地址
                 IPEndPoint remoteEndPoint = new IPEndPoint(IPAddress.Parse("192.168.1.255"), 6000);
                 udpServer.SendTo(Encoding.UTF8.GetBytes(serverMsg), remoteEndPoint);
-            });    
+            });
 
         }
         #endregion
