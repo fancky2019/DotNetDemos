@@ -217,27 +217,6 @@ namespace Demos.Demos2018
             }
             Console.ReadLine();
         }
-        static void Fundd()
-        {
-            Te();
-        }
-        static async void Te()
-        {
-            Console.WriteLine(Thread.CurrentThread.ManagedThreadId);
-            string str = await Test();
-
-        }
-        static async Task<string> Test()
-        {
-            return await Task.Run(() =>
-               {
-                   Console.WriteLine(Thread.CurrentThread.ManagedThreadId);
-                   Thread.Sleep(10 * 1000);
-                   Console.WriteLine("dssdsd");
-                   return "sdsdsd";
-               });
-
-        }
 
 
         /// <summary>  
