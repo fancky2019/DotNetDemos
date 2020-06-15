@@ -13,6 +13,10 @@ namespace Demos.Demos2019
     * TCP 包的大小就应该是 1500 - IP头(20) - TCP头(20) = 1460 (Bytes)
     * MTC:1500,分片，租包
     * UPD:于Internet(非局域网)上的标准MTU值为576字节，最好548字节 (576-8-20)以内。
+    * 
+    * 
+    * 端口的作用是对TCP/IP体系的应用进程进行统一的标志，使运行不同操作系统的计算机的应用
+    * 进程能够互相通信
     */
     class SocketClientDemo
     {
