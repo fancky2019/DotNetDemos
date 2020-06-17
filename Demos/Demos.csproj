@@ -361,7 +361,7 @@
     <Compile Include="Demos2019\AutoStartProgramDemo.cs" />
     <Compile Include="Demos2018\AdoTest.cs" />
     <Compile Include="Common\Config.cs" />
-    <Compile Include="Common\DataSetExtention.cs" />
+    <Compile Include="Common\Extentions.cs" />
     <Compile Include="Demos2018\BlockingCollectionDemo.cs" />
     <Compile Include="Demos2018\DelegateDemo.cs" />
     <Compile Include="Demos2018\ImplicitExplicitDemo.cs" />
@@ -382,7 +382,7 @@
     <Compile Include="Demos2019\TCPServerDemo.cs" />
     <Compile Include="Demos2019\UDPClientDemo.cs" />
     <Compile Include="Demos2019\UDPServerDemo.cs" />
-    <Compile Include="Demos2020\Class1.cs" />
+    <Compile Include="Demos2020\BitConverterDemo.cs" />
     <Compile Include="Demos2020\CSVComma.cs" />
     <Compile Include="OpenResource\Compression\CompressionDemo.cs" />
     <Compile Include="OpenResource\DistributedTranscation\DistributedTranscationDemo.cs" />
