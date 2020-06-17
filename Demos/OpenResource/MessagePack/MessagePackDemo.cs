@@ -15,8 +15,10 @@ namespace Demos.OpenResource.MessagePackDemo
     {
         public void Test()
         {
+
             ModelAddAttributes();
             Contractless();
+            SerializeList();
             Compression();
         }
 
@@ -63,6 +65,18 @@ namespace Demos.OpenResource.MessagePackDemo
             var obj2 = MessagePackSerializer.Deserialize<ContractlessSample>(bytesFromJson);
         }
 
+        private void SerializeList()
+        {
+            var data = new ContractlessSample { MyProperty1 = 99, MyProperty2 = 9999 };
+            List<ContractlessSample> list = new List<ContractlessSample> { data };
+
+            MessagePackSerializer.DefaultOptions = ContractlessStandardResolver.Options;
+            // Now serializable...
+            var bytes1 = MessagePackSerializer.Serialize(list);
+            var list1 = MessagePackSerializer.Deserialize<List<ContractlessSample>>(bytes1);
+
+        }
+
         private void Compression()
         {
             var data = new Sample3() { Foo = 10, Bar = 20, IgnoreMember = 30 };
@@ -80,7 +94,7 @@ namespace Demos.OpenResource.MessagePackDemo
             var lz4Options1 = MessagePackSerializer.DefaultOptions.WithCompression(MessagePackCompression.Lz4BlockArray);
             var bytesLZ41 = MessagePackSerializer.Serialize(data, lz4Options);
             var data11 = MessagePackSerializer.Deserialize<Sample3>(bytesLZ4, lz4Options);
-        
+
             int m = 0;
             //ProtoBuf
             //using (var ms = new MemoryStream())

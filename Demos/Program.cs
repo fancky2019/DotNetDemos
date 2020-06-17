@@ -8,6 +8,7 @@ using Demos.Demos2019.Encrypt;
 using Demos.Demos2019.Forms;
 using Demos.Demos2019.Proxy;
 using Demos.Demos2019.Subjects;
+using Demos.Demos2020;
 using Demos.Model;
 using Demos.OpenResource.DotNetty;
 using Demos.OpenResource.DotNetty.UDP;
@@ -181,7 +182,7 @@ namespace Demos.Demos2018
                 //});
                 //Task.Run(() =>
                 //{
-              
+
                 //    new UDPClientDemo().Test();
                 //});
 
@@ -205,9 +206,10 @@ namespace Demos.Demos2018
                 //new NettyTest().Test();
 
                 //new MessagePackDemo().Test();
-
-                new NettyUDPServer().Test();
-                new NettyUDPClient().Test();
+                //new BitConverterDemo().Test();
+                
+                //new NettyUDPServer().Test();
+                //new NettyUDPClient().Test();
                 #endregion
 
             }

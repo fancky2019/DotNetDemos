@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Demos.Common
 {
-    public static class DataSetExtention
+    public static class Extentions
     {
         #region 将从数据中获取的数据装换成泛型实体
         /// <summary>
@@ -130,6 +130,16 @@ namespace Demos.Common
         //        }
         //    }
         //}
+
+        /// <summary>
+        /// 获取时间戳
+        /// </summary>
+        /// <returns></returns>
+        public static UInt64 GetTimeStamp(this DateTime dateTime)
+        {
+            TimeSpan ts = dateTime - new DateTime(1970, 1, 1, 0, 0, 0, 0);
+            return Convert.ToUInt64(ts.TotalMilliseconds);
+        }
 
     }
 }
