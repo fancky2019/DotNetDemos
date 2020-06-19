@@ -22,7 +22,21 @@ namespace Demos.Common
 
         public static void Test()
         {
+           //var logName = "c\\dd.txt";
+           // if (logName.Contains("\\") )
+           // {
+               
+           // }
 
+           // if (logName.Contains("/") )
+           // {
+
+           // }
+           // if (logName.Contains("."))
+           // {
+
+           // }
+           // return;
             Thread test1 = new Thread(() =>
              {
                  WriteLog("test1");
@@ -162,6 +176,10 @@ namespace Demos.Common
 
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="logName"></param>
         private static void WriteLog(string logName)
         {
             Random random = new Random();
@@ -177,8 +195,17 @@ namespace Demos.Common
             }
         }
 
+        /// <summary>
+        /// 文件名，不包括路径
+        /// </summary>
+        /// <param name="logName"></param>
+        /// <returns></returns>
         public static Log GetLogger(string logName)
         {
+            if (logName.Contains("\\") || logName.Contains("/")|| logName.Contains("."))
+            {
+                throw new Exception("Invalid logName,logName shold not contain path or extension .");
+            }
             bool lockToken = false;
             _spinLock.Enter(ref lockToken);
             Log logger = null;
@@ -209,10 +236,10 @@ namespace Demos.Common
             _spinLock = new SpinLock(false);
             _createLogTime = DateTime.Now;
             this._logName = logName;
-            CreateLog();
+            CreateLogFile();
         }
 
-        private void CreateLog()
+        private void CreateLogFile()
         {
             if (_sw != null)
             {
@@ -235,18 +262,14 @@ namespace Demos.Common
             {
                 throw new Exception("File is disposed!");
             }
-            if (DateTime.Now.Day != _createLogTime.Day)
-            {
-                CreateLog();
-            }
             bool lockToken = false;
             _spinLock.Enter(ref lockToken);
-            //if(!File.Exists(_filePath))
-            //{
-            //    CreateLog();
-            //}
+
+            if (DateTime.Now.Day != _createLogTime.Day)
+            {
+                CreateLogFile();
+            }
             _sw.WriteLine($"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")} {content}");
-            //_sw.Flush();
             _spinLock.Exit();
         }
 
