@@ -9,6 +9,7 @@ namespace Demos.Demos2019
 {
     /// <summary>
     /// SpinLockDemo 在未获得锁（Enter(ref lockTaken);）之前一直保持自旋。
+    /// 不浪费CPU，不支持锁重入。
     /// </summary>
     public class SpinLockDemo
     {
@@ -16,7 +17,8 @@ namespace Demos.Demos2019
         {
             //SpinLockSample1();
             //SpinLockSample2();
-            SpinLockSample3();
+            //SpinLockSample3();
+            Fun1();
         }
 
         // Demonstrates:
@@ -178,6 +180,35 @@ namespace Demos.Demos2019
             // now Wait() on worker and clean up
             worker.Wait();
             mres.Dispose();
+        }
+
+        private void Fun1()
+        {
+            SpinLock sl = new SpinLock(false);
+
+       
+            bool lockTaken = false;
+ 
+            Task.Run(() =>
+            {
+                //获得锁
+                sl.Enter(ref lockTaken);
+                Console.WriteLine("task1 exit.");
+                Thread.Sleep(20000);
+                //释放锁
+                //sl.Exit();
+            });
+
+            bool lockTaken1 = false;
+            Task.Run(() =>
+            {
+                Thread.Sleep(1000);
+                //一直在此自旋等待。直到task120s后释放锁
+                sl.Enter(ref lockTaken1);
+                int m = 0;
+                //释放锁
+                sl.Exit();
+            });
         }
 
     }

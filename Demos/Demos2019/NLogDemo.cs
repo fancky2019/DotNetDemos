@@ -14,8 +14,14 @@ namespace Demos.Demos2019
     ///Tutorial: https://github.com/NLog/NLog下的Section: Getting started
     ///
     /// https://nlog-project.org/config/?tab=layout-renderers
+    /// 
+    ///查看wiki
+    /// 配置：https://nlog-project.org/config/
+    /// 
+    /// 
+    /// Nlog只能按照日志等级分文件，不能自定义文件名，Info 分类可在message 前加前缀，方便过滤查找。
     /// </summary>
-    class NLogDemo
+    public class NLogDemo
     {
         private static readonly NLog.Logger nLog = NLog.LogManager.GetCurrentClassLogger();
 

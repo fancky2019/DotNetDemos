@@ -11,19 +11,21 @@ namespace Demos.Common
     /// 采用CAS思想实现轻量锁。
     /// 测试发现：Debug下Monitor的性能好
     ///           Release下InterLockedExtention拓展好。
+    ///
+    /// 不能设计成静态方法，不然所有要加锁地方竞争一把锁。项目中实际改成实例方法。
     /// </summary>
     public class InterLockedExtention
     {
         /// <summary>
         /// 1:锁被占用，0：未占用
         /// </summary>
-        private static volatile int _lock = 0;
+        private volatile int _lock = 0;
 
         /// <summary>
         /// 获取锁
         /// </summary>
         /// <returns></returns>
-        public static bool Acquire()
+        public bool Acquire()
         {
             //尝试获取锁
             return Interlocked.CompareExchange(ref _lock, 1, 0) == 0;
@@ -31,9 +33,26 @@ namespace Demos.Common
         }
 
         /// <summary>
+        /// 自旋直到获得锁，此种可以用FCL的SpinLock
+        /// 自旋会吃掉一个核的CPU。SpinLock不会。
+        /// </summary>
+        /// <returns></returns>
+        public bool SpinUntilAcquire()
+        {
+            while (!(Interlocked.CompareExchange(ref _lock, 1, 0) == 0))
+            {
+                SpinWait spinWait = default;
+                spinWait.SpinOnce();
+            }
+            //尝试获取锁
+            return true;
+
+        }
+
+        /// <summary>
         /// 释放锁
         /// </summary>
-        public static void Release()
+        public void Release()
         {
             //释放锁
             //Interlocked.CompareExchange(ref _lock, 0, 1);
@@ -41,5 +60,8 @@ namespace Demos.Common
             Interlocked.Exchange(ref _lock, 0);
 
         }
+
+
+
     }
 }

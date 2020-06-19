@@ -32,6 +32,7 @@ namespace Demos.Demos2018
 {
     class Program
     {
+        private static readonly NLog.Logger _nLog = NLog.LogManager.GetCurrentClassLogger();
         //[STAThread]
         static void Main(string[] args)
         {
@@ -47,14 +48,14 @@ namespace Demos.Demos2018
                 AppDomain.CurrentDomain.UnhandledException += (sender, e) =>
                   {
                       Console.WriteLine(e.ToString());
-                      //Log.Error<QueueMiddleWare>(e.ToString());
+                      _nLog.Error(e.ToString());
                       Console.ReadLine();
                   };
 
                 Application.ThreadException += (sender, e) =>
                       {
                           Console.WriteLine(e.ToString());
-                          //Log.Error<QueueMiddleWare>(e.ToString());
+                          _nLog.Error(e.ToString());
                           Console.ReadLine();
                       };
 
@@ -157,7 +158,8 @@ namespace Demos.Demos2018
 
                 //new ParamsDemo().Test();
                 //BufferLog.Test();
-                //new DailyFile("log").Test();
+                LogManager.Test();
+                //LogManager.GetLogger("log").Test();
                 //new ReflectionDemo().Test();
                 //new ThreadLocalDemo().Test();
                 //new ParallelDemo().Test();
@@ -207,7 +209,7 @@ namespace Demos.Demos2018
 
                 //new MessagePackDemo().Test();
                 //new BitConverterDemo().Test();
-                
+
                 //new NettyUDPServer().Test();
                 //new NettyUDPClient().Test();
                 #endregion
@@ -216,6 +218,7 @@ namespace Demos.Demos2018
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
+                _nLog.Error(ex.ToString());
             }
             Console.ReadLine();
         }

@@ -16,11 +16,12 @@ namespace Demos.Common
         static StreamWriter _sw = null;
         private Timer _timer;
         DateTime _createLogTime;
-
+        SpinLock _spinLock;
         public DailyFile(string logName)
         {
+            _spinLock = new SpinLock(false);
             _createLogTime = DateTime.Now;
-            var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"Log\\{DateTime.Now.Year}-{DateTime.Now.Month.ToString("D2")}\\{logName}_{DateTime.Now.Year}-{DateTime.Now.Month.ToString("D2")}-{DateTime.Now.Day.ToString("D2")}.log");
+            var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"Log\\{DateTime.Now.Year}-{DateTime.Now.Month.ToString("D2")}\\{DateTime.Now.Year}-{DateTime.Now.Month.ToString("D2")}-{DateTime.Now.Day.ToString("D2")}\\{logName}.log");
 
             //var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"Log\\{DateTime.Now.Year}-{DateTime.Now.Month.ToString("D2")}\\{logName}_{DateTime.Now.ToString("yyyyMMdd-HHmmss")}.log");
 
@@ -32,27 +33,22 @@ namespace Demos.Common
             _sw = new StreamWriter(filePath, true, System.Text.Encoding.UTF8);
             _timer = new Timer((o) =>
             {
-                if (DateTime.Now.Minute != _createLogTime.Minute)
+                if (DateTime.Now.Day != _createLogTime.Day)
                 {
 
                     while (true)
                     {
-                        if (InterLockedExtention.Acquire())
-                        {
-                            _createLogTime = DateTime.Now;
-                            _sw.Close();
+                        bool lockToken = false;
+                        _spinLock.Enter(ref lockToken);
+                        _createLogTime = DateTime.Now;
+                        _sw.Close();
 
-                            filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"Log\\{DateTime.Now.Year}-{DateTime.Now.Month.ToString("D2")}\\{logName}_{DateTime.Now.Year}-{DateTime.Now.Month.ToString("D2")}-{DateTime.Now.Day.ToString("D2")}.log");
-                            //filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"Log\\{DateTime.Now.Year}-{DateTime.Now.Month.ToString("D2")}\\{logName}_{DateTime.Now.ToString("yyyyMMdd-HHmmss")}.log");
-                            _sw = new StreamWriter(filePath, true, System.Text.Encoding.UTF8);
-                            InterLockedExtention.Release();
-                            break;
-                        }
-                        else
-                        {
-                            SpinWait spinWait = default(SpinWait);
-                            spinWait.SpinOnce();
-                        }
+                        filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"Log\\{DateTime.Now.Year}-{DateTime.Now.Month.ToString("D2")}\\{logName}_{DateTime.Now.Year}-{DateTime.Now.Month.ToString("D2")}-{DateTime.Now.Day.ToString("D2")}.log");
+                        //filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"Log\\{DateTime.Now.Year}-{DateTime.Now.Month.ToString("D2")}\\{logName}_{DateTime.Now.ToString("yyyyMMdd-HHmmss")}.log");
+                        _sw = new StreamWriter(filePath, true, System.Text.Encoding.UTF8);
+                        _spinLock.Exit();
+                        break;
+
                     }
                 }
             }, null, 1000, 1000);
@@ -61,19 +57,31 @@ namespace Demos.Common
 
         public void WriteLog(string content)
         {
-            while (!InterLockedExtention.Acquire())
+            bool lockToken = false;
+            _spinLock.Enter(ref lockToken);
+            if (_sw == null)
             {
-                SpinWait spinWait = default;
-                spinWait.SpinOnce();
+                throw new Exception("File is disposed!");
             }
-
             _sw.WriteLine($"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")} {content}");
             //_sw.Flush();
-            InterLockedExtention.Release();
+            _spinLock.Exit();
+        }
+
+        public void Dispose()
+        {
+            bool lockToken = false;
+            _spinLock.Enter(ref lockToken);
+            _sw.Dispose();
+            _sw = null;
+            //_sw.Flush();
+            _spinLock.Exit();
         }
 
         public void Test()
         {
+            Dispose();
+            return;
             Task.Run(() =>
             {
                 Random random = new Random();

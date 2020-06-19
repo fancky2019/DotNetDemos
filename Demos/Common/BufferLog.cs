@@ -43,13 +43,17 @@ namespace Demos.Common
         static volatile StreamWriter _sw = null;
 
         private static Timer _timer;
+        //static InterLockedExtention _logLock = null;
+
+        static SpinLock _spinLock;
         static BufferLog()
         {
+            _spinLock = new SpinLock(false);
             BufferSize = 500;
             Interval = 30;
             _logBuffer = new ConcurrentQueue<string>();
             _createLogTime = DateTime.Now;
-            var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"Log\\{DateTime.Now.Year}-{DateTime.Now.Month.ToString("D2")}\\{DateTime.Now.Year}-{DateTime.Now.Month.ToString("D2")}-{DateTime.Now.Day.ToString("D2")}.txt");
+            var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"Log\\{DateTime.Now.Year}-{DateTime.Now.Month.ToString("D2")}\\{DateTime.Now.Year}-{DateTime.Now.Month.ToString("D2")}-{DateTime.Now.Date.ToString("D2")}\\bufferlog.log");
 
             //_sw = new StreamWriter(File.Open(FilePath, FileMode.Append, FileAccess.Write), System.Text.Encoding.UTF8);
             var directory = Path.GetDirectoryName(filePath);
@@ -67,24 +71,23 @@ namespace Demos.Common
 
                       while (true)
                       {
-                          if (InterLockedExtention.Acquire())
-                          {
-                              _createLogTime = DateTime.Now;
-                              //_logChanged = true;
-                              _sw.Close();
+                          bool lockToken = false;
+                          _spinLock.Enter(ref lockToken);
+
+                          _createLogTime = DateTime.Now;
+                          //_logChanged = true;
+                          _sw.Close();
 
 
-                              filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"Log\\{DateTime.Now.Year}-{DateTime.Now.Month.ToString("D2")}\\{DateTime.Now.Year}-{DateTime.Now.Month.ToString("D2")}-{DateTime.Now.Day.ToString("D2")}.txt");
-                              _sw = new StreamWriter(filePath, true, System.Text.Encoding.UTF8);
-                              //_logChanged = false;
-                              InterLockedExtention.Release();
-                              break;
-                          }
-                          else
-                          {
-                              SpinWait spinWait = default(SpinWait);
-                              spinWait.SpinOnce();
-                          }
+
+                          filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"Log\\{DateTime.Now.Year}-{DateTime.Now.Month.ToString("D2")}\\{DateTime.Now.Year}-{DateTime.Now.Month.ToString("D2")}-{DateTime.Now.Day.ToString("D2")}\\bufferlog.log");
+
+
+                          _sw = new StreamWriter(filePath, true, System.Text.Encoding.UTF8);
+                          //_logChanged = false;
+                          _spinLock.Exit();
+                          break;
+
                       }
                   }
               }, null, 1000, 1000);
@@ -106,19 +109,19 @@ namespace Demos.Common
             {
                 Thread.Sleep(Interval * 1000);
 
-                if (InterLockedExtention.Acquire())
+                bool lockToken = false;
+                _spinLock.Enter(ref lockToken);
+                var duration = DateTime.Now - _lastLogTime;
+                //如果当前间隔小于Interval不刷盘，这样有可能造成接近2*Interval时间内不刷盘，
+                //假设Interval=10，duration.TotalSeconds=9，之后数据不活跃继续等10s,就造成
+                //duration.TotalSeconds+10=19s没有刷盘，因为要设置合理的Interval避免这种极端情况。
+                if (duration.TotalSeconds <= Interval)
                 {
-                    var duration = DateTime.Now - _lastLogTime;
-                    //如果当前间隔小于Interval不刷盘，这样有可能造成接近2*Interval时间内不刷盘，
-                    //假设Interval=10，duration.TotalSeconds=9，之后数据不活跃继续等10s,就造成
-                    //duration.TotalSeconds+10=19s没有刷盘，因为要设置合理的Interval避免这种极端情况。
-                    if (duration.TotalSeconds <= Interval)
-                    {
-                        continue;
-                    }
-                    WriteLog();
-                    InterLockedExtention.Release();
+                    continue;
                 }
+                WriteLog();
+                _spinLock.Exit();
+
             }
         }
 
@@ -131,31 +134,30 @@ namespace Demos.Common
         {
             while (true)
             {
-                if (InterLockedExtention.Acquire())
+                bool lockToken = false;
+                _spinLock.Enter(ref lockToken);
+                while (_logBuffer.Count >= BufferSize)
                 {
+                    _lastLogTime = DateTime.Now;
 
-                    while (_logBuffer.Count >= BufferSize)
+                    for (int i = 0; i < BufferSize; i++)
                     {
-                        _lastLogTime = DateTime.Now;
-
-                        for (int i = 0; i < BufferSize; i++)
+                        if (_logBuffer.TryDequeue(out string content))
                         {
-                            if (_logBuffer.TryDequeue(out string content))
-                            {
-                                _sw.WriteLine($"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")} {content}");
-                            }
+                            _sw.WriteLine($"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")} {content}");
                         }
-                        _sw.Flush();
                     }
-
-                    InterLockedExtention.Release();
+                    _sw.Flush();
                 }
 
-                Thread.Sleep(1);
-                //如果并发量过大
-                //SpinWait spinWait = default(SpinWait);
-                //spinWait.SpinOnce();
+                _spinLock.Exit();
             }
+
+            //Thread.Sleep(1);
+            //如果并发量过大
+            //SpinWait spinWait = default(SpinWait);
+            //spinWait.SpinOnce();
+
         }
 
 
@@ -181,7 +183,7 @@ namespace Demos.Common
         /// <summary>
         /// 将剩余的刷盘
         /// </summary>
-        public static void  Flush()
+        public static void Flush()
         {
             WriteLog();
         }

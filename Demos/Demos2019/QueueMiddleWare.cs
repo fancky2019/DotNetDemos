@@ -86,7 +86,7 @@ namespace Demos.Demos2019
                 }
                 catch (Exception ex)
                 {
-                    Log.Error<QueueMiddleWare>(ex.ToString());
+                    Log4net.Error<QueueMiddleWare>(ex.ToString());
                 }
             });
         }
@@ -238,7 +238,7 @@ namespace Demos.Demos2019
             }
             catch (Exception ex)
             {
-                Log.Error<QueueMiddleWare>(ex.ToString());
+                Log4net.Error<QueueMiddleWare>(ex.ToString());
             }
         }
 
@@ -315,7 +315,7 @@ namespace Demos.Demos2019
                 }
                 catch (Exception ex)
                 {
-                    Log.Error<QueueMiddleWare>(ex.ToString());
+                    Log4net.Error<QueueMiddleWare>(ex.ToString());
                 }
             });
         }
