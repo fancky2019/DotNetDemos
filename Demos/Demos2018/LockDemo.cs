@@ -67,8 +67,10 @@ namespace Demos.Demos2018
          */
 
         static object _lock = new object();
+        InterLockedExtention _interLockedExtention = null;
         public void Test()
         {
+            _interLockedExtention = new InterLockedExtention();
             ////int i = 0;
             ////lock(i)//报错，lock 语句要求引用类型
             ////{
@@ -241,9 +243,9 @@ namespace Demos.Demos2018
             for (int i = 0; i < 20000; i++)
             {
                 //stopwatch.Restart();
-                if (InterLockedExtention.Acquire())
+                if (_interLockedExtention.Acquire())
                 {
-                    InterLockedExtention.Release();
+                    _interLockedExtention.Release();
                 }
                 //stopwatch.Stop();
                 ////Console.WriteLine(stopwatch.ElapsedMilliseconds);

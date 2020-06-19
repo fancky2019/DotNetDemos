@@ -63,7 +63,7 @@ namespace WMS.Dal
             }
             catch (Exception ex)
             {
-                Log.Error<ProductDal>(ex.ToString());
+                Log4net.Error<ProductDal>(ex.ToString());
                 return null;
             }
         }
@@ -80,7 +80,7 @@ namespace WMS.Dal
             }
             catch (Exception ex)
             {
-                Log.Error<ProductDal>(ex.ToString());
+                Log4net.Error<ProductDal>(ex.ToString());
                 return 0;
             }
         }
@@ -103,7 +103,7 @@ namespace WMS.Dal
             }
             catch (Exception ex)
             {
-                Log.Error<ProductDal>(ex.ToString());
+                Log4net.Error<ProductDal>(ex.ToString());
                 return 0;
             }
         }
@@ -122,7 +122,7 @@ namespace WMS.Dal
             }
             catch (Exception ex)
             {
-                Log.Error<ProductDal>(ex.ToString());
+                Log4net.Error<ProductDal>(ex.ToString());
                 return 0;
             }
         }
@@ -138,7 +138,7 @@ namespace WMS.Dal
             }
             catch (Exception ex)
             {
-                Log.Error<ProductDal>(ex.ToString());
+                Log4net.Error<ProductDal>(ex.ToString());
                 return true;
             }
         }
@@ -180,7 +180,7 @@ namespace WMS.Dal
             }
             catch (Exception ex)
             {
-                Log.Error<ProductDal>(ex.ToString());
+                Log4net.Error<ProductDal>(ex.ToString());
                 return null;
             }
         }
