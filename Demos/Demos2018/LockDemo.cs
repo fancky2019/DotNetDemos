@@ -21,7 +21,7 @@ namespace Demos.Demos2018
     ///
     /// 
     /// 
-    /// 乐观锁（CAS）:版本号+时间错，注意ABA问题。
+    /// 乐观锁（CAS）:版本号+时间戳，注意ABA问题。
     /// 
     /// 
     /// Lock (Monitor) 排它锁 （悲观锁）
@@ -67,10 +67,9 @@ namespace Demos.Demos2018
          */
 
         static object _lock = new object();
-        InterLockedExtention _interLockedExtention = null;
         public void Test()
         {
-            _interLockedExtention = new InterLockedExtention();
+
             ////int i = 0;
             ////lock(i)//报错，lock 语句要求引用类型
             ////{
@@ -101,8 +100,11 @@ namespace Demos.Demos2018
             //Console.WriteLine($"Two Threads rob lock:");
 
             //LockFun();
+            //  Debug模式下：SpinLock>Lock>InterLock
+            //Release模式下：InterLock>SpinLock>Lock
             LockUsingTime();
             InterLockUsingTime();
+            SpinLockUsingTime();
             //WaitUtilGetLock();
         }
 
@@ -238,15 +240,38 @@ namespace Demos.Demos2018
         public void InterLockUsingTime()
         {
             Console.WriteLine("InterLock uses time");
+            InterLockedExtention interLockedExtention = new InterLockedExtention();
             Stopwatch stopwatch = Stopwatch.StartNew();
             stopwatch.Restart();
             for (int i = 0; i < 20000; i++)
             {
                 //stopwatch.Restart();
-                if (_interLockedExtention.Acquire())
+                if (interLockedExtention.Acquire())
                 {
-                    _interLockedExtention.Release();
+                    interLockedExtention.Release();
                 }
+                //stopwatch.Stop();
+                ////Console.WriteLine(stopwatch.ElapsedMilliseconds);
+                //Console.WriteLine(stopwatch.ElapsedTicks);
+                //Console.WriteLine(stopwatch.ElapsedTicks * GetNanosecPerTick());
+            }
+            stopwatch.Stop();
+            //Console.WriteLine(stopwatch.ElapsedMilliseconds);
+            Console.WriteLine(stopwatch.ElapsedTicks);
+
+        }
+
+        public void SpinLockUsingTime()
+        {
+            Console.WriteLine("SpinLock uses time");
+            SpinLock spinLock = new SpinLock(false);
+            Stopwatch stopwatch = Stopwatch.StartNew();
+            stopwatch.Restart();
+            for (int i = 0; i < 20000; i++)
+            {
+                var lockToken = false;
+                spinLock.Enter(ref lockToken);
+                spinLock.Exit();
                 //stopwatch.Stop();
                 ////Console.WriteLine(stopwatch.ElapsedMilliseconds);
                 //Console.WriteLine(stopwatch.ElapsedTicks);
