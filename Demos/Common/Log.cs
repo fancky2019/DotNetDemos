@@ -182,16 +182,26 @@ namespace Demos.Common
         /// <param name="logName"></param>
         private static void WriteLog(string logName)
         {
-            Random random = new Random();
-            Log logger = GetLogger(logName);
-            int sleepMillSeconds = 0;
-            while (true)
+            try
             {
-                string logStr = $"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:sss.fff")} Form1 Test Last Time Thread- {Thread.CurrentThread.Name} {Thread.CurrentThread.ManagedThreadId} Sleep {sleepMillSeconds} ms";
-                logger.WriteLog(logStr);
-                sleepMillSeconds = random.Next(100, 2000);
-                Thread.Sleep(sleepMillSeconds);
 
+
+                Random random = new Random();
+                Log logger = GetLogger(logName);
+                int sleepMillSeconds = 0;
+                while (true)
+                {
+                    string logStr = $"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:sss.fff")} Form1 Test Last Time Thread- {Thread.CurrentThread.Name} {Thread.CurrentThread.ManagedThreadId} Sleep {sleepMillSeconds} ms";
+                    logger.WriteLog(logStr);
+                    sleepMillSeconds = random.Next(100, 2000);
+                    Thread.Sleep(sleepMillSeconds);
+
+                }
+            }
+            catch(Exception ex)
+            {
+                string logStr = $"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:sss.fff")} - {Thread.CurrentThread.Name} {Thread.CurrentThread.ManagedThreadId} Exception.";
+                Console.WriteLine(logStr);
             }
         }
 
@@ -258,13 +268,12 @@ namespace Demos.Common
 
         public void WriteLog(string content)
         {
+            bool lockToken = false;
+            _spinLock.Enter(ref lockToken);
             if (_sw == null)
             {
                 throw new Exception("File is disposed!");
             }
-            bool lockToken = false;
-            _spinLock.Enter(ref lockToken);
-
             if (DateTime.Now.Day != _createLogTime.Day)
             {
                 CreateLogFile();

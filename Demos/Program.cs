@@ -47,16 +47,17 @@ namespace Demos.Demos2018
 
                 AppDomain.CurrentDomain.UnhandledException += (sender, e) =>
                   {
+                      Console.WriteLine(e.ExceptionObject.ToString());
                       Console.WriteLine(e.ToString());
                       _nLog.Error(e.ToString());
-                      Console.ReadLine();
+                      _nLog.Error(e.ExceptionObject.ToString());
+
                   };
 
                 Application.ThreadException += (sender, e) =>
                       {
                           Console.WriteLine(e.ToString());
                           _nLog.Error(e.ToString());
-                          Console.ReadLine();
                       };
 
 
