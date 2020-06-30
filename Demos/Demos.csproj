@@ -473,7 +473,6 @@
     <Compile Include="OpenResource\Redis\StackExchangeRedis\StackExchangeDemo.cs" />
     <Compile Include="Subjects\SubjectTest.cs" />
     <Compile Include="Demos2019\ThreadDemo.cs" />
-    <Compile Include="OpenResource\HPSocket\HPSocketClient\Class1.cs" />
     <Compile Include="OpenResource\HPSocket\HPSocketClient\HPSocketClient.cs" />
     <Compile Include="OpenResource\HPSocket\HPSocketServer\ClientInfo.cs" />
     <Compile Include="OpenResource\HPSocket\HPSocketServer\HPSocketServer.cs" />

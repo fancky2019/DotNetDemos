@@ -113,7 +113,7 @@ namespace Demos.Demos2018
                 //new TextTest().Test();
                 //new StopwatchDemo().Test();
                 //new JWTDemo().Test();
-                //new FormatDemo().Test();
+                new FormatDemo().Test();
 
                 //  new DotNetEightDemo().Test
                 //new ClassExcuteSequenceDemo().Test();
@@ -159,7 +159,7 @@ namespace Demos.Demos2018
 
                 //new ParamsDemo().Test();
                 //BufferLog.Test();
-                LogManager.Test();
+                //LogManager.Test();
                 //LogManager.GetLogger("log").Test();
                 //new ReflectionDemo().Test();
                 //new ThreadLocalDemo().Test();
