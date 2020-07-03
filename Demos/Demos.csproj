@@ -385,6 +385,7 @@
     <Compile Include="Demos2019\UDPServerDemo.cs" />
     <Compile Include="Demos2020\BitConverterDemo.cs" />
     <Compile Include="Demos2020\CSVComma.cs" />
+    <Compile Include="Demos2020\YieldReturnDemo.cs" />
     <Compile Include="OpenResource\Compression\CompressionDemo.cs" />
     <Compile Include="OpenResource\DistributedTranscation\DistributedTranscationDemo.cs" />
     <Compile Include="Demos2019\DotNetEightDemo.cs" />
