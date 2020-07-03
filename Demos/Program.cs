@@ -3,7 +3,6 @@ using Demos.Common;
 using Demos.Demos2018.RabbitMQ;
 using Demos.Demos2018.SynchronizationDemo;
 using Demos.Demos2019;
-using Demos.Demos2019.Collections;
 using Demos.Demos2019.Encrypt;
 using Demos.Demos2019.Forms;
 using Demos.Demos2019.Proxy;
@@ -113,7 +112,7 @@ namespace Demos.Demos2018
                 //new TextTest().Test();
                 //new StopwatchDemo().Test();
                 //new JWTDemo().Test();
-                new FormatDemo().Test();
+                //new FormatDemo().Test();
 
                 //  new DotNetEightDemo().Test
                 //new ClassExcuteSequenceDemo().Test();

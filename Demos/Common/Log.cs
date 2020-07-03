@@ -77,15 +77,7 @@ namespace Demos.Common
             thread.Start();
 
 
-            //for (int i=4;i<=24;i++)
-            //{    
-            //    Task.Run(() =>
-            //    {
-            //       //线程启动要时间，线程还没启动完成，外部循环就已经结束，此时25
-            //        Thread.Sleep(i*1000);
-            //        WriteLog($"test{i}");
-            //    });
-            //}
+
 
             Task.Run(() =>
             {
@@ -128,51 +120,51 @@ namespace Demos.Common
                 Thread.Sleep(13000);
                 WriteLog($"test13");
             });
-            Task.Run(() =>
-            {
-                Thread.Sleep(14000);
-                WriteLog($"test14");
-            });
-            Task.Run(() =>
-            {
-                Thread.Sleep(15000);
-                WriteLog($"test15");
-            });
-            Task.Run(() =>
-            {
-                Thread.Sleep(16000);
-                WriteLog($"test16");
-            });
-            Task.Run(() =>
-            {
-                Thread.Sleep(17000);
-                WriteLog($"test17");
-            });
-            Task.Run(() =>
-            {
-                Thread.Sleep(18000);
-                WriteLog($"test18");
-            });
-            Task.Run(() =>
-            {
-                Thread.Sleep(19000);
-                WriteLog($"test19");
-            });
-            Task.Run(() =>
-            {
-                Thread.Sleep(20000);
-                WriteLog($"test20");
-            });
-            Task.Run(() =>
-            {
-                Thread.Sleep(21000);
-                WriteLog($"test21");
-            });
-            Task.Run(() =>
-            {
-                Thread.Sleep(22000);
-                WriteLog($"test22");
-            });
+            //Task.Run(() =>
+            //{
+            //    Thread.Sleep(14000);
+            //    WriteLog($"test14");
+            //});
+            //Task.Run(() =>
+            //{
+            //    Thread.Sleep(15000);
+            //    WriteLog($"test15");
+            //});
+            //Task.Run(() =>
+            //{
+            //    Thread.Sleep(16000);
+            //    WriteLog($"test16");
+            //});
+            //Task.Run(() =>
+            //{
+            //    Thread.Sleep(17000);
+            //    WriteLog($"test17");
+            //});
+            //Task.Run(() =>
+            //{
+            //    Thread.Sleep(18000);
+            //    WriteLog($"test18");
+            //});
+            //Task.Run(() =>
+            //{
+            //    Thread.Sleep(19000);
+            //    WriteLog($"test19");
+            //});
+            //Task.Run(() =>
+            //{
+            //    Thread.Sleep(20000);
+            //    WriteLog($"test20");
+            //});
+            //Task.Run(() =>
+            //{
+            //    Thread.Sleep(21000);
+            //    WriteLog($"test21");
+            //});
+            //Task.Run(() =>
+            //{
+            //    Thread.Sleep(22000);
+            //    WriteLog($"test22");
+            //});
 
         }
 
@@ -233,6 +225,7 @@ namespace Demos.Common
     }
     /// <summary>
     /// 一天生成一个文件
+    /// 测试发现：10个文件没有写入延迟，文件超过20个写会有1ms写入延迟。
     /// </summary>
     public class Log
     {
