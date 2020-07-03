@@ -500,7 +500,7 @@
     <Compile Include="Demos2018\SynchronizationDemo\ProducerConsumer.cs" />
     <Compile Include="Demos2018\SynchronizationDemo\ProducerConsumerTPS.cs" />
     <Compile Include="Demos2018\SynchronizationDemo\SemaphoreTest.cs" />
-    <Compile Include="Demos2019\Collections\CollectionDemo.cs" />
+    <Compile Include="Demos2019\CollectionDemo.cs" />
     <Compile Include="Demos2019\TryCatchFinallyReturnDemo.cs" />
     <Compile Include="Model\Person.cs" />
     <Compile Include="Model\Product.cs" />

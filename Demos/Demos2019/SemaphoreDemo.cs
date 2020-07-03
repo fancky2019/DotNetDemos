@@ -7,21 +7,22 @@ using System.Threading.Tasks;
 
 namespace Demos.Demos2019
 {
-    class SemaphoreDemo
+    public class SemaphoreDemo
     {
-        public void  Test()
+        public void Test()
         {
-            Main();
+            //Main();
+            Test1();
         }
 
         // A semaphore that simulates a limited resource pool.
         //
-        private  Semaphore _semaphore;
+        private Semaphore _semaphore;
 
         // A padding interval to make the output more orderly.
-        private  int _padding;
+        private int _padding;
 
-        public  void Main()
+        public void Main()
         {
             // Create a semaphore that can satisfy up to three
             // concurrent requests. Use an initial count of zero,
@@ -69,7 +70,7 @@ namespace Demos.Demos2019
             Console.WriteLine("Main thread exits.");
         }
 
-        private  void Worker(object num)
+        private void Worker(object num)
         {
             // Each worker thread begins by requesting the
             // semaphore.
@@ -92,5 +93,36 @@ namespace Demos.Demos2019
             //释放一个信号量，下一个等待的线程将进入
             Console.WriteLine("Thread {0} previous semaphore count: {1}", num, _semaphore.Release());
         }
+
+
+        private void Test1()
+        {
+            //initialCount:初始可用的信号量计数。零：其他线程调用waitOne必须等待。
+            _semaphore = new Semaphore(0, 4);
+
+            Task.Run(() =>
+            {
+                Produce();
+            });
+            Task.Run(() =>
+            {
+                Thread.Sleep(1000);
+                Consume();
+            });
+        }
+
+        private void Produce()
+        {
+            //释放一个信号量，
+            //_semaphore.Release();
+        }
+
+        private void Consume()
+        {
+            //如果生产者不释放信号量，将一直阻塞。
+            _semaphore.WaitOne();
+            //_semaphore.WaitOne(5000);
+        }
+
     }
 }

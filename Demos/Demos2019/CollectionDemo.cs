@@ -4,7 +4,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Demos.Demos2019.Collections
+namespace Demos.Demos2019
 {
     class CollectionDemo
     {
@@ -54,7 +54,7 @@ namespace Demos.Demos2019.Collections
         {
             Dictionary<string, string> dic = new Dictionary<string, string>();
             dic.Add("li", "rui");
-            //如果添加了重复Key报错
+            //如果添加了重复Key报错，java  不报错，添加不进去
            // dic.Add("li", "fancky");
          //  ConcurrentQueue
            ConcurrentDictionary<string, string> concurrentDictionary = new ConcurrentDictionary<string, string>();
