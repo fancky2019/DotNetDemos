@@ -15,7 +15,8 @@ namespace Demos.OpenResource.Kafka
         *        comsumer从partion的leader读
         *        
         *  
-        *  
+        * enable.offset.commit设置为false,
+        * auto.offset.reset=earliest/latest
         *  默认是latest。
         *  
         *  Earliest 
