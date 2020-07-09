@@ -1,4 +1,4 @@
-﻿using Demos.OpenResource.DotNetty.Echo;
+﻿using Demos.OpenResource.DotNettyDemo.Echo;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,10 +6,16 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Demos.OpenResource.DotNetty
+namespace Demos.OpenResource.DotNettyDemo
 {
     public class NettyTest
     {
+        /*
+         * Netty基础程序集：DotNetty.Buffers、DotNetty.Codecs、DotNetty.Common
+         *         DotNetty.Handlers、DotNetty.Transport、DotNetty.Transport.Libuv（可选）
+         *         
+         * 如果使用WebSocket要添加：DotNetty.Codecs.Http
+         */
         public void Test()
         {
             /*

@@ -7,9 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Demos.OpenResource.DotNetty.UDP
+namespace Demos.OpenResource.DotNettyDemo.UDP
 {
-    class NettyUDPServerHnadler : SimpleChannelInboundHandler<DatagramPacket>
+    public class NettyUDPClientHnadler : SimpleChannelInboundHandler<DatagramPacket>
     {
         protected override void ChannelRead0(IChannelHandlerContext ctx, DatagramPacket msg)
         {
@@ -17,7 +17,7 @@ namespace Demos.OpenResource.DotNetty.UDP
             byte[] req = new byte[buf.ReadableBytes];
             buf.ReadBytes(req);
             String body = Encoding.UTF8.GetString(req);
-            Console.WriteLine("Server receive " + body);//打印收到的信息
+            Console.WriteLine("Client receive " + body);//打印收到的信息
         }
     }
 }

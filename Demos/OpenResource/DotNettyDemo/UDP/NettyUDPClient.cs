@@ -14,7 +14,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Demos.OpenResource.DotNetty.UDP
+namespace Demos.OpenResource.DotNettyDemo.UDP
 {
     public class NettyUDPClient
     {
