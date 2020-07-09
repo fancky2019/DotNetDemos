@@ -487,9 +487,7 @@
     <Compile Include="OpenResource\RabbitMQ\RabbitMQTest.cs" />
     <Compile Include="Demos2018\Reflection\AttributeDemo.cs" />
     <Compile Include="Demos2018\Reflection\IJob.cs" />
-    <Compile Include="Demos2018\Reflection\Job1.cs" />
-    <Compile Include="Demos2018\Reflection\Job2.cs" />
-    <Compile Include="Demos2018\Reflection\Job3.cs" />
+    <Compile Include="Demos2018\Reflection\Jobs.cs" />
     <Compile Include="Demos2018\Reflection\JobAttribute.cs" />
     <Compile Include="Demos2018\SynchronizationDemo\AutoResetEventTest.cs" />
     <Compile Include="Demos2018\SynchronizationDemo\GenericDemo.cs" />
