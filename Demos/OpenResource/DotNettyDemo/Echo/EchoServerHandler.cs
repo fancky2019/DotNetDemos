@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Demos.OpenResource.DotNetty.Echo
+namespace Demos.OpenResource.DotNettyDemo.Echo
 {
     public class EchoServerHandler : ChannelHandlerAdapter
     {
