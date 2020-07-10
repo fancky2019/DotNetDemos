@@ -9,8 +9,7 @@ using Demos.Demos2019.Proxy;
 using Demos.Demos2019.Subjects;
 using Demos.Demos2020;
 using Demos.Model;
-using Demos.OpenResource.DotNetty;
-using Demos.OpenResource.DotNetty.UDP;
+using Demos.OpenResource.DotNettyDemo;
 using Demos.OpenResource.HPSocket;
 using Demos.OpenResource.Json;
 using Demos.OpenResource.Jwt;
@@ -206,6 +205,7 @@ namespace Demos.Demos2018
                 //new Demos.Demos2020.CSVComma().Test();
 
                 //new NettyTest().Test();
+                new NettyTest().WebSocketTest();
 
                 //new MessagePackDemo().Test();
                 //new BitConverterDemo().Test();

@@ -15,8 +15,8 @@ namespace Demos.OpenResource.DotNettyDemo.WebSocket
     {
         readonly WebSocketClientHandshaker handshaker;
         //注：DotNetty.Common.Concurrency
-        readonly TaskCompletionSource completionSource;
-  
+        readonly DotNetty.Common.Concurrency.TaskCompletionSource completionSource;
+        
         public WebSocketClientHandler(WebSocketClientHandshaker handshaker)
         {
             this.handshaker = handshaker;
