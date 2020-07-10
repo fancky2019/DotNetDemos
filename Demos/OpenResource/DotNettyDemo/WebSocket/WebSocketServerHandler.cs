@@ -15,7 +15,7 @@ using static DotNetty.Codecs.Http.HttpResponseStatus;
 
 namespace Demos.OpenResource.DotNettyDemo.WebSocket
 {
-    public  class WebSocketServerHandler : SimpleChannelInboundHandler<object>
+    public class WebSocketServerHandler : SimpleChannelInboundHandler<object>
     {
         const string WebsocketPath = "/websocket";
 
@@ -23,6 +23,7 @@ namespace Demos.OpenResource.DotNettyDemo.WebSocket
 
         protected override void ChannelRead0(IChannelHandlerContext ctx, object msg)
         {
+
             if (msg is IFullHttpRequest request)
             {
                 this.HandleHttpRequest(ctx, request);
@@ -52,17 +53,18 @@ namespace Demos.OpenResource.DotNettyDemo.WebSocket
             }
 
             // Send the demo page and favicon.ico
-            if ("/".Equals(req.Uri))
-            {
-                IByteBuffer content = WebSocketServerBenchmarkPage.GetContent(GetWebSocketLocation(req));
-                var res = new DefaultFullHttpResponse(Http11, OK, content);
+            //if ("/".Equals(req.Uri))
+            //{
+            //    IByteBuffer content = Unpooled.WrappedBuffer(
+            //    Encoding.ASCII.GetBytes("已连接!")); ;// WebSocketServerBenchmarkPage.GetContent(GetWebSocketLocation(req));
+            //    var res = new DefaultFullHttpResponse(Http11, OK, content);
 
-                res.Headers.Set(HttpHeaderNames.ContentType, "text/html; charset=UTF-8");
-                HttpUtil.SetContentLength(res, content.ReadableBytes);
+            //    res.Headers.Set(HttpHeaderNames.ContentType, "text/html; charset=UTF-8");
+            //    HttpUtil.SetContentLength(res, content.ReadableBytes);
 
-                SendHttpResponse(ctx, req, res);
-                return;
-            }
+            //    SendHttpResponse(ctx, req, res);
+            //    return;
+            //}
             if ("/favicon.ico".Equals(req.Uri))
             {
                 var res = new DefaultFullHttpResponse(Http11, NotFound);
@@ -99,10 +101,15 @@ namespace Demos.OpenResource.DotNettyDemo.WebSocket
                 return;
             }
 
-            if (frame is TextWebSocketFrame)
+            if (frame is TextWebSocketFrame textWebSocketFrame)
             {
+                //接收到来自客户端的字符串消息
+                var reveivedMsg = textWebSocketFrame.Text();
+
                 // Echo the frame
-                ctx.WriteAsync(frame.Retain());
+                //ctx.WriteAsync(frame.Retain());
+                //返回客户端信息，参考java 的netty 的websocket sample
+                ctx.WriteAsync(new TextWebSocketFrame($"服务端已收到客户端消息:{reveivedMsg}"));
                 return;
             }
 
