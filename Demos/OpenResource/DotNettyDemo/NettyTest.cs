@@ -1,4 +1,5 @@
 ﻿using Demos.OpenResource.DotNettyDemo.Echo;
+using Demos.OpenResource.DotNettyDemo.WebSocket;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,6 +43,21 @@ namespace Demos.OpenResource.DotNettyDemo
             //});
 
 
+        }
+
+        public  void WebSocketTest()
+        {
+            Task.Run(() =>
+            {
+                WebSocketsServer.RunServerAsync();
+            });
+        
+            //Task.Run(() =>
+            //{
+            //    Thread.Sleep(2000);
+            //    WebSocketClient.RunClientAsync();
+            //});
+           
         }
     }
 }
