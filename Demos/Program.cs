@@ -18,6 +18,7 @@ using Demos.OpenResource.MessagePackDemo;
 using Demos.OpenResource.Redis;
 using Demos.OpenResource.Redis.ServiceStackRedis;
 using Demos.OpenResource.Redis.StackExchangeRedis;
+using Demos.OpenResource.SnowFlakeDemo;
 using Microsoft.Win32;
 using System;
 using System.Collections;
@@ -205,7 +206,7 @@ namespace Demos.Demos2018
                 //new Demos.Demos2020.CSVComma().Test();
 
                 //new NettyTest().Test();
-                new NettyTest().WebSocketTest();
+                //new NettyTest().WebSocketTest();
 
                 //new MessagePackDemo().Test();
                 //new BitConverterDemo().Test();
@@ -213,7 +214,9 @@ namespace Demos.Demos2018
                 //new NettyUDPServer().Test();
                 //new NettyUDPClient().Test();
                 //new YieldReturnDemo().Test();
+                new SnowFlake(31,23).Test();
 
+                
                 #endregion
 
             }
