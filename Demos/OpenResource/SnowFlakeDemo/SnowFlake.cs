@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Demos.OpenResource.SnowFlakeDemo
@@ -22,57 +24,94 @@ namespace Demos.OpenResource.SnowFlakeDemo
     {
 
         // ==============================Fields===========================================
-        /** 开始时间截 (2015-01-01) */
+        /// <summary>
+        ///  开始时间截 (2015-01-01) 
+        ///  生产环境做成可配置
+        /// </summary>
         private const long _twepoch = 1420041600000L;
 
 
-        //C#右操作数必须是int,而不是long.使用long作为移位的位数是没有意义的,因为C#中的整数类型永远不会超过64位.
-        /** 机器id所占的位数 */
+        /*C#右操作数必须是int,而不是long.使用long作为移位的位数是没有意义的,
+            因为C#中的整数类型永远不会超过64位.
+
+
+          美团的Leaf:将DataCenter和WorkerID合并在一起10字节
+         */
+
+
+
+        /// <summary>
+        ///机器id所占的位数
+        /// </summary>
         private const int _workerIdBits = 5;
 
-        /** 数据标识id所占的位数 */
+        /// <summary>
+        ///数据标识id所占的位数
+        /// </summary>
         private const int _datacenterIdBits = 5;
 
-        /** 支持的最大机器id，结果是31 (这个移位算法可以很快的计算出几位二进制数所能表示的最大十进制数) */
+        /// <summary>
+        ///  支持的最大机器id，结果是31 (这个移位算法可以很快的计算出几位二进制数所能表示的最大十进制数) 
+        /// </summary>
         private const long _maxWorkerId = -1L ^ (-1L << _workerIdBits);
 
-        /** 支持的最大数据标识id，结果是31 */
+        /// <summary>
+        ///支持的最大数据标识id，结果是31 
+        /// </summary>
         private const long _maxDatacenterId = -1L ^ (-1L << _datacenterIdBits);
 
-        /** 序列在id中占的位数 */
+        /// <summary>
+        ///序列在id中占的位数 
+        /// </summary>
         private const int _sequenceBits = 12;
 
-        /** 机器ID向左移12位 */
+        /// <summary>
+        ///机器ID向左移12位
+        /// </summary>
         private const int _workerIdShift = _sequenceBits;
 
-        /** 数据标识id向左移17位(12+5) */
+        /// <summary>
+        /// 数据标识id向左移17位(12+5) 
+        /// </summary>
         private const int _datacenterIdShift = _sequenceBits + _workerIdBits;
 
-        /** 时间截向左移22位(5+5+12) */
+        /// <summary>
+        ///时间截向左移22位(5+5+12) 
+        /// </summary>
         private const int _timestampLeftShift = _sequenceBits + _workerIdBits + _datacenterIdBits;
 
-        /** 生成序列的掩码，这里为4095 (0b111111111111=0xfff=4095) */
+        /// <summary>
+        ///生成序列的掩码，这里为4095 (0b111111111111=0xfff=4095) 
+        /// </summary>
         private const long _sequenceMask = -1L ^ (-1L << _sequenceBits);
 
-        /** 工作机器ID(0~31) */
+        /// <summary>
+        /// 工作机器ID(0~31) 
+        /// </summary>
         private long _workerId;
 
-        /** 数据中心ID(0~31) */
+        /// <summary>
+        /// 数据中心ID(0~31) 
+        /// </summary>
         private long _datacenterId;
 
-        /** 毫秒内序列(0~4095) */
+        /// <summary>
+        ///毫秒内序列(0~4095)
+        /// </summary>
         private long _sequence = 0L;
 
-        /** 上次生成ID的时间截 */
+        /// <summary>
+        /// 上次生成ID的时间截 
+        /// </summary>
         private long _lastTimestamp = -1L;
 
         private object _lockObj = new object();
         //==============================Constructors=====================================
-        /**
-         * 构造函数
-         * @param workerId 工作ID (0~31)
-         * @param datacenterId 数据中心ID (0~31)
-         */
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="workerId">workerId 工作ID(0~31)</param>
+        /// <param name="datacenterId">datacenterId 数据中心ID(0~31)</param>
         public SnowFlake(long workerId, long datacenterId)
         {
             if (workerId > _maxWorkerId || workerId < 0)
@@ -94,17 +133,19 @@ namespace Demos.OpenResource.SnowFlakeDemo
          */
         public long NextId()
         {
+
             lock (_lockObj)
             {
-
-
                 long timestamp = TimeGen();
-
                 //如果当前时间小于上一次ID生成的时间戳，说明系统时钟回退过这个时候应当抛出异常
                 if (timestamp < _lastTimestamp)
                 {
                     throw new Exception($"Clock moved backwards.  Refusing to generate id for {_lastTimestamp - timestamp} milliseconds");
                 }
+
+                /*
+                 * 2^12:同一个中心的机器1ms最多生成4096个
+                 */
 
                 //如果是同一时间生成的，则进行毫秒内序列
                 if (_lastTimestamp == timestamp)
@@ -132,13 +173,14 @@ namespace Demos.OpenResource.SnowFlakeDemo
                         | (_workerId << _workerIdShift) //
                         | _sequence;
             }
+
         }
 
-        /**
-         * 阻塞到下一个毫秒，直到获得新的时间戳
-         * @param lastTimestamp 上次生成ID的时间截
-         * @return 当前时间戳
-         */
+        /// <summary>
+        /// 阻塞到下一个毫秒，直到获得新的时间戳
+        /// </summary>
+        /// <param name="lastTimestamp"></param>
+        /// <returns>当前时间戳</returns>
         protected long TilNextMillis(long lastTimestamp)
         {
             long timestamp = TimeGen();
@@ -149,10 +191,10 @@ namespace Demos.OpenResource.SnowFlakeDemo
             return timestamp;
         }
 
-        /**
-         * 返回以毫秒为单位的当前时间
-         * @return 当前时间(毫秒)
-         */
+        /// <summary>
+        ///  返回以毫秒为单位的当前时间
+        /// </summary>
+        /// <returns>当前时间(毫秒)</returns>
         protected long TimeGen()
         {
             return DateTime.Now.Ticks / 10000;
@@ -160,16 +202,34 @@ namespace Demos.OpenResource.SnowFlakeDemo
         }
 
         //==============================Test=============================================
-        /** 测试 */
-        public  void Test()
+
+        public void Test()
         {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
+
             SnowFlake idWorker = new SnowFlake(0, 0);
-            for (int i = 0; i < 1000; i++)
+            for (int i = 0; i < 100000; i++)
             {
                 long id = idWorker.NextId();
-          
-                Console.WriteLine(id);
+
+                //Console.WriteLine(id);
             }
+            stopwatch.Stop();
+            Console.WriteLine($"ns:{stopwatch.ElapsedTicks * GetNanosecPerTick()}");
+            Console.WriteLine($"ms:{stopwatch.ElapsedMilliseconds}");
+        }
+
+        /// <summary>
+        /// 获取当前系统一个时钟周期多少纳秒
+        /// </summary>
+        /// <returns></returns>
+        public long GetNanosecPerTick()
+        {
+            //1秒(s) =100厘秒(cs)= 1000 毫秒(ms) = 1,000,000 微秒(μs) = 1,000,000,000 纳秒(ns) = 1,000,000,000,000 皮秒(ps)
+            long nanosecPerTick = (1000L * 1000L * 1000L) / Stopwatch.Frequency;
+            return nanosecPerTick;
         }
     }
 }
