@@ -17,6 +17,9 @@ namespace Demos.OpenResource.DotNettyDemo.WebSocket
 {
     public class WebSocketServerHandler : SimpleChannelInboundHandler<object>
     {
+
+     
+
         const string WebsocketPath = "/websocket";
 
         WebSocketServerHandshaker handshaker;
@@ -72,6 +75,7 @@ namespace Demos.OpenResource.DotNettyDemo.WebSocket
                 return;
             }
 
+            //建立websocket 连接
             // Handshake
             var wsFactory = new WebSocketServerHandshakerFactory(
                 GetWebSocketLocation(req), null, true, 5 * 1024 * 1024);
@@ -140,6 +144,11 @@ namespace Demos.OpenResource.DotNettyDemo.WebSocket
             }
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="ctx"></param>
+        /// <param name="e"></param>
         public override void ExceptionCaught(IChannelHandlerContext ctx, Exception e)
         {
             Console.WriteLine($"{nameof(WebSocketServerHandler)} {0}", e);
