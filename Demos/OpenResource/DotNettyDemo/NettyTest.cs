@@ -98,8 +98,13 @@ namespace Demos.OpenResource.DotNettyDemo
 
 
                     $('#btnSend').on('click', function () {
-                        var val = input.value;
-                        ws.send(val);
+                     var val = input.value;
+                    if(!window.WebSocket||ws==null){return;}
+                    if(ws.readyState == WebSocket.OPEN){
+                        ws.send(message);
+                    }else{
+                        alert("WebSocket 连接没有建立成功！");
+                    }
                     });
 
                     $('#btnDisconnect').on('click', function () {
