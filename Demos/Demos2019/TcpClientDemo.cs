@@ -16,6 +16,10 @@ namespace Demos.Demos2019
     */
     class TcpClientDemo
     {
+        /*
+         *    心跳机制：double elapsed = now.Subtract(lastReceivedTime).TotalMilliseconds;
+         *              return elapsed >= (2.4 * heartBtIntMillis);
+         */
         public void Test()
         {
             Connect("127.0.0.1", "heartBeart");
