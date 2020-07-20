@@ -17,6 +17,10 @@ namespace Demos.Demos2019
      */
     public class TCPServerDemo
     {
+    /*
+    *    心跳机制：double elapsed = now.Subtract(lastReceivedTime).TotalMilliseconds;
+    *              return elapsed >= (2.4 * heartBtIntMillis);
+    */
         private static readonly NLog.Logger _nLog = NLog.LogManager.GetCurrentClassLogger();
         public void Test()
         {

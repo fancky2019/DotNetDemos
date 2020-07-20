@@ -59,4 +59,27 @@ namespace Demos.Demos2019
             //}, null, 2 * 60 * 1000, 1 * 60 * 60 * 1000);
         }
     }
+
+    /// <summary>
+    /// 静态类不能继承（不能继承类、接口）
+    /// </summary>
+    public  static class StaticClass1//: StaticClassTestInterface//: NotStaticClass1//: StaticClass2
+    {
+  
+    }
+    public static class StaticClass2
+    {
+
+    }
+
+    public  class NotStaticClass1
+    {
+
+    }
+
+    public class StaticClassTestInterface
+    {
+
+    }
+
 }

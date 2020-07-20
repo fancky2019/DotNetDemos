@@ -8,6 +8,8 @@ namespace Demos.Demos2018
 {
     class BlockingCollectionDemo
     {
+       // 生成的线程能调 CompleteAdding方法，以指示将添加更多的项。 使用者将监视 IsCompleted属性以了解当集合为空，将添加更多的项。
+
         static BlockingCollection<Product> _blockingCollection = null;
         static BlockingCollectionDemo()
         {
