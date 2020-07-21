@@ -6,6 +6,8 @@ using System.Configuration;
 using System.Text;
 using System.Threading;
 using System.Linq;
+using System.Threading.Tasks;
+using ServiceStack.Text;
 
 namespace Demos.OpenResource.Redis.ServiceStackRedis
 {
@@ -181,9 +183,11 @@ namespace Demos.OpenResource.Redis.ServiceStackRedis
             //SetTest();
             //SortedSetTest();
             //ExpiryKey();
-            TransactionTest();
+            //TransactionTest();
             //LockTest();
-
+            RedisQueue();
+            //PubSub();
+            //ExpireCallBack();
         }
 
         /// <summary>
@@ -202,7 +206,7 @@ namespace Demos.OpenResource.Redis.ServiceStackRedis
             var re = WriteReadRedisClient.Exists("StringTest1");
             WriteReadRedisClient.FlushDb();//清空当前数据库
             WriteReadRedisClient.Db = 0;
-       
+
         }
 
         #region String
@@ -229,6 +233,8 @@ namespace Demos.OpenResource.Redis.ServiceStackRedis
             WriteReadRedisClient.SetAll(keyValuePairs);
             string val = ReadOnlyRedisClient.Get<string>("StringKey2");
 
+            //设置key 并设定过期时间
+            WriteReadRedisClient.SetValue("StringExpiryKey1", "StringExpiryValue1", TimeSpan.FromSeconds(20));
             //读
             ReadOnlyRedisClient.ContainsKey("StringKey2");
 
@@ -558,6 +564,143 @@ namespace Demos.OpenResource.Redis.ServiceStackRedis
         public void DbIndex()
         {
             WriteReadRedisClient.Db = 12;
+        }
+        #endregion
+
+        #region 生产者消费者队列
+        private void RedisQueue()
+        {
+            try
+            {
+
+
+                var listKey = "redisQueue";
+                Task.Run(() =>
+                {
+
+                    var producerClient = PooledRedisClientManager.GetClient() as RedisClient;
+                    producerClient.Db = 13;
+                    producerClient.FlushDb();
+                    var message = "message";
+                    StopwatchHelper.Instance.Start();
+                    for (int i = 0; i < 100000; i++)
+                    {
+                        message = $"message - {i}";
+                        producerClient.LPush(listKey, Encoding.UTF8.GetBytes(message));
+                    }
+                    StopwatchHelper.Instance.Stop();
+                    Console.WriteLine(StopwatchHelper.Instance.Stopwatch.ElapsedMilliseconds);
+                });
+                Thread.Sleep(1000);
+
+                Task.Run(() =>
+                {
+                    var consumerClient = PooledRedisClientManager.GetClient() as RedisClient;
+                    consumerClient.Db = 13;
+                    while (true)
+                    {
+                        //没有数据就阻塞
+                        var re = consumerClient.BRPop(listKey, 0);
+                        var key = Encoding.UTF8.GetString(re[0]);
+                        var value = Encoding.UTF8.GetString(re[1]);
+                        Console.WriteLine($"{value}");
+                    }
+
+                });
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+        #endregion
+
+        #region
+        private void PubSub()
+        {
+            string channelName = "ocgChannel";
+            Random random = new Random();
+
+            Task.Run(() =>
+            {
+                var consumerClient = PooledRedisClientManager.GetClient() as RedisClient;
+
+                //创建订阅
+                IRedisSubscription subscription = consumerClient.CreateSubscription();
+                //接受到消息时
+                subscription.OnMessage = (channel, msg) =>
+                {
+                    Console.WriteLine($"从频道：{channel}上接受到消息：{msg},时间：{DateTime.Now.ToString("yyyyMMdd HH:mm:ss")}");
+                    Console.WriteLine($"频道订阅数目：{subscription.SubscriptionCount}");
+
+                };
+                //订阅频道时
+                subscription.OnSubscribe = (channel) =>
+                {
+                    Console.WriteLine("订阅客户端：开始订阅" + channel);
+                };
+                //取消订阅频道时
+                subscription.OnUnSubscribe = (a) => { Console.WriteLine("订阅客户端：取消订阅"); };
+
+                //订阅频道
+                subscription.SubscribeToChannels(channelName);
+            });
+            Thread.Sleep(100);
+            Task.Run(() =>
+            {
+                var redisClient = PooledRedisClientManager.GetClient() as RedisClient;
+                //redisClient.Db = 13;
+                //redisClient.FlushDb();
+                for (int i = 0; i < 100; i++)
+                {
+                    redisClient.PublishMessage(channelName, $"message - {i}");
+                    Thread.Sleep(random.Next(20, 50));
+                }
+
+            });
+
+        }
+        #endregion
+
+        #region
+        private void ExpireCallBack()
+        {
+
+
+            var redisClient = PooledRedisClientManager.GetClient() as RedisClient;
+            redisClient.Db = 13;
+            redisClient.FlushDb();
+
+
+            //订阅
+            //var subscription = redisClient.CreateSubscription();
+            //subscription.OnSubscribe = channel =>
+            //{
+            //    Console.WriteLine("开始订阅 '{0}'", channel);
+            //};
+            //subscription.OnUnSubscribe = channel =>
+            //{
+            //    Console.WriteLine("取消订阅 '{0}'", channel);
+            //};
+            //subscription.OnMessage = (channel, msg) =>
+            //{
+            //    Console.WriteLine("过期的ID '{0}' -- 通道名称 '{1}'", msg, channel);
+            //};
+            //subscription.SubscribeToChannels("__keyevent@13__:expired");
+
+
+
+
+
+            redisClient.SetValue("StringExpiryKey1", "StringExpiryValue1", TimeSpan.FromSeconds(5));
+
+            var redisPubSub = new RedisPubSubServer(PooledRedisClientManager, "channel-1", "channel-2")
+            {
+                OnMessage = (channel, msg) => "Received '{0}' from '{1}'".Print(msg, channel)
+            }.Start();
+
+
+
         }
         #endregion
     }

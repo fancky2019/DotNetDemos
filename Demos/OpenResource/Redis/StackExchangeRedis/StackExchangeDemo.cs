@@ -115,6 +115,7 @@ namespace Demos.OpenResource.Redis.StackExchangeRedis
             //队列功能，FIFO
             iDatabase.ListLeftPush("listKey1", "张三");
             iDatabase.ListRightPop("listKey2");
+            
             var list = iDatabase.ListLeftPop("listKey2");
             #endregion
 
