@@ -88,7 +88,8 @@ namespace Demos.Demos2018
                 //new TryCatchFinallyReturnDemo().Test();
 
                 //  new CollectionDemo().Test();
-                // new RedisDemo().Test();
+                new RedisDemo().Test();
+
                 #endregion
 
                 #region Demos2019
@@ -206,7 +207,7 @@ namespace Demos.Demos2018
                 //new Demos.Demos2020.CSVComma().Test();
 
                 //new NettyTest().Test();
-                new NettyTest().WebSocketTest();
+                //new NettyTest().WebSocketTest();
 
                 //new MessagePackDemo().Test();
                 //new BitConverterDemo().Test();
