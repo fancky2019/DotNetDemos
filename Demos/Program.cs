@@ -9,6 +9,7 @@ using Demos.Demos2019.Proxy;
 using Demos.Demos2019.Subjects;
 using Demos.Demos2020;
 using Demos.Model;
+using Demos.OpenResource.Dapper;
 using Demos.OpenResource.DotNettyDemo;
 using Demos.OpenResource.HPSocket;
 using Demos.OpenResource.Json;
@@ -19,6 +20,7 @@ using Demos.OpenResource.Redis;
 using Demos.OpenResource.Redis.ServiceStackRedis;
 using Demos.OpenResource.Redis.StackExchangeRedis;
 using Demos.OpenResource.SnowFlakeDemo;
+using Demos.OpenResource.SQLite;
 using Microsoft.Win32;
 using System;
 using System.Collections;
@@ -88,7 +90,7 @@ namespace Demos.Demos2018
                 //new TryCatchFinallyReturnDemo().Test();
 
                 //  new CollectionDemo().Test();
-                new RedisDemo().Test();
+                //new RedisDemo().Test();
 
                 #endregion
 
@@ -217,6 +219,9 @@ namespace Demos.Demos2018
                 //new YieldReturnDemo().Test();
                 //new SnowFlake(31,23).Test();
 
+                //new SQLiteDemo().Test();
+
+                new DapperDemo().Test();
 
                 #endregion
 

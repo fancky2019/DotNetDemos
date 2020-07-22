@@ -8,6 +8,7 @@ using System.Threading;
 using System.Linq;
 using System.Threading.Tasks;
 using ServiceStack.Text;
+using StackExchange.Redis;
 
 namespace Demos.OpenResource.Redis.ServiceStackRedis
 {
@@ -185,7 +186,8 @@ namespace Demos.OpenResource.Redis.ServiceStackRedis
             //ExpiryKey();
             //TransactionTest();
             //LockTest();
-            RedisQueue();
+            BatchInsert();
+            //RedisQueue();
             //PubSub();
             //ExpireCallBack();
         }
@@ -564,6 +566,34 @@ namespace Demos.OpenResource.Redis.ServiceStackRedis
         public void DbIndex()
         {
             WriteReadRedisClient.Db = 12;
+        }
+        #endregion
+
+        #region 批量
+        /// <summary>
+        /// 批量插入10W耗时900ms左右
+        /// </summary>
+        private void BatchInsert()
+        {
+            var listKey = "redisQueue";
+            Task.Run(() =>
+            {
+
+                var producerClient = PooledRedisClientManager.GetClient() as RedisClient;
+                producerClient.Db = 13;
+                producerClient.FlushDb();
+        
+                List<string> list = new List<string>();
+                StopwatchHelper.Instance.Start();
+                for (int i = 0; i < 100000; i++)
+                {
+                    list.Add($"message - {i}");
+     
+                }
+                producerClient.AddRangeToList(listKey, list);
+                StopwatchHelper.Instance.Stop();
+                Console.WriteLine(StopwatchHelper.Instance.Stopwatch.ElapsedMilliseconds);
+            });
         }
         #endregion
 
