@@ -533,5 +533,37 @@ namespace Demos.OpenResource.Redis.StackExchangeRedis
         }
         #endregion
 
+        #region 批量
+        private void BatchInsert()
+        {
+            ConnectionMultiplexer redis = ConnectionMultiplexer.Connect("192.168.23.151:6379");
+            var db = redis.GetDatabase();
+            //var db = PooledRedisClientManager.GetClient() as RedisClient;
+
+
+            //批量过来的数据： customeridlist， ordertotalprice，具体业务逻辑省略
+            var orderTotalPrice = 100;
+
+            var customerIDList = new List<int>();
+
+            for (int i = 0; i < 10; i++)
+            {
+                customerIDList.Add(i);
+            }
+
+            var batch = db.CreateBatch();
+
+            foreach (var item in customerIDList)
+            {
+                var customerID = string.Format("customerid_{0}", item);
+
+                batch.SetAddAsync(customerID, orderTotalPrice);
+            }
+
+            batch.Execute();
+        }
+        #endregion
+
+
     }
 }
