@@ -12,6 +12,53 @@ namespace Demos.Demos2018
 {
     class AdoTest
     {
+        //
+        /*连接池默认开启：
+         * System.Data.SqlClient.SqlConnectionString
+         * internal sealed class SqlConnectionString : DbConnectionOptions
+         * internal const bool Pooling = true;
+         * 
+         * 
+         * 
+         * 
+         * SqlConnection 构造函数内将 （ConnectionString = connectionString;）connectionString赋值给属性ConnectionString，属性设置
+         * 调用  ConnectionString_Set 其内部设置了 PoolGroup， 
+         *  internal DbConnectionOptions ConnectionOptions => PoolGroup?.ConnectionOptions;
+         *  
+         *  SqlConnection构造函数内：
+         * SqlConnectionString opt = (SqlConnectionString)ConnectionOptions;
+         * 
+         * 这就将数据库连接参数设置给了SqlConnectionString
+         * public override string ConnectionString
+        {
+            get
+            {
+                return ConnectionString_Get();
+            }
+            set
+            {
+                if (_credential != null || _accessToken != null)
+                {
+                    SqlConnectionString sqlConnectionString = new SqlConnectionString(value);
+                    if (_credential != null)
+                    {
+                        if (UsesActiveDirectoryIntegrated(sqlConnectionString))
+                        {
+                            throw SQL.SettingIntegratedWithCredential();
+                        }
+                        CheckAndThrowOnInvalidCombinationOfConnectionStringAndSqlCredential(sqlConnectionString);
+                    }
+                    else if (_accessToken != null)
+                    {
+                        CheckAndThrowOnInvalidCombinationOfConnectionOptionAndAccessToken(sqlConnectionString);
+                    }
+                }
+                ConnectionString_Set(new SqlConnectionPoolKey(value, _credential, _accessToken));
+                _connectionString = value;
+                CacheConnectionStringProperties();
+            }
+        }
+         */
         public void Test()
         {
             try
@@ -21,13 +68,89 @@ namespace Demos.Demos2018
                 // ProcedureOutPutParam();
                 // PageData();
 
-                SqlBulkCopyTest();
+                //SqlBulkCopyTest();
+                //PrepareCommand();
+                ConnectionPool();
             }
             catch (Exception ex)
             {
                 string msg = ex.Message;
             }
 
+        }
+
+        
+        /// <summary>
+        /// 连接池默认开启
+        /// 开启连接池会快几毫秒
+        /// </summary>
+        private void ConnectionPool()
+        {
+            //var conString = "server=.;database=test;user=sa;pwd=12345678;Connect Timeout=90;Connection Lifetime=30;Max Pool Size=100;Min Pool Size=0;Pooling=True";
+            //var conString = "server=.;database=test;user=sa;pwd=12345678";
+            //关闭连接池
+            var conString = "server=.;database=test;user=sa;pwd=12345678;Pooling=False";
+            Stopwatch stopwatch = Stopwatch.StartNew();
+            //String insertCommand = "insert into Person(name)values('fancky1');";
+            for (int n = 0; n < 30; n++)
+            {
+                stopwatch.Restart();
+                using (SqlConnection connection = new SqlConnection(conString))
+                {
+                    connection.Open();
+
+                    using (SqlCommand mycommand = new SqlCommand())
+                    {
+                        mycommand.Connection = connection;
+       
+                        mycommand.CommandText = $"insert into Person (name,age) values ('message - {1}',3);";
+                        //速度是快了
+                        mycommand.Prepare();
+                        mycommand.ExecuteNonQuery();
+
+                
+                    }
+                }
+
+                stopwatch.Stop();
+                Console.WriteLine(stopwatch.ElapsedMilliseconds);
+            }
+        }
+        /// <summary>
+        /// command.Prepare() 效果明显，减少耗时
+        ///尽管command.Prepare()， 插入还是在100-200ms
+        /// </summary>
+        private void PrepareCommand()
+        {
+            var conString = "server=.;database=test;user=sa;pwd=12345678";
+            Stopwatch stopwatch = Stopwatch.StartNew();
+            //String insertCommand = "insert into Person(name)values('fancky1');";
+            using (SqlConnection connection = new SqlConnection(conString))
+            {
+                connection.Open();
+
+                using (SqlCommand mycommand = new SqlCommand())
+                {
+                    mycommand.Connection = connection;
+                    /*
+                     * 不能循环插，太慢，
+                     */
+                    for (int n = 0; n < 10; n++)
+                    {
+                        stopwatch.Restart();
+                        mycommand.CommandText = $"insert into Person (name,age) values ('message - {1}',3);";
+                        //速度是快了
+                        mycommand.Prepare();
+                        mycommand.ExecuteNonQuery();
+
+                        //Thread.Sleep(1000);
+                        stopwatch.Stop();
+                        Console.WriteLine(stopwatch.ElapsedMilliseconds);
+                    }
+                }
+            }
+            //stopwatch.Stop();
+            //Console.WriteLine(stopwatch.ElapsedMilliseconds);
         }
 
         private void Procedure()
@@ -332,7 +455,7 @@ namespace Demos.Demos2018
             return dateTime;
         }
 
-   
+
 
 
         private List<Sku> GetSkus()
