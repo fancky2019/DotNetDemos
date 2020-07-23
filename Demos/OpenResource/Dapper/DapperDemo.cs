@@ -38,6 +38,8 @@ namespace Demos.OpenResource.Dapper
                 //connection.Execute("insert into Person(Name,Remark) values(@Name,@Remark)", person);
                 var insertCommand = $"insert into Person (Name) values ('message - {1}');";
                 connection.Execute(insertCommand);
+
+             
                 //connection.Query<Person>("select *  from Person");
             }
             stopwatch.Stop();
