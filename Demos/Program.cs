@@ -67,7 +67,7 @@ namespace Demos.Demos2018
                 #region Demos2018
                 //new ParamsDemo().Test();
                 // string str = Test().Result;
-                new AdoTest().Test();
+                //new AdoTest().Test();
 
                 //new TClassTest<Product>().Test();
                 //new LockDemo().Test();
@@ -145,7 +145,7 @@ namespace Demos.Demos2018
                 //new KeyValuePairDemo().Test();
 
                 //new StackExchangeDemo().Test();
-                //new ServiceStackRedisDemo().Test();
+                new ServiceStackRedisDemo().Test();
                 //new SpinLockDemo().Test();
 
                 //new InterlockedDemo().Test();

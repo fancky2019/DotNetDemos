@@ -180,13 +180,13 @@ namespace Demos.OpenResource.Redis.ServiceStackRedis
             //ReadOnlyRedisClient.Db = 1;
             //StringTest();
             //ListTest();
-            //HashTest();
+            HashTest();
             //SetTest();
             //SortedSetTest();
             //ExpiryKey();
             //TransactionTest();
             //LockTest();
-            BatchInsert();
+            //BatchInsert();
             //RedisQueue();
             //PubSub();
             //ExpireCallBack();
@@ -335,6 +335,12 @@ namespace Demos.OpenResource.Redis.ServiceStackRedis
             //删除整个Key的数据
             WriteReadRedisClient.Remove("RedisHashKey1");
             WriteReadRedisClient.Remove("RedisHashKey2");
+
+            WriteReadRedisClient.SetEntryInHash("RedisHashKey3", "HashKey1", "HashValue1");
+            //存在1,不存在0
+            var exist = WriteReadRedisClient.HExists("RedisHashKey3", Encoding.UTF8.GetBytes("HashKey1"));
+            var notExist = WriteReadRedisClient.HExists("RedisHashKey2", Encoding.UTF8.GetBytes("HashKey1"));
+            var existKey = WriteReadRedisClient.Exists("RedisHashKey3");
         }
         #endregion
 
@@ -582,13 +588,13 @@ namespace Demos.OpenResource.Redis.ServiceStackRedis
                 var producerClient = PooledRedisClientManager.GetClient() as RedisClient;
                 producerClient.Db = 13;
                 producerClient.FlushDb();
-        
+
                 List<string> list = new List<string>();
                 StopwatchHelper.Instance.Start();
                 for (int i = 0; i < 100000; i++)
                 {
                     list.Add($"message - {i}");
-     
+
                 }
                 producerClient.AddRangeToList(listKey, list);
                 StopwatchHelper.Instance.Stop();
