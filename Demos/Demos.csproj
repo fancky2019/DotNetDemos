@@ -365,6 +365,7 @@
     <Compile Include="Common\Log.cs" />
     <Compile Include="Common\Log4net.cs" />
     <Compile Include="Common\LogAsync.cs" />
+    <Compile Include="Common\NewtonsoftHelper.cs" />
     <Compile Include="Common\RandomSeed.cs" />
     <Compile Include="Common\Serialization.cs" />
     <Compile Include="Common\StopwatchHelper.cs" />
@@ -398,6 +399,7 @@
     <Compile Include="Demos2019\UDPClientDemo.cs" />
     <Compile Include="Demos2019\UDPServerDemo.cs" />
     <Compile Include="Demos2020\BitConverterDemo.cs" />
+    <Compile Include="Demos2020\ClassMember.cs" />
     <Compile Include="Demos2020\CSVComma.cs" />
     <Compile Include="Demos2020\YieldReturnDemo.cs" />
     <Compile Include="OpenResource\Compression\CompressionDemo.cs" />
