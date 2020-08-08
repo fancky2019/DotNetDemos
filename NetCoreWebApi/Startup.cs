@@ -38,11 +38,14 @@ namespace NetCoreWebApi
             //在nuget 在线中安装EntityFramework
             //.net core 在nuget 在线中安装 Microsoft.EntityFrameworkCore 和  Microsoft.EntityFrameworkCore.SqlServer
             //安装对应版本和项目的.net Core 版本一致
+           
+            //IOC注入
+            //注释类
             services.AddDbContext<WMSDbContext>(options =>
             {
                 options.UseSqlServer(Configuration["ConnectionStrings:WMSConnectionString:ConnectionString"]);
             });
-
+            //注入接口及实现类
             //services.AddSingleton<IConfig, Config>(p => new Config(Configuration));
             //services.AddSingleton<IConfig, Config>(p => typeof(Config));
 
