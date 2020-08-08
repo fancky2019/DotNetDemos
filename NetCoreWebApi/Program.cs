@@ -22,6 +22,7 @@ namespace NetCoreWebApi
          * */
         public static void Main(string[] args)
         {
+            NewConfiguratio();
             CreateWebHostBuilder(args).Build().Run();
         }
 
@@ -30,12 +31,13 @@ namespace NetCoreWebApi
 
               //添加其他的配置文件
               //通过WebHostBuilder将我们添加的json文件添加进asp.net core的配置
-              .ConfigureAppConfiguration((webHostBuilderContext, iConfigurationBuilder) => {
+              .ConfigureAppConfiguration((webHostBuilderContext, iConfigurationBuilder) =>
+              {
                   iConfigurationBuilder.SetBasePath(webHostBuilderContext.HostingEnvironment.ContentRootPath)
                           .SetBasePath(Directory.GetCurrentDirectory())
                           .AddJsonFile("hostsettings.json", optional: true);
-                           
-                     
+
+
               })
              .UseShutdownTimeout(TimeSpan.FromSeconds(10))
              //.ConfigureAppConfiguration((iConfigurationBuilder) => {
@@ -46,5 +48,25 @@ namespace NetCoreWebApi
              //})
              .UseSetting("https_port", "8080")
              .UseStartup<Startup>();
+
+
+
+        public static void NewConfiguratio()
+        {
+            var builder = new ConfigurationBuilder();
+            //将配置节点添加到内存
+            //builder.AddInMemoryCollection();
+            builder.SetBasePath(Directory.GetCurrentDirectory());
+            //设置配置文件
+            builder.AddJsonFile("appsettings.json");
+            builder.AddJsonFile("appsettingsextention.json");
+
+            IConfiguration configuration = builder.Build();
+            //添加key到内存
+            //configuration["con"] = "val";   
+            var str = configuration["ConnectionStrings:WMSConnectionString:ConnectionString"];
+            var stt = configuration["Swagger:Enable"];
+
+        }
     }
 }
