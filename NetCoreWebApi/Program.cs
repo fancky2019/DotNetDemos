@@ -66,6 +66,9 @@ namespace NetCoreWebApi
             //configuration["con"] = "val";   
             var str = configuration["ConnectionStrings:WMSConnectionString:ConnectionString"];
             var stt = configuration["Swagger:Enable"];
+            //获取的都是string:   索引：string this[string key]
+            var bo = configuration["Swagger:EnableBool"];
+            var num = configuration["Swagger:EnableCount"];
 
         }
     }
