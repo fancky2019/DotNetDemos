@@ -10,6 +10,10 @@ using System.Threading.Tasks;
 
 namespace Demos.OpenResource.SQLite
 {
+    /*
+     * NUGET:System.Data.SQLite
+     * 如果只用ADO.NET则安装System.Data.SQLite.Core
+     */
     public class SQLiteDemo
     {
         private string _conString = "";
