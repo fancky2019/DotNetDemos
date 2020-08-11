@@ -25,6 +25,7 @@ namespace Demos.Demos2020
             //if (currentService != null)
             //{
             //    tradeService = (ITradeService)currentService.CreateInstance();
+            //    tradeService = currentService.CreateInstance<ITradeService>();
             //    var serviceName = tradeService.GetType().Name;
             //}
 
