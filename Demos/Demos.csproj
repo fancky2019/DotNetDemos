@@ -494,6 +494,7 @@
     <Compile Include="OpenResource\Kafka\KafkaProducer.cs" />
     <Compile Include="OpenResource\MessagePack\MessagePackDemo.cs" />
     <Compile Include="OpenResource\RabbitMQ\RabbitMQClient\DelayRetryConsumer.cs" />
+    <Compile Include="OpenResource\Redis\ServiceStack.Text.Json.cs" />
     <Compile Include="OpenResource\Redis\StackExchangeRedis\StackExchangeDemo.cs" />
     <Compile Include="OpenResource\SnowFlakeDemo\SnowFlake.cs" />
     <Compile Include="OpenResource\SQLite\SQLiteDBHelper.cs" />

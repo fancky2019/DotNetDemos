@@ -145,7 +145,7 @@ namespace Demos.Demos2018
                 //new KeyValuePairDemo().Test();
 
                 //new StackExchangeDemo().Test();
-                new ServiceStackRedisDemo().Test();
+                //new ServiceStackRedisDemo().Test();
                 //new SpinLockDemo().Test();
 
                 //new InterlockedDemo().Test();
@@ -222,6 +222,7 @@ namespace Demos.Demos2018
                 //new SQLiteDemo().Test();
 
                 //new DapperDemo().Test();
+                new ServiceStackJsonDemo().Test();
 
                 #endregion
 
