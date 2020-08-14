@@ -499,6 +499,7 @@
     <Compile Include="OpenResource\SnowFlakeDemo\SnowFlake.cs" />
     <Compile Include="OpenResource\SQLite\SQLiteDBHelper.cs" />
     <Compile Include="OpenResource\SQLite\SQLiteDemo.cs" />
+    <Compile Include="OpenResource\ZooKeeper\ZooKeeperDemo.cs" />
     <Compile Include="Subjects\SubjectTest.cs" />
     <Compile Include="Demos2019\ThreadDemo.cs" />
     <Compile Include="OpenResource\HPSocket\HPSocketClient\HPSocketClient.cs" />
@@ -555,6 +556,7 @@
     <Compile Include="WMS\Model\ViewModel\MessageResult.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include=".NetCore技术栈.md" />
     <None Include="App.config" />
     <None Include="log4net.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
