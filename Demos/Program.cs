@@ -24,6 +24,7 @@ using Demos.OpenResource.SQLite;
 using Microsoft.Win32;
 using System;
 using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -60,7 +61,6 @@ namespace Demos.Demos2018
                           Console.WriteLine(e.ToString());
                           _nLog.Error(e.ToString());
                       };
-
 
 
 
@@ -222,8 +222,10 @@ namespace Demos.Demos2018
                 //new SQLiteDemo().Test();
 
                 //new DapperDemo().Test();
-                new ServiceStackJsonDemo().Test();
+                //new ServiceStackJsonDemo().Test();
 
+                new ConcurrentDictionaryDemo().Test();
+                
                 #endregion
 
             }
