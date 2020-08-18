@@ -61,8 +61,19 @@ namespace Demos.Demos2020
                 int n = m;
             }
 
-            //concurrentDictionary.AddOrUpdate()
+            concurrentDictionary.AddOrUpdate(1, 3, (key, val) =>
+              {
+                  lock (key + "")
+                  {
+                      var oldValue = concurrentDictionary[key];
+                      return 3;
+                  }
 
+              });
+            if (concurrentDictionary.TryGetValue(1, out int mm))
+            {
+                int n = mm;
+            }
         }
     }
 }

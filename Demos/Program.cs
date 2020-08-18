@@ -16,6 +16,7 @@ using Demos.OpenResource.Json;
 using Demos.OpenResource.Jwt;
 using Demos.OpenResource.Kafka;
 using Demos.OpenResource.MessagePackDemo;
+using Demos.OpenResource.ProtoBuf;
 using Demos.OpenResource.Redis;
 using Demos.OpenResource.Redis.ServiceStackRedis;
 using Demos.OpenResource.Redis.StackExchangeRedis;
@@ -224,7 +225,9 @@ namespace Demos.Demos2018
                 //new DapperDemo().Test();
                 //new ServiceStackJsonDemo().Test();
 
-                new ConcurrentDictionaryDemo().Test();
+                //new ConcurrentDictionaryDemo().Test();
+
+                new ProtoBufNet().Test();
                 
                 #endregion
 
