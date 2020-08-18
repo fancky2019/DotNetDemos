@@ -13,6 +13,9 @@ namespace Demos.Demos2020
     class ConcurrentDictionaryDemo
     {
         /*
+         * hashcode获取：实现IEqualityComparer接口的GetHashCode方法
+         * 
+         * 
          * 默认数组长度：
          * buckets：31
          * locks=countPerLock：处理器个数-1
@@ -27,11 +30,23 @@ namespace Demos.Demos2020
          * Volatile.Write(ref tables.m_buckets[bucketNo], new Node(key, value, hashCode, tables.m_buckets[bucketNo]));  
          * 
          * 扩容条件：
-         * m_budget（固定值） = 初始容量（31） / （处理器个数-1）;
-         * tables.m_buckets.Length>100 或tables.m_countPerLock[lockNo] > m_budget
+         *
+         *budget=buckets/locks
+         * 节点hash碰撞数>100 或tables.m_countPerLock[lockNo] > m_budget。即：锁对象锁的个数超过预算。
          * 
          * 扩容大小：之前容量2倍。新增node初始对象。
          * 
+         * 
+         * 
+         * 
+         * hash桶位置bucketNo：hashcode%hash桶大小
+         * 锁位置lockNo：bucketNo%lockCount
+         * 
+         * 
+         * 
+         * 整个加锁:Monitor Enter整个数组
+         * Monitor.Enter(locks[i], ref lockTaken);
+         * 释放整个锁：Monitor Exit整个数组
          * 
          */
         public void Test()
