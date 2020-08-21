@@ -1,4 +1,5 @@
 ﻿using DotNetty.Codecs;
+using DotNetty.Codecs.Protobuf;
 using DotNetty.Handlers.Logging;
 using DotNetty.Handlers.Timeout;
 using DotNetty.Transport.Bootstrapping;
@@ -10,11 +11,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Test.opensource.protobuf.model;
 
 namespace Demos.OpenResource.DotNettyDemo.Echo
 {
     public class EchoNettyServer
     {
+        /*
+         * NuGet: DotNetty.Codecs.Protobuf :ProtobufDecoder
+         */
         public async Task RunServerAsync()
         {
             //ExampleHelper.SetConsoleLogger();
@@ -66,10 +71,13 @@ namespace Demos.OpenResource.DotNettyDemo.Echo
                         //    pipeline.AddLast("tls", TlsHandler.Server(tlsCertificate));
                         //}
                         //pipeline.AddLast(new LoggingHandler("SRV-CONN"));
-                 
+
                         pipeline.AddLast("framing-enc", new LengthFieldPrepender(2));
                         pipeline.AddLast("framing-dec", new LengthFieldBasedFrameDecoder(ushort.MaxValue, 0, 2, 0, 2));
-
+                        //StringDecoder
+                        //StringEncoder
+                        //var en = new ProtobufEncoder();
+                        //var de = new ProtobufDecoder(PersonProto.Parser);
                         pipeline.AddLast("echo", new EchoServerHandler());
                     }));
 

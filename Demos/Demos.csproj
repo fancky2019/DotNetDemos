@@ -75,6 +75,9 @@
     <Reference Include="DotNetty.Codecs.Http, Version=0.6.0.0, Culture=neutral, PublicKeyToken=bc13ca065fa06c29, processorArchitecture=MSIL">
       <HintPath>..\packages\DotNetty.Codecs.Http.0.6.0\lib\net45\DotNetty.Codecs.Http.dll</HintPath>
     </Reference>
+    <Reference Include="DotNetty.Codecs.Protobuf, Version=0.6.0.0, Culture=neutral, PublicKeyToken=bc13ca065fa06c29, processorArchitecture=MSIL">
+      <HintPath>..\packages\DotNetty.Codecs.Protobuf.0.6.0\lib\net45\DotNetty.Codecs.Protobuf.dll</HintPath>
+    </Reference>
     <Reference Include="DotNetty.Common, Version=0.6.0.0, Culture=neutral, PublicKeyToken=bc13ca065fa06c29, processorArchitecture=MSIL">
       <HintPath>..\packages\DotNetty.Common.0.6.0\lib\net45\DotNetty.Common.dll</HintPath>
     </Reference>
