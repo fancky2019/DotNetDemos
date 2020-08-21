@@ -40,7 +40,8 @@ namespace Demos.OpenResource.ProtoBuf
 
             //没找到支持Json 序列化
             //Newtonsoft.Json;
-
+            //var jsonStr = ServiceStack.Text.JsonSerializer.SerializeToString(list);
+            //var list1 = ServiceStack.Text.JsonSerializer.DeserializeFromString<List<PersonInfo>>(jsonStr);
         }
 
 

@@ -99,6 +99,9 @@
     <Reference Include="Gallio40, Version=3.4.0.0, Culture=neutral, PublicKeyToken=eb9cfa67ee6ab36e, processorArchitecture=MSIL">
       <HintPath>..\packages\mbunit.3.4.14.0\lib\net40\Gallio40.dll</HintPath>
     </Reference>
+    <Reference Include="Google.Protobuf, Version=3.13.0.0, Culture=neutral, PublicKeyToken=a7d26565bac4d604, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Protobuf.3.13.0\lib\net45\Google.Protobuf.dll</HintPath>
+    </Reference>
     <Reference Include="HPSocketCS, Version=5.4.3.0, Culture=neutral, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Dll\HPSocket\HPSocketCS.dll</HintPath>
@@ -504,6 +507,8 @@
     <Compile Include="OpenResource\Kafka\KafkaDemo.cs" />
     <Compile Include="OpenResource\Kafka\KafkaProducer.cs" />
     <Compile Include="OpenResource\MessagePack\MessagePackDemo.cs" />
+    <Compile Include="OpenResource\ProtoBuf\PersonProto.cs" />
+    <Compile Include="OpenResource\ProtoBuf\ProtobufGoogle.cs" />
     <Compile Include="OpenResource\ProtoBuf\ProtoBufNetDemo.cs" />
     <Compile Include="OpenResource\RabbitMQ\RabbitMQClient\DelayRetryConsumer.cs" />
     <Compile Include="OpenResource\Redis\ServiceStack.Text.Json.cs" />
