@@ -227,7 +227,8 @@ namespace Demos.Demos2018
 
                 //new ConcurrentDictionaryDemo().Test();
 
-                new ProtoBufNetDemo().Test();
+                //new ProtoBufNetDemo().Test();
+                new ProtobufGoogle().Test();
                 
                 #endregion
 
