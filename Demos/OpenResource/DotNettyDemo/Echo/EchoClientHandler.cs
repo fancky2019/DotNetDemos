@@ -63,9 +63,9 @@ namespace Demos.OpenResource.DotNettyDemo.Echo
         /// <param name="context"></param>
         public override void ChannelActive(IChannelHandlerContext context)
         {
-            byte[] messageBytes = Encoding.UTF8.GetBytes("Hello world");
-            this.initialMessage.WriteBytes(messageBytes);
-            context.WriteAndFlushAsync(this.initialMessage);
+            //byte[] messageBytes = Encoding.UTF8.GetBytes("Hello world");
+            //this.initialMessage.WriteBytes(messageBytes);
+            //context.WriteAndFlushAsync(this.initialMessage);
 
 
 
@@ -103,6 +103,11 @@ namespace Demos.OpenResource.DotNettyDemo.Echo
                 //var jsonStr = MessagePackSerializer.ConvertToJson(bytes);
                 //Console.WriteLine("Received from server: " + jsonStr);
             }
+            else
+            {
+                Console.WriteLine($"Received from server:{message.ToString()}");
+
+            }
             //避免死循环，客户服务端不停互相发消息
             //context.WriteAsync(message);
         }
@@ -133,9 +138,9 @@ namespace Demos.OpenResource.DotNettyDemo.Echo
 
                             break;
                         case IdleState.AllIdle:
-                            //6秒既没有读，也没有写，即发生了3次没有读写，可认为网络断开。
-                            context.DisconnectAsync().Wait();
-                            DisConnected();
+                            ////6秒既没有读，也没有写，即发生了3次没有读写，可认为网络断开。
+                            //context.DisconnectAsync().Wait();
+                            //DisConnected();
                             break;
                     }
                 }
