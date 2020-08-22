@@ -30,13 +30,18 @@ namespace Demos.OpenResource.DotNettyDemo
             //{
             //    new EchoNettyServer().RunServerAsync().Wait();
             //});
+
+
             //使用Wait会阻塞下面的方法，除非放在线程中执行
-            new EchoNettyServer().RunServerAsync();//.Wait();
-            Thread.Sleep(2000);
+            new EchoNettyServer().RunServerAsync().Wait();
+      
             EchoNettyClient echoNettyClient = new EchoNettyClient();
-            echoNettyClient.RunClientAsync();//.Wait();
-            Thread.Sleep(12001);
-            echoNettyClient.Stop();
+            echoNettyClient.RunClientAsync().Wait();
+
+      
+            echoNettyClient.SendMsg();
+
+            //echoNettyClient.Stop();
             //Task.Run(() =>
             //{
             //    new EchoNettyClient().RunClientAsync().Wait();

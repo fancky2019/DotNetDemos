@@ -20,12 +20,15 @@ namespace Demos.OpenResource.DotNettyDemo.Echo
         /*
          * NuGet: DotNetty.Codecs.Protobuf :ProtobufDecoder
          */
+
+
+        IChannel boundChannel;
+        IEventLoopGroup bossGroup;
+        IEventLoopGroup workerGroup;
         public async Task RunServerAsync()
         {
             //ExampleHelper.SetConsoleLogger();
 
-            IEventLoopGroup bossGroup;
-            IEventLoopGroup workerGroup;
             //libuv是一个高性能的，事件驱动的I/O库，并且提供了跨平台（如windows, linux）的API。
             //将Dll-->Netty下的libuv.dll复制到运行目录
             var useLibuv = true;
@@ -74,6 +77,16 @@ namespace Demos.OpenResource.DotNettyDemo.Echo
 
                         pipeline.AddLast("framing-enc", new LengthFieldPrepender(2));
                         pipeline.AddLast("framing-dec", new LengthFieldBasedFrameDecoder(ushort.MaxValue, 0, 2, 0, 2));
+
+                        //pipeline.AddLast("StringDecoder", new StringDecoder());
+                        //pipeline.AddLast("StringEncoder", new StringEncoder());
+
+                        pipeline.AddLast("ProtobufDecoder", new ProtobufDecoder(PersonProto.Parser));
+                        pipeline.AddLast("ProtobufEncoder", new ProtobufEncoder());
+
+
+
+
                         //StringDecoder
                         //StringEncoder
                         //var en = new ProtobufEncoder();
@@ -81,18 +94,34 @@ namespace Demos.OpenResource.DotNettyDemo.Echo
                         pipeline.AddLast("echo", new EchoServerHandler());
                     }));
 
-                IChannel boundChannel = await bootstrap.BindAsync(8031);
-                //防止通道关闭，生产环境不会执行下面的CloseAsync();，会在一个Stop方法中调用
-                Console.ReadLine();
+                boundChannel = await bootstrap.BindAsync(8031);
+                ////防止通道关闭，生产环境不会执行下面的CloseAsync();，会在一个Stop方法中调用
+                //Console.ReadLine();
 
-                await boundChannel.CloseAsync();
+                //await boundChannel.CloseAsync();
+            }
+            catch (Exception ex)
+            {
+
             }
             finally
             {
-                await Task.WhenAll(
-                    bossGroup.ShutdownGracefullyAsync(TimeSpan.FromMilliseconds(100), TimeSpan.FromSeconds(1)),
-                    workerGroup.ShutdownGracefullyAsync(TimeSpan.FromMilliseconds(100), TimeSpan.FromSeconds(1)));
+                //    await Task.WhenAll(
+                //        bossGroup.ShutdownGracefullyAsync(TimeSpan.FromMilliseconds(100), TimeSpan.FromSeconds(1)),
+                //        workerGroup.ShutdownGracefullyAsync(TimeSpan.FromMilliseconds(100), TimeSpan.FromSeconds(1)));
+                //}
             }
+        }
+
+        public async void Close()
+        {
+
+            await boundChannel.CloseAsync();
+            await Task.WhenAll(
+        bossGroup.ShutdownGracefullyAsync(TimeSpan.FromMilliseconds(100), TimeSpan.FromSeconds(1)),
+        workerGroup.ShutdownGracefullyAsync(TimeSpan.FromMilliseconds(100), TimeSpan.FromSeconds(1)));
+
+
         }
     }
 }

@@ -43,6 +43,8 @@ namespace Demos.OpenResource.ProtoBuf
 
             PersonProto personProto1 = PersonProto.Parser.ParseFrom(bytes);
 
+
+            var job2 = personProto1.Any.First().Unpack<Job>();
             //Newtonsoft.Json;
             //var jsonStr1 = personProto1.ToJson<PersonProto>();//用此拓展方法。内部使用的是ServiceStack.Text.JsonSerializer.SerializeToString(personProto1);
             //var personProto2 = jsonStr1.FromJson<PersonProto>();//反序列化集合字典没有序列化出来

@@ -69,6 +69,10 @@ namespace Demos.OpenResource.DotNettyDemo.Echo
 
 
             }
+            else
+            {
+                Console.WriteLine($"Received from client:{message.ToString()}" );
+            }
             context.WriteAsync(message);
         }
 
@@ -94,7 +98,7 @@ namespace Demos.OpenResource.DotNettyDemo.Echo
                             break;
                         case IdleState.AllIdle:
                             //6秒既没有读，也没有写，即发生了3次没有读写，可认为网络断开。
-                            context.DisconnectAsync().Wait();
+                            //context.DisconnectAsync().Wait();
                             break;
                     }
                 }

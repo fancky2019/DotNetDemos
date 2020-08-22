@@ -229,9 +229,9 @@ namespace Demos.Demos2018
 
                 //new ProtoBufNetDemo().Test();
                 new ProtobufGoogle().Test();
-                
-                #endregion
 
+                #endregion
+                Console.WriteLine("Completed!");
             }
             catch (Exception ex)
             {
