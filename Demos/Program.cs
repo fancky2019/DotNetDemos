@@ -209,7 +209,7 @@ namespace Demos.Demos2018
 
                 //new Demos.Demos2020.CSVComma().Test();
 
-                //new NettyTest().Test();
+                new NettyTest().Test();
                 //new NettyTest().WebSocketTest();
 
                 //new MessagePackDemo().Test();
@@ -228,7 +228,7 @@ namespace Demos.Demos2018
                 //new ConcurrentDictionaryDemo().Test();
 
                 //new ProtoBufNetDemo().Test();
-                new ProtobufGoogle().Test();
+                //new ProtobufGoogle().Test();
 
                 #endregion
                 Console.WriteLine("Completed!");

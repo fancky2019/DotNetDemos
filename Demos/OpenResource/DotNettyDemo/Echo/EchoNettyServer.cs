@@ -1,4 +1,6 @@
-﻿using DotNetty.Codecs;
+﻿using Demos.Model;
+using Demos.OpenResource.DotNettyDemo.Protobuf;
+using DotNetty.Codecs;
 using DotNetty.Codecs.Protobuf;
 using DotNetty.Handlers.Logging;
 using DotNetty.Handlers.Timeout;
@@ -84,6 +86,9 @@ namespace Demos.OpenResource.DotNettyDemo.Echo
                         pipeline.AddLast("ProtobufDecoder", new ProtobufDecoder(PersonProto.Parser));
                         pipeline.AddLast("ProtobufEncoder", new ProtobufEncoder());
 
+
+                        //pipeline.AddLast("ObjectDecoder", new ObjectDecoder<Person>());
+                        //pipeline.AddLast("ObjectEncoder", new ObjectEncoder());
 
 
 

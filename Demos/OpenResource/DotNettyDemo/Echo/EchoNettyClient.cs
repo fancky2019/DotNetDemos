@@ -14,6 +14,8 @@ using System.Threading.Tasks;
 using Test.opensource.protobuf.model;
 using Google.Protobuf;
 using Google.Protobuf.WellKnownTypes;
+using Demos.OpenResource.DotNettyDemo.Protobuf;
+using Demos.Model;
 
 namespace Demos.OpenResource.DotNettyDemo.Echo
 {
@@ -69,6 +71,9 @@ namespace Demos.OpenResource.DotNettyDemo.Echo
                         pipeline.AddLast("ProtobufEncoder", new ProtobufEncoder());
 
 
+                        //pipeline.AddLast("ObjectDecoder", new ObjectDecoder<Person>());
+                        //pipeline.AddLast("ObjectEncoder", new ObjectEncoder());
+
                         EchoClientHandler echoClientHandler = new EchoClientHandler();
                         echoClientHandler.DisConnected += () =>
                           {
@@ -109,6 +114,13 @@ namespace Demos.OpenResource.DotNettyDemo.Echo
             //_clientChannel.WriteAndFlushAsync(msg);
 
 
+            //Person data = new Person
+            //{
+            //    Name = "rui",
+            //    Age = 6
+            //};
+
+            //_clientChannel.WriteAndFlushAsync(data);
 
 
             Job job = new Job() { Name = "chengxuyuan", Salary = 700 };
@@ -128,7 +140,11 @@ namespace Demos.OpenResource.DotNettyDemo.Echo
             personProto.Jobs.Add(job);
             personProto.SonJobs.Add("li", job);
             personProto.SonJobs.Add("fa", job1);
+
             _clientChannel.WriteAndFlushAsync(personProto);
+
+
+
         }
 
         private async Task<IChannel> Connect(IPEndPoint iPEndPoint)

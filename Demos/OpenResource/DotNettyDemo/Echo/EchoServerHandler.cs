@@ -52,7 +52,7 @@ namespace Demos.OpenResource.DotNettyDemo.Echo
                 Console.WriteLine("Received from client: " + buffer.ToString(Encoding.UTF8));
 
 
-
+                //处理接收二进制数据
                 //ArraySegment<byte> ioBuf = buffer.GetIoBuffer(0, buffer.Capacity);
                 //var array = ioBuf.ToArray();
 
