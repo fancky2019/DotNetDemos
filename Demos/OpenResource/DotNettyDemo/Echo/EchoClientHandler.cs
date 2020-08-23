@@ -69,7 +69,7 @@ namespace Demos.OpenResource.DotNettyDemo.Echo
 
 
 
-
+            //发送二进制数据
             //Person data = new Person
             //{
             //    Name = "rui",

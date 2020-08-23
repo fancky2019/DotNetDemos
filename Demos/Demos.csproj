@@ -495,6 +495,8 @@
     <Compile Include="OpenResource\DotNettyDemo\Echo\EchoNettyServer.cs" />
     <Compile Include="OpenResource\DotNettyDemo\Echo\EchoServerHandler.cs" />
     <Compile Include="OpenResource\DotNettyDemo\NettyTest.cs" />
+    <Compile Include="OpenResource\DotNettyDemo\NettyCodec\ObjectDecoder.cs" />
+    <Compile Include="OpenResource\DotNettyDemo\NettyCodec\ObjectEncoder.cs" />
     <Compile Include="OpenResource\DotNettyDemo\UDP\NettyUDPClient.cs" />
     <Compile Include="OpenResource\DotNettyDemo\UDP\NettyUDPClientHnadler.cs" />
     <Compile Include="OpenResource\DotNettyDemo\UDP\NettyUDPServer.cs" />
