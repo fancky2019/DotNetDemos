@@ -12,9 +12,9 @@ using System.Windows.Forms;
 
 namespace WinformFormUpdate
 {
-    public partial class frmUpdate : Form
+    public partial class FrmUpdate : Form
     {
-        public frmUpdate()
+        public FrmUpdate()
         {
             InitializeComponent();
         }

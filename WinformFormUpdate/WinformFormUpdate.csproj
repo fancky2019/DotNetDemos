@@ -65,11 +65,20 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrmSocketClient.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmSocketClient.Designer.cs">
+      <DependentUpon>FrmSocketClient.cs</DependentUpon>
+    </Compile>
     <Compile Include="FtpHelper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmSocketClient.resx">
+      <DependentUpon>FrmSocketClient.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">

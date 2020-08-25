@@ -22,7 +22,8 @@ namespace WinformFormUpdate
             AllocConsole();//调用系统API，调用控制台窗口
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frmUpdate());
+            //Application.Run(new FrmUpdate());
+            Application.Run(new FrmSocketClient());
             FreeConsole();//释放控制台
         }
     }
