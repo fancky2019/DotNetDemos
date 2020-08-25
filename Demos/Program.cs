@@ -192,11 +192,11 @@ namespace Demos.Demos2018
                 //    new UDPClientDemo().Test();
                 //});
 
-                //Task.Run(() =>
-                //{
-                //    Thread.Sleep(1000);
-                //    new SocketServerDemo().Test();
-                //});
+                Task.Run(() =>
+                {
+                    Thread.Sleep(1000);
+                    new SocketServerDemo().Test();
+                });
                 //Task.Run(() =>
                 //{
 
@@ -209,7 +209,7 @@ namespace Demos.Demos2018
 
                 //new Demos.Demos2020.CSVComma().Test();
 
-                new NettyTest().Test();
+                //new NettyTest().Test();
                 //new NettyTest().WebSocketTest();
 
                 //new MessagePackDemo().Test();
@@ -231,6 +231,7 @@ namespace Demos.Demos2018
                 //new ProtobufGoogle().Test();
 
                 #endregion
+
                 Console.WriteLine("Completed!");
             }
             catch (Exception ex)

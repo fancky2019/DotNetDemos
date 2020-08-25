@@ -22,10 +22,10 @@ namespace Demos.Demos2019
     {
         public void Test()
         {
-            //Listen();
+            Listen();
             //SocketUDPServer();
             //SocketUDPBroadcast();
-            SocketUDPMulticast();
+            //SocketUDPMulticast();
         }
 
 
@@ -44,26 +44,31 @@ namespace Demos.Demos2019
             sSocket.Bind(ipe);
             //backlog 参数指定队列中最多可容纳的等待接受的传入连接数
             sSocket.Listen(0);
-            Console.WriteLine("监听已经打开，请等待");
+            Console.WriteLine($"监听端口 - {port}");
 
             while (true)
             {
                 //没有新的连接会一直阻塞
                 Socket connectedClientSocket = sSocket.Accept();
-                Console.WriteLine("连接已经建立");
+                Console.WriteLine($"{connectedClientSocket.RemoteEndPoint} - 建立连接");
                 string recStr = "";
                 byte[] recByte = new byte[1024];
                 //生产环境此处要开启一个线程取接收,每个TCP连接都会有一个线程负责接收，这就比NIO的一个
                 //线程维护多个Chanel的方式性能差。
+
+                //由于read是阻塞，第一个建立连接的socket会一直占用此线程。其他socket就不能建立连接
+                //因此单开一个线程进行IO处理而不影响Accept线程。
                 Task.Run(() =>
                 {
                     int receiveLength = 0;
+                    //如果没有可读取的数据，则 Receive 方法将一直处于阻止状态，直到数据可用.除非使用 Socket.ReceiveTimeout 设置了超时值。
+                    //或者用异步接收 connectedClientSocket.ReceiveAsync(byte[] bytes) 等待一段一时间没有收到就返回receiveLength=0
                     while ((receiveLength = connectedClientSocket.Receive(recByte, recByte.Length, 0)) > 0)
                     {
                         recStr += Encoding.ASCII.GetString(recByte, 0, receiveLength);
                         //send message
-                        Console.WriteLine("server receives:{0}", recStr);
-                        string sendStr = "server message";
+                        Console.WriteLine($"server receive from {connectedClientSocket.RemoteEndPoint} - {recStr}");
+                        string sendStr = $"server receive message - {recStr}";
                         byte[] sendByte = Encoding.ASCII.GetBytes(sendStr);
                         connectedClientSocket.Send(sendByte, sendByte.Length, 0);
                     }

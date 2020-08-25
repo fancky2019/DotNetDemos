@@ -1,6 +1,6 @@
 ﻿namespace WinformFormUpdate
 {
-    partial class frmUpdate
+    partial class FrmUpdate
     {
         /// <summary>
         /// 必需的设计器变量。
@@ -108,7 +108,7 @@
             this.btnWCDownLoad.UseVisualStyleBackColor = true;
             this.btnWCDownLoad.Click += new System.EventHandler(this.btnWCDownLoad_Click);
             // 
-            // frmUpdate
+            // FrmUpdate
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -121,7 +121,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.pbUpLoad);
             this.Controls.Add(this.btnUpLoad);
-            this.Name = "frmUpdate";
+            this.Name = "FrmUpdate";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.frmUpdate_Load);
