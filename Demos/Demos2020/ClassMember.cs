@@ -88,6 +88,8 @@ namespace Demos.Demos2020
          */
 
 
+
+        //先加后取i  先取后加i
     }
 
     class SwitchClass

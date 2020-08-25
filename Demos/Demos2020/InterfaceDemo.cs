@@ -31,6 +31,9 @@ namespace Demos.Demos2020
 
         //非公有的接口成员必须现实实现
         internal int Add();
+
+
+        //protected static decimal DefaultLoyaltyDiscount() => 0;
     }
 
     class Cla : IInterfaceTest<int, string>
