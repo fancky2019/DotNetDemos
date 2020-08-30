@@ -18,11 +18,23 @@ namespace Demos.OpenResource.DotNettyDemo.WebSocket
     public class WebSocketServerHandler : SimpleChannelInboundHandler<object>
     {
 
-     
+
 
         const string WebsocketPath = "/websocket";
 
         WebSocketServerHandshaker handshaker;
+
+        public override void ChannelActive(IChannelHandlerContext context)
+        {
+            Console.WriteLine($"Client - {context.Channel.RemoteAddress.ToString()} connected。");
+            base.ChannelActive(context);
+        }
+
+        public override void ChannelInactive(IChannelHandlerContext context)
+        {
+            Console.WriteLine($"Client - {context.Channel.RemoteAddress.ToString()} disconnected。");
+            base.ChannelInactive(context);
+        }
 
         protected override void ChannelRead0(IChannelHandlerContext ctx, object msg)
         {
@@ -124,7 +136,7 @@ namespace Demos.OpenResource.DotNettyDemo.WebSocket
             }
         }
 
-        static void SendHttpResponse(IChannelHandlerContext ctx, IFullHttpRequest req, IFullHttpResponse res)
+        void SendHttpResponse(IChannelHandlerContext ctx, IFullHttpRequest req, IFullHttpResponse res)
         {
             // Generate an error page if response getStatus code is not OK (200).
             if (res.Status.Code != 200)

@@ -33,13 +33,13 @@ namespace Demos.OpenResource.DotNettyDemo
 
 
             //使用Wait会阻塞下面的方法，除非放在线程中执行
-            new EchoNettyServer().RunServerAsync().Wait();
-      
-            EchoNettyClient echoNettyClient = new EchoNettyClient();
-            echoNettyClient.RunClientAsync().Wait();
+            //new EchoNettyServer().RunServerAsync().Wait();
 
-      
-            echoNettyClient.SendMsg();
+            //EchoNettyClient echoNettyClient = new EchoNettyClient();
+            //echoNettyClient.RunClientAsync().Wait();
+
+
+            //echoNettyClient.SendMsg();
 
             //echoNettyClient.Stop();
             //Task.Run(() =>
@@ -47,7 +47,7 @@ namespace Demos.OpenResource.DotNettyDemo
             //    new EchoNettyClient().RunClientAsync().Wait();
             //});
 
-
+            WebSocketTest();
         }
 
         public  void WebSocketTest()
@@ -122,7 +122,7 @@ namespace Demos.OpenResource.DotNettyDemo
             //启动WebSocket服务端
             Task.Run(() =>
             {
-                WebSocketsServer.RunServerAsync();
+                WebSocketsServer.RunServerAsync().Wait();
             });
         
  
