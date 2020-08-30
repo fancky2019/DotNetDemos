@@ -192,11 +192,11 @@ namespace Demos.Demos2018
                 //    new UDPClientDemo().Test();
                 //});
 
-                Task.Run(() =>
-                {
-                    Thread.Sleep(1000);
-                    new SocketServerDemo().Test();
-                });
+                //Task.Run(() =>
+                //{
+                //    Thread.Sleep(1000);
+                //    new SocketServerDemo().Test();
+                //});
                 //Task.Run(() =>
                 //{
 
@@ -209,8 +209,7 @@ namespace Demos.Demos2018
 
                 //new Demos.Demos2020.CSVComma().Test();
 
-                //new NettyTest().Test();
-                //new NettyTest().WebSocketTest();
+                new NettyTest().Test();
 
                 //new MessagePackDemo().Test();
                 //new BitConverterDemo().Test();
