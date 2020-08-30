@@ -203,13 +203,16 @@ namespace Demos.Demos2018
                 //    new SocketClientDemo().Test();
                 //});
                 //Log.Test();
+
+                new TaskDemo().Test();
+                
                 #endregion
 
                 #region Demos2020
 
                 //new Demos.Demos2020.CSVComma().Test();
 
-                new NettyTest().Test();
+                //new NettyTest().Test();
 
                 //new MessagePackDemo().Test();
                 //new BitConverterDemo().Test();
