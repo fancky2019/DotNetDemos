@@ -231,6 +231,7 @@ namespace Demos.Demos2018
 
                 //new ProtoBufNetDemo().Test();
                 //new ProtobufGoogle().Test();
+                new CirculationDemo().Test();
 
                 #endregion
 
