@@ -28,7 +28,7 @@ namespace Demos.OpenResource.SnowFlakeDemo
         ///  开始时间截 (2015-01-01) 
         ///  生产环境做成可配置
         /// </summary>
-        private const long _twepoch = 1420041600000L;
+        private static readonly long _twepoch;
 
 
         /*C#右操作数必须是int,而不是long.使用long作为移位的位数是没有意义的,
@@ -106,6 +106,13 @@ namespace Demos.OpenResource.SnowFlakeDemo
         private long _lastTimestamp = -1L;
 
         private object _lockObj = new object();
+
+        static SnowFlake()
+        {
+            //_twepoch = (DateTime.Parse("2020-01-01").Ticks - DateTime.Parse("1970-01-01").Ticks) / 10000; 
+
+            _twepoch = DateTime.Parse("2020-01-01").Ticks / 10000;
+        }
         //==============================Constructors=====================================
         /// <summary>
         /// 
@@ -167,6 +174,11 @@ namespace Demos.OpenResource.SnowFlakeDemo
                 //上次生成ID的时间截
                 _lastTimestamp = timestamp;
 
+                var r1 = (timestamp - _twepoch);
+                var r2 = r1 << _timestampLeftShift;
+                //1110001010110011000001011010100000100000000010
+                //1110 0010 1011 0011 0000 0101 1010 1000 0010 0000 0000 10
+                var str = System.Convert.ToString(r1, 2);
                 //移位并通过或运算拼到一起组成64位的ID
                 return ((timestamp - _twepoch) << _timestampLeftShift) //
                         | (_datacenterId << _datacenterIdShift) //
@@ -197,28 +209,35 @@ namespace Demos.OpenResource.SnowFlakeDemo
         /// <returns>当前时间(毫秒)</returns>
         protected long TimeGen()
         {
+            //return DateTime.Now.Ticks / 10000;
             return DateTime.Now.Ticks / 10000;
-            //return System.currentTimeMillis();
+
         }
 
         //==============================Test=============================================
 
-        public void Test()
+        public long Test()
         {
-            Stopwatch stopwatch = new Stopwatch();
-            stopwatch.Start();
+            //Stopwatch stopwatch = new Stopwatch();
+            //stopwatch.Start();
 
 
-            SnowFlake idWorker = new SnowFlake(0, 0);
-            for (int i = 0; i < 100000; i++)
-            {
-                long id = idWorker.NextId();
 
-                //Console.WriteLine(id);
-            }
-            stopwatch.Stop();
-            Console.WriteLine($"ns:{stopwatch.ElapsedTicks * GetNanosecPerTick()}");
-            Console.WriteLine($"ms:{stopwatch.ElapsedMilliseconds}");
+            //for (int i = 0; i < 100000; i++)
+            //{
+            //    //3111653662208819200
+            //    //3111654027293622272
+            //    //3112084979752894464
+            //    long id = idWorker.NextId();
+            //var str = System.Convert.ToString(id, 2);
+            //    //Console.WriteLine(id);
+            //}
+            //stopwatch.Stop();
+            //Console.WriteLine($"ns:{stopwatch.ElapsedTicks * GetNanosecPerTick()}");
+            //Console.WriteLine($"ms:{stopwatch.ElapsedMilliseconds}");
+            long id = this.NextId();
+            return id;
+
         }
 
         /// <summary>

@@ -46,7 +46,7 @@ namespace Demos.Demos2019
             var re2 = await FunTask(2);
             //如果调用异步方法，不想让方法加async。就用 task.Wait()
             var task = FunTask(3);
-            task.Wait();//调用wait等待任务完成。
+            task.Wait(3);//调用wait等待任务完成。
             var re3 = task.Result;//如果任务没有完成，将阻塞到任务完成，相当于调用wait。
         }
 
