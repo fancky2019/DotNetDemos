@@ -13,6 +13,12 @@ namespace Demos.Demos2020
     class ConcurrentDictionaryDemo
     {
         /*
+         *读：
+         *Node node = Volatile.Read(ref tables.m_buckets[bucketNo]); 
+         * 
+         * 
+         * 
+         * 
          * hashcode获取：实现IEqualityComparer接口的GetHashCode方法
          * 
          * 
