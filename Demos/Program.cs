@@ -164,7 +164,7 @@ namespace Demos.Demos2018
                 //BufferLog.Test();
                 //LogManager.Test();
                 //LogManager.GetLogger("log").Test();
-                //new ReflectionDemo().Test();
+                new ReflectionDemo().Test();
                 //new ThreadLocalDemo().Test();
                 //new ParallelDemo().Test();
 
@@ -204,8 +204,8 @@ namespace Demos.Demos2018
                 //});
                 //Log.Test();
 
-                new TaskDemo().Test();
-                
+                //new TaskDemo().Test();
+
                 #endregion
 
                 #region Demos2020
@@ -231,6 +231,7 @@ namespace Demos.Demos2018
 
                 //new ProtoBufNetDemo().Test();
                 //new ProtobufGoogle().Test();
+
 
                 #endregion
 
