@@ -76,6 +76,9 @@ namespace Demos.OpenResource.DotNettyDemo.Echo
                         //    pipeline.AddLast("tls", TlsHandler.Server(tlsCertificate));
                         //}
                         //pipeline.AddLast(new LoggingHandler("SRV-CONN"));
+                        IdleStateHandler idleStateHandler = new IdleStateHandler(2, 2, 6);
+
+                        pipeline.AddLast("timeout", idleStateHandler);
 
                         pipeline.AddLast("framing-enc", new LengthFieldPrepender(2));
                         pipeline.AddLast("framing-dec", new LengthFieldBasedFrameDecoder(ushort.MaxValue, 0, 2, 0, 2));

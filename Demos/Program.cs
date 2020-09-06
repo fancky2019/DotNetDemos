@@ -164,7 +164,7 @@ namespace Demos.Demos2018
                 //BufferLog.Test();
                 //LogManager.Test();
                 //LogManager.GetLogger("log").Test();
-                //new ReflectionDemo().Test();
+                new ReflectionDemo().Test();
                 //new ThreadLocalDemo().Test();
                 //new ParallelDemo().Test();
 
@@ -204,8 +204,8 @@ namespace Demos.Demos2018
                 //});
                 //Log.Test();
 
-                new TaskDemo().Test();
-                
+                //new TaskDemo().Test();
+
                 #endregion
 
                 #region Demos2020
@@ -220,10 +220,12 @@ namespace Demos.Demos2018
                 //new NettyUDPServer().Test();
                 //new NettyUDPClient().Test();
                 //new YieldReturnDemo().Test();
-                //new SnowFlake(31,23).Test();
+                //var id1 = new SnowFlake(1, 0).Test();
+                var id2 = new FanckySnowFlake(1, DateTime.Parse("2020-01-01")).Test();
+                //var id2 = new WorkerIDSnowFlake(1, DateTime.Parse("2020-01-01")).Test();
+                //var id2 = new ConfiguredSequenceSnowFlake(1, 12, DateTime.Parse("2020-01-01")).Test();
 
                 //new SQLiteDemo().Test();
-
                 //new DapperDemo().Test();
                 //new ServiceStackJsonDemo().Test();
 
@@ -231,6 +233,8 @@ namespace Demos.Demos2018
 
                 //new ProtoBufNetDemo().Test();
                 //new ProtobufGoogle().Test();
+                //new CirculationDemo().Test();
+
 
                 #endregion
 

@@ -417,6 +417,7 @@
     <Compile Include="Demos2019\UDPServerDemo.cs" />
     <Compile Include="Demos2020\AssemblyDemo.cs" />
     <Compile Include="Demos2020\BitConverterDemo.cs" />
+    <Compile Include="Demos2020\CirculationDemo.cs" />
     <Compile Include="Demos2020\ClassMember.cs" />
     <Compile Include="Demos2020\ConcurrentDictionaryDemo.cs" />
     <Compile Include="Demos2020\CSVComma.cs" />
@@ -520,6 +521,9 @@
     <Compile Include="OpenResource\RabbitMQ\RabbitMQClient\DelayRetryConsumer.cs" />
     <Compile Include="OpenResource\Redis\ServiceStack.Text.Json.cs" />
     <Compile Include="OpenResource\Redis\StackExchangeRedis\StackExchangeDemo.cs" />
+    <Compile Include="OpenResource\SnowFlakeDemo\ConfiguredSequenceSnowFlake.cs" />
+    <Compile Include="OpenResource\SnowFlakeDemo\WorkerIDSnowFlake.cs" />
+    <Compile Include="OpenResource\SnowFlakeDemo\FanckySnowFlake.cs" />
     <Compile Include="OpenResource\SnowFlakeDemo\SnowFlake.cs" />
     <Compile Include="OpenResource\SQLite\SQLiteDBHelper.cs" />
     <Compile Include="OpenResource\SQLite\SQLiteDemo.cs" />

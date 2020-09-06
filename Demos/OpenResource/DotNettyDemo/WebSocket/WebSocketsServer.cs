@@ -157,8 +157,9 @@ namespace Demos.OpenResource.DotNettyDemo.WebSocket
                     }));
 
                 int port = 8031;
-                IChannel bootstrapChannel = await bootstrap.BindAsync(IPAddress.Loopback, port);
-
+                //指定环回地址，只能监听127.不能使用ip
+                //IChannel bootstrapChannel = await bootstrap.BindAsync(IPAddress.Loopback, port);
+                IChannel bootstrapChannel = await bootstrap.BindAsync(port);
                 Console.WriteLine("Open your web browser and navigate to "
                     + "http"
                     + $"://127.0.0.1:{port}/");
