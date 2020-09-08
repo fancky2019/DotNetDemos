@@ -14,7 +14,8 @@ namespace Demos.Demos2019
         {
             //Fun1();
             //Fun2();
-            TypeEqual();
+            //TypeEqual();
+            InvokeMethod();
         }
 
         void Fun()
@@ -50,5 +51,52 @@ namespace Demos.Demos2019
 
 
         }
+
+        private void InvokeMethod()
+        {
+            var parameters = new object[] { 8m, "chengxuyuan" };
+            ReflectionClass instance = new ReflectionClass();
+            var type = instance.GetType();
+            var method = type.GetMethod("GetSalary");
+            if (method != null)
+            {
+                var re = method.Invoke(instance, parameters);
+            }
+        }
+    }
+
+    class ReflectionClass
+    {
+        public int Age { get; set; }
+        public string Name { get; set; }
+
+        public decimal GetSalary(decimal workHours, string jobName)
+        {
+            return 1000;
+        }
+    }
+
+    public class NettyRequest
+    {
+        public string RequestGUID { get; set; }
+        public string CommandName { get; set; }
+        public object[] Parameters { get; set; }
+    }
+
+    public class NettyResponse
+    {
+        public string StatusCode { get; set; }
+        public object Result { get; set; }
+        public string ErrorMsg { get; set; }
+    }
+
+    public class StatusCode
+    {
+        /// <summary>
+        /// 请求失败
+        /// </summary>
+        public const string Success = "200";
+        public const string ClientError = "400";
+        public const string ServerError = "500";
     }
 }
