@@ -592,6 +592,9 @@
     <Content Include="Dll\Netty\libuv.dll" />
     <Content Include="Dll\Redis\ServiceStack.Text.dll" />
     <Content Include="Dll\Redis\ServiceStack.Text.xml" />
+    <Content Include="NLog - Test.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

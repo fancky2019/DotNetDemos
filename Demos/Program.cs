@@ -170,7 +170,7 @@ namespace Demos.Demos2018
 
                 //new TimerDemo().Test();
 
-                //new NLogDemo().Test();
+                new NLogDemo().Test();
 
                 //Task.Run(() =>
                 //{
@@ -221,7 +221,7 @@ namespace Demos.Demos2018
                 //new NettyUDPClient().Test();
                 //new YieldReturnDemo().Test();
                 //var id1 = new SnowFlake(1, 0).Test();
-                var id2 = new FanckySnowFlake(1, DateTime.Parse("2020-01-01")).Test();
+                //var id2 = new FanckySnowFlake(1, DateTime.Parse("2020-01-01")).Test();
                 //var id2 = new WorkerIDSnowFlake(1, DateTime.Parse("2020-01-01")).Test();
                 //var id2 = new ConfiguredSequenceSnowFlake(1, 12, DateTime.Parse("2020-01-01")).Test();
 
