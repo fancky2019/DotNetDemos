@@ -27,8 +27,11 @@ namespace Demos.Demos2019
 
         public void Test()
         {
-            Fun1();
-            //Fun();
+            //var re = NLog.LogManager.AutoShutdown;//true
+            //NLog.LogManager.Shutdown();
+            //Fun1();
+            Fun();
+            //new NLogTestClass().Fun();
             //ThroughputTest();
         }
 
@@ -92,6 +95,30 @@ namespace Demos.Demos2019
                 string msg;
                 pool.TryDequeue(out msg);
                 nLog.Info(msg);
+            }
+        }
+    }
+
+    public class NLogTestClass
+    {
+
+        private static readonly NLog.Logger nLog = NLog.LogManager.GetCurrentClassLogger();
+
+   
+        public void Fun()
+        {
+            nLog.Debug("Debug1");
+            nLog.Info("NLogDemo info ");
+            nLog.Info("info2");
+            nLog.Warn("Warn3");
+            try
+            {
+                int m = int.Parse("m");
+            }
+            catch (Exception ex)
+            {
+                nLog.Error(ex, ex.Message);
+                nLog.Error(ex, ex.ToString());
             }
         }
     }
