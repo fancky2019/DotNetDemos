@@ -9,60 +9,68 @@ namespace Demos.Common
 {
     public class TxtFile
     {
+        public static string ReadString(string filePath)
+        {
+            string jsonStr = "";
+            if (!File.Exists(filePath))
+            {
+                return jsonStr;
+            }
 
-        public static List<string> ReadTxtFile(string fllPath)
+            //using (FileStream fileStream = new FileStream(filePath, FileMode.Open))
+            using (FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            {
+                fileStream.Seek(0, SeekOrigin.Begin);
+                var bytes = new byte[fileStream.Length];
+                fileStream.Read(bytes, 0, bytes.Length);
+                jsonStr = Encoding.UTF8.GetString(bytes);
+            }
+
+            return jsonStr;
+        }
+
+        public static List<string> ReadTxtFile(string filePath)
         {
             List<string> content = new List<string>();
-            if (File.Exists(fllPath))
+            if (!File.Exists(filePath))
             {
-                using (StreamReader sr = new StreamReader(new FileStream(fllPath, FileMode.Open)))
+                return content;
+            }
+            //_sw = new StreamWriter(File.Open(_filePath, FileMode.Append, FileAccess.Write), System.Text.Encoding.UTF8);
+            //using (StreamReader sr = new StreamReader(new FileStream(filePath, FileMode.Open)))
+            // FileStream fs = new FileStream(url, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            using (StreamReader sr = new StreamReader(new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)))
+            {
+                try
                 {
-                    try
+                    while (!sr.EndOfStream)
                     {
-                        while (!sr.EndOfStream)
-                        {
-                            string line = sr.ReadLine().Trim();
-                            if (!string.IsNullOrEmpty(line))
-                            {
-                                content.Add(line);
-                            }
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine(ex.ToString());
+                        // string line = sr.ReadLine().Trim();
+                        content.Add(sr.ReadLine().Trim());
                     }
                 }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
             }
+
             return content;
         }
 
-        ///// <summary>
-        ///// 如果文件不关闭，在资源管理器中文件被占用
-        ///// </summary>
-        ///// <param name="filePath"></param>
-        ///// <param name="content"></param>
-        ///// <param name="fileMode"></param>
-        //public static void SaveTxtFile(string filePath, List<string> content, FileMode fileMode = FileMode.Append)
-        //{
-        //    using (StreamWriter sw = new StreamWriter(File.Open(filePath, fileMode, FileAccess.Write), System.Text.Encoding.UTF8))
-        //    {
-        //        foreach (string str in content)
-        //        {
-        //            sw.WriteLine(str);
-        //        }
-        //    }
-        //}
-
-        public static void SaveTxtFile(string filePath, List<string> content, FileMode fileMode = FileMode.Append)
+        private static void CheckDirectory(string filePath)
         {
-            //下面构造FileShare为 FileShare.None，在Windows资管员管理器中打开会报文件被占用的异常
-            //StreamWriter sw1 = new StreamWriter(File.Open(filePath, fileMode, FileAccess.Write), System.Text.Encoding.UTF8);
+            var directory = Path.GetDirectoryName(filePath);
+            if (!Directory.Exists(directory))
+            {
+                Directory.CreateDirectory(directory);
+            }
+        }
 
-            //文本追加只能以只写的方式,下面的构造FileShare为 FileShare.Read,在Windows资管员管理器中可以打开不能修改。
-            // new StreamWriter(filePath,true, System.Text.Encoding.UTF8)
-        //    using (StreamWriter sw = new StreamWriter(new FileStream(filePath, FileMode.Append, FileAccess.ReadWrite), System.Text.Encoding.UTF8))
-            using (StreamWriter sw = new StreamWriter(filePath, true, System.Text.Encoding.UTF8))
+        public static void SaveTxtFile(string filePath, List<string> content, FileMode fileMode = FileMode.Create)
+        {
+            CheckDirectory(filePath);
+            using (StreamWriter sw = new StreamWriter(File.Open(filePath, fileMode, FileAccess.ReadWrite), System.Text.Encoding.UTF8))
             {
                 foreach (string str in content)
                 {
@@ -71,6 +79,36 @@ namespace Demos.Common
             }
         }
 
+        public static void SaveTxtFile(string filePath, string content, FileMode fileMode = FileMode.Create)
+        {
+            CheckDirectory(filePath);
+            using (StreamWriter sw = new StreamWriter(File.Open(filePath, fileMode, FileAccess.ReadWrite), System.Text.Encoding.UTF8))
+            {
+                sw.WriteLine(content);
+            }
+        }
+
+
+
+        public static void SaveString(string filePath, string content, FileMode fileMode = FileMode.Create)
+        {
+            CheckDirectory(filePath);
+            using (FileStream fs = new FileStream(filePath, fileMode))
+            {
+                byte[] data = System.Text.Encoding.UTF8.GetBytes(content);
+                fs.Write(data, 0, data.Length);
+            }
+        }
+
+        public static void AppendFile(string filePath, string content)
+        {
+            CheckDirectory(filePath);
+            using (StreamWriter sw = new StreamWriter(filePath, true, System.Text.Encoding.UTF8))
+            {
+                sw.WriteLine(content);
+                sw.Flush();
+            }
+        }
 
 
         #region  不关闭文件设计:避免频繁打开文件吞吐量降低。
@@ -86,7 +124,7 @@ namespace Demos.Common
             {
                 // new StreamWriter(filePath,true, System.Text.Encoding.UTF8)
                 _sw = new StreamWriter(new FileStream(filePath, FileMode.Append, FileAccess.ReadWrite), System.Text.Encoding.UTF8);
-               // _sw.AutoFlush = true;//批量写完之后再调用sw.Flush();
+                // _sw.AutoFlush = true;//批量写完之后再调用sw.Flush();
             }
             foreach (string str in content)
             {
@@ -98,8 +136,8 @@ namespace Demos.Common
 
         private void Dispose()
         {
-            if (_sw != null) 
-            { 
+            if (_sw != null)
+            {
                 _sw.Dispose();
             }
             _sw = null;

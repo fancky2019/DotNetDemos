@@ -27,11 +27,20 @@ namespace Demos.Demos2019
 
         public void Test()
         {
+            var str = DateTime.Now.ToString("yyyyMMdd HH:mm:ss.fff");
+
+            //错误
+            //var str1 = DateTime.Now.ToString("yyyyMMdd HH:mm:ss.SSS");
+
+            var str2 = DateTime.Now.ToString("yyyyMMdd HH:mm:ss fff");
             //var re = NLog.LogManager.AutoShutdown;//true
             //NLog.LogManager.Shutdown();
             //Fun1();
-            Fun();
-            //new NLogTestClass().Fun();
+            //Fun();
+            new NLogTestClass().Fun();
+
+            new NLogSyncClass().Fun();
+
             //ThroughputTest();
         }
 
@@ -39,7 +48,7 @@ namespace Demos.Demos2019
         {
             for(int i=0;i<1000000;i++)
             {
-                nLog.Info($"Debug-{i}");
+                nLog.Info($"Debug-{i} {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}");
             }
             Console.WriteLine("completed!");
             NLog.LogManager.Shutdown();
@@ -108,6 +117,39 @@ namespace Demos.Demos2019
         public void Fun()
         {
             nLog.Debug("Debug1");
+            nLog.Info("NLogDemo info1 ");
+            nLog.Info("info2");
+            nLog.Warn("Warn3");
+            nLog.Debug("Debug1");
+            nLog.Info("NLogDemo info1 ");
+            nLog.Info("info2");
+            nLog.Warn("Warn3");
+            nLog.Debug("Debug1");
+            nLog.Info("NLogDemo info1 ");
+            nLog.Info("info2");
+            nLog.Warn("Warn3");
+            try
+            {
+                int m = int.Parse("m");
+            }
+            catch (Exception ex)
+            {
+                nLog.Error(ex, ex.Message);
+                nLog.Error(ex, ex.ToString());
+            }
+        }
+    }
+
+
+    public class NLogSyncClass
+    {
+
+        private static readonly NLog.Logger nLog = NLog.LogManager.GetCurrentClassLogger();
+
+
+        public void Fun()
+        {
+            nLog.Debug("Debug1");
             nLog.Info("NLogDemo info ");
             nLog.Info("info2");
             nLog.Warn("Warn3");
@@ -120,6 +162,14 @@ namespace Demos.Demos2019
                 nLog.Error(ex, ex.Message);
                 nLog.Error(ex, ex.ToString());
             }
+
+
+            for (int i = 0; i < 9999; i++)
+            {
+                nLog.Info($"Debug-{i} {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}");
+            }
+
+            NLog.LogManager.Shutdown();
         }
     }
 }
