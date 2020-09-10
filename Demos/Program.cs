@@ -164,7 +164,7 @@ namespace Demos.Demos2018
                 //BufferLog.Test();
                 //LogManager.Test();
                 //LogManager.GetLogger("log").Test();
-                new ReflectionDemo().Test();
+                //new ReflectionDemo().Test();
                 //new ThreadLocalDemo().Test();
                 //new ParallelDemo().Test();
 
