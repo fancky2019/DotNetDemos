@@ -32,7 +32,7 @@ namespace Demos.OpenResource.DotNettyDemo.WebSocket
         public bool HandshakeComplete { get; private set; }
         public async Task RunClientAsync()
         {
-            var host = "192.168.1.105";
+            var host = "127.0.0.1";
             var port = 8031;
             var isSsl = false;
             var builder = new UriBuilder
@@ -43,11 +43,11 @@ namespace Demos.OpenResource.DotNettyDemo.WebSocket
             };
 
             //WebSocket("ws://127.0.0.1:8888/websocket?token=tokendata");
-            //string path = "websocket";
-            //if (!string.IsNullOrEmpty(path))
-            //{
-            //    builder.Path = path;
-            //}
+            string path = "websocket";
+            if (!string.IsNullOrEmpty(path))
+            {
+                builder.Path = path;
+            }
 
             Uri uri = builder.Uri;
 
