@@ -170,7 +170,7 @@ namespace Demos.Demos2018
 
                 //new TimerDemo().Test();
 
-                new NLogDemo().Test();
+                //new NLogDemo().Test();
 
                 //Task.Run(() =>
                 //{
@@ -212,7 +212,7 @@ namespace Demos.Demos2018
 
                 //new Demos.Demos2020.CSVComma().Test();
 
-                //new NettyTest().Test();
+                new NettyTest().Test();
 
                 //new MessagePackDemo().Test();
                 //new BitConverterDemo().Test();

@@ -50,7 +50,7 @@ namespace Demos.OpenResource.DotNettyDemo
             WebSocketTest();
         }
 
-        public  void WebSocketTest()
+        public void WebSocketTest()
         {
             /*
              * 客户端测试网页：在DW项目的websocketdemo.html。
@@ -119,14 +119,40 @@ namespace Demos.OpenResource.DotNettyDemo
              */
             #endregion
 
+
             //启动WebSocket服务端
             Task.Run(() =>
             {
-                WebSocketsServer.RunServerAsync().Wait();
+                new WebSocketsServer().RunServerAsync().Wait();
             });
-        
- 
-           
+
+            Thread.Sleep(2000);
+            //启动WebSocket服务端
+            Task.Run(() =>
+            {
+                WebSocketClient webSocketClient = new WebSocketClient();
+                webSocketClient.RunClientAsync().Wait();
+                //var sendResult = webSocketClient.SendMessage();
+
+                //socket连接成功，还要握手成功，才能发送消息
+                if (!webSocketClient.HandshakeComplete)
+                {
+                    DateTime dateTime1 = DateTime.Now;
+                    while (!webSocketClient.HandshakeComplete)
+                    {
+                        new SpinWait().SpinOnce();
+                    }
+                    DateTime dateTime2 = DateTime.Now;
+
+                    var duration = dateTime2 - dateTime1;
+                    var mills = duration.TotalMilliseconds;
+                    Console.WriteLine($"mills:{mills}");
+                    webSocketClient.SendMessage();
+                }
+                Thread.Sleep(5000);
+                webSocketClient.Close();
+            });
+
         }
     }
 }

@@ -506,7 +506,6 @@
     <Compile Include="OpenResource\DotNettyDemo\UDP\NettyUDPServerHnadler.cs" />
     <Compile Include="OpenResource\DotNettyDemo\WebSocket\WebSocketClient.cs" />
     <Compile Include="OpenResource\DotNettyDemo\WebSocket\WebSocketClientHandler.cs" />
-    <Compile Include="OpenResource\DotNettyDemo\WebSocket\WebSocketServerBenchmarkPage.cs" />
     <Compile Include="OpenResource\DotNettyDemo\WebSocket\WebSocketServerHandler.cs" />
     <Compile Include="OpenResource\DotNettyDemo\WebSocket\WebSocketsServer.cs" />
     <Compile Include="OpenResource\Json\JsonDemo.cs" />

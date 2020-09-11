@@ -16,17 +16,26 @@ namespace Demos.OpenResource.DotNettyDemo.WebSocket
         readonly WebSocketClientHandshaker handshaker;
         //注：DotNetty.Common.Concurrency
         readonly DotNetty.Common.Concurrency.TaskCompletionSource completionSource;
-        
+
+        public Action HandshakeComplete;
+
         public WebSocketClientHandler(WebSocketClientHandshaker handshaker)
         {
             this.handshaker = handshaker;
             this.completionSource = new TaskCompletionSource();
         }
 
+        /// <summary>
+        /// 客户端发起握手完成，服务端还未响应握手
+        /// </summary>
         public Task HandshakeCompletion => this.completionSource.Task;
 
-        public override void ChannelActive(IChannelHandlerContext ctx) =>
+        public override void ChannelActive(IChannelHandlerContext ctx)
+        {
+            //客户端请求握手
             this.handshaker.HandshakeAsync(ctx.Channel).LinkOutcome(this.completionSource);
+        }
+
 
         public override void ChannelInactive(IChannelHandlerContext context)
         {
@@ -36,6 +45,7 @@ namespace Demos.OpenResource.DotNettyDemo.WebSocket
         protected override void ChannelRead0(IChannelHandlerContext ctx, object msg)
         {
             IChannel ch = ctx.Channel;
+            //服务端响应握手，握手完成
             if (!this.handshaker.IsHandshakeComplete)
             {
                 try
@@ -43,6 +53,7 @@ namespace Demos.OpenResource.DotNettyDemo.WebSocket
                     this.handshaker.FinishHandshake(ch, (IFullHttpResponse)msg);
                     Console.WriteLine("WebSocket Client connected!");
                     this.completionSource.TryComplete();
+                    HandshakeComplete?.Invoke();
                 }
                 catch (WebSocketHandshakeException e)
                 {
