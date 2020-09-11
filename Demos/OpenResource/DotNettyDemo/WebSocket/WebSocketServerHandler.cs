@@ -39,7 +39,7 @@ namespace Demos.OpenResource.DotNettyDemo.WebSocket
         protected override void ChannelRead0(IChannelHandlerContext ctx, object msg)
         {
 
-            if (msg is IFullHttpRequest request)
+            if (msg is IFullHttpRequest request)//websocket的http握手连接过程
             {
                 this.HandleHttpRequest(ctx, request);
             }
@@ -53,6 +53,14 @@ namespace Demos.OpenResource.DotNettyDemo.WebSocket
 
         void HandleHttpRequest(IChannelHandlerContext ctx, IFullHttpRequest req)
         {
+            //   //WebSocket("ws://127.0.0.1:8888/ws?token=tokendata");
+            ///ws?token=tokendata
+            var uri = req.Uri;
+            if (uri.Contains("token="))
+            {
+                var tokenIndex = uri.IndexOf("token=");
+                var token = uri.Substring(tokenIndex + 6);
+            }
             // Handle a bad request.
             if (!req.Result.IsSuccess)
             {
@@ -87,7 +95,7 @@ namespace Demos.OpenResource.DotNettyDemo.WebSocket
                 return;
             }
 
-            //建立websocket 连接
+            //响应客户端的握手
             // Handshake
             var wsFactory = new WebSocketServerHandshakerFactory(
                 GetWebSocketLocation(req), null, true, 5 * 1024 * 1024);
@@ -121,11 +129,12 @@ namespace Demos.OpenResource.DotNettyDemo.WebSocket
             {
                 //接收到来自客户端的字符串消息
                 var reveivedMsg = textWebSocketFrame.Text();
-
+                var msg = $"服务端已收到客户端消息:{reveivedMsg}";
+                Console.WriteLine(msg);
                 // Echo the frame
                 //ctx.WriteAsync(frame.Retain());
                 //返回客户端信息，参考java 的netty 的websocket sample
-                ctx.WriteAsync(new TextWebSocketFrame($"服务端已收到客户端消息:{reveivedMsg}"));
+                ctx.WriteAsync(new TextWebSocketFrame(msg));
                 return;
             }
 

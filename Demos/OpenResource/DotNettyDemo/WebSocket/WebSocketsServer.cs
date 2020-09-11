@@ -25,6 +25,7 @@ namespace Demos.OpenResource.DotNettyDemo.WebSocket
         /*
          * 浏览器控制台测试连接
          * 在浏览器控制台执行：
+         *    //WebSocket("ws://127.0.0.1:8888/websocket?token=tokendata");
          * var ws = new WebSocket("ws://127.0.0.1:8031/");
             ws.onopen = function() { 
                 ws.send('websocekt测试'); 
@@ -83,7 +84,11 @@ namespace Demos.OpenResource.DotNettyDemo.WebSocket
          */
         #endregion
 
-        public static async Task RunServerAsync()
+
+        IChannel _bootstrapChannel;
+        IEventLoopGroup _bossGroup;
+        IEventLoopGroup _workGroup;
+        public  async Task RunServerAsync()
         {
             Console.WriteLine(
                 $"\n{RuntimeInformation.OSArchitecture} {RuntimeInformation.OSDescription}"
@@ -91,7 +96,7 @@ namespace Demos.OpenResource.DotNettyDemo.WebSocket
                 + $"\nProcessor Count : {Environment.ProcessorCount}\n");
 
             bool useLibuv = true;// ServerSettings.UseLibuv;
-            Console.WriteLine("Transport type : " + (useLibuv ? "Libuv" : "Socket"));
+            Console.WriteLine("Server Transport type : " + (useLibuv ? "Libuv" : "Socket"));
 
             if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
@@ -102,18 +107,17 @@ namespace Demos.OpenResource.DotNettyDemo.WebSocket
             Console.WriteLine($"Current latency mode for garbage collection: {GCSettings.LatencyMode}");
             Console.WriteLine("\n");
 
-            IEventLoopGroup bossGroup;
-            IEventLoopGroup workGroup;
+
             if (useLibuv)
             {
                 var dispatcher = new DispatcherEventLoopGroup();
-                bossGroup = dispatcher;
-                workGroup = new WorkerEventLoopGroup(dispatcher);
+                _bossGroup = dispatcher;
+                _workGroup = new WorkerEventLoopGroup(dispatcher);
             }
             else
             {
-                bossGroup = new MultithreadEventLoopGroup(1);
-                workGroup = new MultithreadEventLoopGroup();
+                _bossGroup = new MultithreadEventLoopGroup(1);
+                _workGroup = new MultithreadEventLoopGroup();
             }
 
             //X509Certificate2 tlsCertificate = null;
@@ -124,7 +128,7 @@ namespace Demos.OpenResource.DotNettyDemo.WebSocket
             try
             {
                 var bootstrap = new ServerBootstrap();
-                bootstrap.Group(bossGroup, workGroup);
+                bootstrap.Group(_bossGroup, _workGroup);
 
                 if (useLibuv)
                 {
@@ -159,22 +163,33 @@ namespace Demos.OpenResource.DotNettyDemo.WebSocket
                 int port = 8031;
                 //指定环回地址，只能监听127.不能使用ip
                 //IChannel bootstrapChannel = await bootstrap.BindAsync(IPAddress.Loopback, port);
-                IChannel bootstrapChannel = await bootstrap.BindAsync(port);
+                 _bootstrapChannel = await bootstrap.BindAsync(port);
                 Console.WriteLine("Open your web browser and navigate to "
                     + "http"
                     + $"://127.0.0.1:{port}/");
                 Console.WriteLine("Listening on "
                     + "ws"
                     + $"://127.0.0.1:{port}/websocket");
-                Console.ReadLine();
 
-                await bootstrapChannel.CloseAsync();
+
+                //await _bootstrapChannel.CloseAsync();
+            }
+            catch(Exception ex)
+            {
+
             }
             finally
             {
-                workGroup.ShutdownGracefullyAsync().Wait();
-                bossGroup.ShutdownGracefullyAsync().Wait();
+                //_workGroup.ShutdownGracefullyAsync().Wait();
+                //_bossGroup.ShutdownGracefullyAsync().Wait();
             }
+        }
+
+        public void Close()
+        {
+             _bootstrapChannel?.CloseAsync().Wait();
+            _workGroup?.ShutdownGracefullyAsync().Wait();
+            _bossGroup?.ShutdownGracefullyAsync().Wait();
         }
     }
 }

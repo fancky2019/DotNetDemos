@@ -15,6 +15,7 @@ using System.Net;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Demos.OpenResource.DotNettyDemo.WebSocket
@@ -25,18 +26,24 @@ namespace Demos.OpenResource.DotNettyDemo.WebSocket
      */
     public class WebSocketClient
     {
-        public static async Task RunClientAsync()
+
+        IChannel _ch = null;
+        IEventLoopGroup _group;
+        public bool HandshakeComplete { get; private set; }
+        public async Task RunClientAsync()
         {
             var host = "192.168.1.105";
             var port = 8031;
+            var isSsl = false;
             var builder = new UriBuilder
             {
-                //Scheme = ClientSettings.IsSsl ? "wss" : "ws",
+                Scheme = isSsl ? "wss" : "ws",
                 Host = host,
                 Port = port
             };
 
-            //string path = ExampleHelper.Configuration["path"];
+            //WebSocket("ws://127.0.0.1:8888/websocket?token=tokendata");
+            //string path = "websocket";
             //if (!string.IsNullOrEmpty(path))
             //{
             //    builder.Path = path;
@@ -44,33 +51,26 @@ namespace Demos.OpenResource.DotNettyDemo.WebSocket
 
             Uri uri = builder.Uri;
 
-            //ExampleHelper.SetConsoleLogger();
 
             bool useLibuv = true;// ClientSettings.UseLibuv;
-            Console.WriteLine("Transport type : " + (useLibuv ? "Libuv" : "Socket"));
+            Console.WriteLine("Client Transport type : " + (useLibuv ? "Libuv" : "Socket"));
 
-            IEventLoopGroup group;
+
             if (useLibuv)
             {
-                group = new EventLoopGroup();
+                _group = new EventLoopGroup();
             }
             else
             {
-                group = new MultithreadEventLoopGroup();
+                _group = new MultithreadEventLoopGroup();
             }
 
-            //X509Certificate2 cert = null;
-            //string targetHost = null;
-            //if (ClientSettings.IsSsl)
-            //{
-            //    cert = new X509Certificate2(Path.Combine(ExampleHelper.ProcessDirectory, "dotnetty.com.pfx"), "password");
-            //    targetHost = cert.GetNameInfo(X509NameType.DnsName, false);
-            //}
+
             try
             {
                 var bootstrap = new Bootstrap();
                 bootstrap
-                    .Group(group)
+                    .Group(_group)
                     .Option(ChannelOption.TcpNodelay, true);
                 if (useLibuv)
                 {
@@ -84,17 +84,17 @@ namespace Demos.OpenResource.DotNettyDemo.WebSocket
                 // Connect with V13 (RFC 6455 aka HyBi-17). You can change it to V08 or V00.
                 // If you change it to V00, ping is not supported and remember to change
                 // HttpResponseDecoder to WebSocketHttpResponseDecoder in the pipeline.
+
+
                 var handler = new WebSocketClientHandler(
                     WebSocketClientHandshakerFactory.NewHandshaker(
                             uri, WebSocketVersion.V13, null, true, new DefaultHttpHeaders()));
 
+                handler.HandshakeComplete += () => this.HandshakeComplete = true;
                 bootstrap.Handler(new ActionChannelInitializer<IChannel>(channel =>
                 {
                     IChannelPipeline pipeline = channel.Pipeline;
-                    //if (cert != null)
-                    //{
-                    //    pipeline.AddLast("tls", new TlsHandler(stream => new SslStream(stream, true, (sender, certificate, chain, errors) => true), new ClientTlsSettings(targetHost)));
-                    //}
+
 
                     pipeline.AddLast(
                         new HttpClientCodec(),
@@ -103,42 +103,65 @@ namespace Demos.OpenResource.DotNettyDemo.WebSocket
                         handler);
                 }));
 
-                IChannel ch = await bootstrap.ConnectAsync(new IPEndPoint(IPAddress.Parse(host), port));
+                //IChannel ch = await bootstrap.ConnectAsync(new IPEndPoint(ClientSettings.Host, ClientSettings.Port));
+                _ch = await bootstrap.ConnectAsync(new IPEndPoint(IPAddress.Parse(host), port));
                 await handler.HandshakeCompletion;
 
-                Console.WriteLine("WebSocket handshake completed.\n");
-                Console.WriteLine("\t[bye]:Quit \n\t [ping]:Send ping frame\n\t Enter any text and Enter: Send text frame");
-                while (true)
-                {
-                    string msg = Console.ReadLine();
-                    if (msg == null)
-                    {
-                        break;
-                    }
-                    else if ("bye".Equals(msg.ToLower()))
-                    {
-                        await ch.WriteAndFlushAsync(new CloseWebSocketFrame());
-                        break;
-                    }
-                    else if ("ping".Equals(msg.ToLower()))
-                    {
-                        var frame = new PingWebSocketFrame(Unpooled.WrappedBuffer(new byte[] { 8, 1, 8, 1 }));
-                        await ch.WriteAndFlushAsync(frame);
-                    }
-                    else
-                    {
-                        WebSocketFrame frame = new TextWebSocketFrame(msg);
-                        await ch.WriteAndFlushAsync(frame);
-                    }
-                }
 
-                await ch.CloseAsync();
+
+                //await _ch.CloseAsync();
+
+            }
+            catch (Exception ex)
+            {
+                //Console.ReadLine();
             }
             finally
             {
-                await group.ShutdownGracefullyAsync(TimeSpan.FromMilliseconds(100), TimeSpan.FromSeconds(1));
+                //await group.ShutdownGracefullyAsync(TimeSpan.FromMilliseconds(100), TimeSpan.FromSeconds(1));
             }
         }
+
+        /// <summary>
+        /// socket连接成功，还要握手成功，才能发送消息
+        /// </summary>
+        /// <returns></returns>
+        public bool SendMessage()
+        {
+            if (!this.HandshakeComplete)
+            {
+                Console.WriteLine("Handshake is not completed.");
+                return false;
+            }
+            string msg = "websocket test";
+            //WebSocketFrame frame = new TextWebSocketFrame(msg);
+
+
+
+
+            var buffer = Unpooled.WrappedBuffer(Encoding.UTF8.GetBytes(msg));
+            WebSocketFrame frame = new TextWebSocketFrame(buffer);
+
+
+
+            //string msg = "websocket test";
+            //IByteBuffer initialMessage = Unpooled.Buffer(1024);
+            //byte[] messageBytes = Encoding.UTF8.GetBytes(msg);
+            //initialMessage.WriteBytes(messageBytes);
+            //WebSocketFrame frame = new TextWebSocketFrame(initialMessage);
+
+
+
+            _ch.WriteAndFlushAsync(frame).Wait();
+            Console.WriteLine($"Client sended :{msg}");
+            return true;
+        }
+        public async void Close()
+        {
+            await _ch.CloseAsync();
+            await _group.ShutdownGracefullyAsync(TimeSpan.FromMilliseconds(100), TimeSpan.FromSeconds(1));
+        }
+
 
     }
 }
