@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace Demos.OpenResource.ProtoBuf
 {
+    /// <summary>
+    /// ProtoBuf可以跨语言。msgpack暂时未找到如何才能跨语言
+    /// </summary>
     class ProtoBufNetDemo
     {
         public void Test()

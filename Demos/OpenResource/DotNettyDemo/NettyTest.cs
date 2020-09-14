@@ -26,28 +26,36 @@ namespace Demos.OpenResource.DotNettyDemo
              * */
 
             //本身就是异步方法，不必再额外创建线程
-            //Task.Run(() =>
-            //{
-            //    new EchoNettyServer().RunServerAsync().Wait();
-            //});
+            Task.Run(() =>
+            {
+                new EchoNettyServer().RunServerAsync().Wait();
+            });
 
+            Thread.Sleep(2000);
 
             //使用Wait会阻塞下面的方法，除非放在线程中执行
             //new EchoNettyServer().RunServerAsync().Wait();
 
-            //EchoNettyClient echoNettyClient = new EchoNettyClient();
-            //echoNettyClient.RunClientAsync().Wait();
+            EchoNettyClient echoNettyClient = new EchoNettyClient();
+            echoNettyClient.RunClientAsync().Wait();
 
 
-            //echoNettyClient.SendMsg();
+            echoNettyClient.SendMsg();
 
             //echoNettyClient.Stop();
             //Task.Run(() =>
             //{
-            //    new EchoNettyClient().RunClientAsync().Wait();
+            //    EchoNettyClient echoNettyClient = new EchoNettyClient();
+            //    echoNettyClient.RunClientAsync().Wait();
+
+
+            //    echoNettyClient.SendMsg();
+
+            //    echoNettyClient.Stop();
+
             //});
 
-            WebSocketTest();
+            //WebSocketTest();
         }
 
         public void WebSocketTest()

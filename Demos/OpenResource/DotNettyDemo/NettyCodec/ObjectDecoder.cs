@@ -25,7 +25,7 @@ namespace Demos.OpenResource.DotNettyDemo.Protobuf
                 try
                 {
                     //处理接收二进制数据
-                    ArraySegment<byte> ioBuf = message.GetIoBuffer(0, message.ReadableBytes);
+                    //ArraySegment<byte> ioBuf = message.GetIoBuffer(0, message.ReadableBytes);
 
                     //但是可以用Netty的其他特性，比传统Socket仍有优势。
                     MessagePackSerializer.DefaultOptions = ContractlessStandardResolver.Options;
