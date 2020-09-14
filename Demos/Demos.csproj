@@ -497,6 +497,7 @@
     <Compile Include="OpenResource\DotNettyDemo\Echo\EchoNettyClient.cs" />
     <Compile Include="OpenResource\DotNettyDemo\Echo\EchoNettyServer.cs" />
     <Compile Include="OpenResource\DotNettyDemo\Echo\EchoServerHandler.cs" />
+    <Compile Include="OpenResource\DotNettyDemo\Model\MessageInfo.cs" />
     <Compile Include="OpenResource\DotNettyDemo\NettyTest.cs" />
     <Compile Include="OpenResource\DotNettyDemo\NettyCodec\ObjectDecoder.cs" />
     <Compile Include="OpenResource\DotNettyDemo\NettyCodec\ObjectEncoder.cs" />

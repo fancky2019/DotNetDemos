@@ -1,4 +1,5 @@
 ﻿using Demos.Model;
+using Demos.OpenResource.DotNettyDemo.Model;
 using Demos.OpenResource.DotNettyDemo.Protobuf;
 using DotNetty.Codecs;
 using DotNetty.Codecs.Protobuf;
@@ -33,7 +34,8 @@ namespace Demos.OpenResource.DotNettyDemo.Echo
 
             //libuv是一个高性能的，事件驱动的I/O库，并且提供了跨平台（如windows, linux）的API。
             //将Dll-->Netty下的libuv.dll复制到运行目录
-            var useLibuv = true;
+            //Echo没有采用Libuv，调试注意
+            var useLibuv = false;
             if (useLibuv)
             {
                 var dispatcher = new DispatcherEventLoopGroup();
@@ -86,12 +88,12 @@ namespace Demos.OpenResource.DotNettyDemo.Echo
                         //pipeline.AddLast("StringDecoder", new StringDecoder());
                         //pipeline.AddLast("StringEncoder", new StringEncoder());
 
-                        pipeline.AddLast("ProtobufDecoder", new ProtobufDecoder(PersonProto.Parser));
-                        pipeline.AddLast("ProtobufEncoder", new ProtobufEncoder());
+                        //pipeline.AddLast("ProtobufDecoder", new ProtobufDecoder(PersonProto.Parser));
+                        //pipeline.AddLast("ProtobufEncoder", new ProtobufEncoder());
 
 
-                        //pipeline.AddLast("ObjectDecoder", new ObjectDecoder<Person>());
-                        //pipeline.AddLast("ObjectEncoder", new ObjectEncoder());
+                        pipeline.AddLast("ObjectDecoder", new ObjectDecoder<MessageInfo>());
+                        pipeline.AddLast("ObjectEncoder", new ObjectEncoder());
 
 
 
@@ -102,6 +104,7 @@ namespace Demos.OpenResource.DotNettyDemo.Echo
                         pipeline.AddLast("echo", new EchoServerHandler());
                     }));
 
+                Console.WriteLine($"listen port - {8031}");
                 boundChannel = await bootstrap.BindAsync(8031);
                 ////防止通道关闭，生产环境不会执行下面的CloseAsync();，会在一个Stop方法中调用
                 //Console.ReadLine();
@@ -110,7 +113,7 @@ namespace Demos.OpenResource.DotNettyDemo.Echo
             }
             catch (Exception ex)
             {
-
+                Console.WriteLine(ex.ToString());
             }
             finally
             {

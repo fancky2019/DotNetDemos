@@ -16,6 +16,7 @@ using Google.Protobuf;
 using Google.Protobuf.WellKnownTypes;
 using Demos.OpenResource.DotNettyDemo.Protobuf;
 using Demos.Model;
+using Demos.OpenResource.DotNettyDemo.Model;
 
 namespace Demos.OpenResource.DotNettyDemo.Echo
 {
@@ -28,7 +29,7 @@ namespace Demos.OpenResource.DotNettyDemo.Echo
         //string _ip = "192.168.1.114";
         string _port = "8031";
         IPEndPoint _iPEndPoint = null;
-        MultithreadEventLoopGroup group ;
+        MultithreadEventLoopGroup group;
         public async Task RunClientAsync()
         {
             _iPEndPoint = new IPEndPoint(IPAddress.Parse(_ip), int.Parse(_port));
@@ -67,12 +68,12 @@ namespace Demos.OpenResource.DotNettyDemo.Echo
                         //pipeline.AddLast("StringDecoder", new StringDecoder());
                         //pipeline.AddLast("StringEncoder", new StringEncoder());
 
-                        pipeline.AddLast("ProtobufDecoder", new ProtobufDecoder(PersonProto.Parser));
-                        pipeline.AddLast("ProtobufEncoder", new ProtobufEncoder());
+                        //pipeline.AddLast("ProtobufDecoder", new ProtobufDecoder(PersonProto.Parser));
+                        //pipeline.AddLast("ProtobufEncoder", new ProtobufEncoder());
 
 
-                        //pipeline.AddLast("ObjectDecoder", new ObjectDecoder<Person>());
-                        //pipeline.AddLast("ObjectEncoder", new ObjectEncoder());
+                        pipeline.AddLast("ObjectDecoder", new ObjectDecoder<MessageInfo>());
+                        pipeline.AddLast("ObjectEncoder", new ObjectEncoder());
 
                         EchoClientHandler echoClientHandler = new EchoClientHandler();
                         echoClientHandler.DisConnected += () =>
@@ -97,9 +98,9 @@ namespace Demos.OpenResource.DotNettyDemo.Echo
                 //Console.ReadLine();
                 //_clientChannel.CloseAsync().Wait();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-
+                Console.WriteLine(ex.Message);
             }
             finally
             {
@@ -107,7 +108,7 @@ namespace Demos.OpenResource.DotNettyDemo.Echo
             }
         }
 
-        public void  SendMsg()
+        public void SendMsg()
         {
 
             //string msg = " Client sended  msg";
@@ -122,26 +123,29 @@ namespace Demos.OpenResource.DotNettyDemo.Echo
 
             //_clientChannel.WriteAndFlushAsync(data);
 
+            MessageInfo messageInfo = new MessageInfo() { messageType = MessageType.HeartBeat };
+            _clientChannel.WriteAndFlushAsync(messageInfo);
 
-            Job job = new Job() { Name = "chengxuyuan", Salary = 700 };
-            Job job1 = new Job() { Name = "nongmin", Salary = 700 };
-            Any any = Any.Pack(job);
-            PersonProto personProto = new PersonProto()
-            {
-                Id = 1,
-                Name = "fancky",
-                Age = 27,
-                Gender = Gender.Man
-            };
 
-            personProto.Sons.Add("li");
-            personProto.Sons.Add("fa");
-            personProto.Any.Add(any);
-            personProto.Jobs.Add(job);
-            personProto.SonJobs.Add("li", job);
-            personProto.SonJobs.Add("fa", job1);
+            //Job job = new Job() { Name = "chengxuyuan", Salary = 700 };
+            //Job job1 = new Job() { Name = "nongmin", Salary = 700 };
+            //Any any = Any.Pack(job);
+            //PersonProto personProto = new PersonProto()
+            //{
+            //    Id = 1,
+            //    Name = "fancky",
+            //    Age = 27,
+            //    Gender = Gender.Man
+            //};
 
-            _clientChannel.WriteAndFlushAsync(personProto);
+            //personProto.Sons.Add("li");
+            //personProto.Sons.Add("fa");
+            //personProto.Any.Add(any);
+            //personProto.Jobs.Add(job);
+            //personProto.SonJobs.Add("li", job);
+            //personProto.SonJobs.Add("fa", job1);
+
+            //_clientChannel.WriteAndFlushAsync(personProto);
 
 
 
@@ -149,7 +153,16 @@ namespace Demos.OpenResource.DotNettyDemo.Echo
 
         private async Task<IChannel> Connect(IPEndPoint iPEndPoint)
         {
-            return await _bootstrap.ConnectAsync(iPEndPoint);
+            try
+            {
+
+
+                return await _bootstrap.ConnectAsync(iPEndPoint);
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
 
         public async void Stop()
