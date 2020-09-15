@@ -71,6 +71,7 @@ namespace Demos.OpenResource.DotNettyDemo.Echo
             }
             else
             {
+      
                 Console.WriteLine($"Received from client:{message.ToString()}" );
             }
             context.WriteAsync(message);

@@ -36,11 +36,11 @@ namespace Demos.OpenResource.DotNettyDemo
             //使用Wait会阻塞下面的方法，除非放在线程中执行
             //new EchoNettyServer().RunServerAsync().Wait();
 
-            EchoNettyClient echoNettyClient = new EchoNettyClient();
-            echoNettyClient.RunClientAsync().Wait();
+            //EchoNettyClient echoNettyClient = new EchoNettyClient();
+            //echoNettyClient.RunClientAsync().Wait();
 
 
-            echoNettyClient.SendMsg();
+            //echoNettyClient.SendMsg();
 
             //echoNettyClient.Stop();
             //Task.Run(() =>

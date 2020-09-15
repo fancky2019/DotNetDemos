@@ -215,6 +215,10 @@ namespace Demos.Demos2018
                 new NettyTest().Test();
 
                 //new MessagePackDemo().Test();
+
+                //new MessagePackCli().Test();
+
+
                 //new BitConverterDemo().Test();
 
                 //new NettyUDPServer().Test();
@@ -234,6 +238,8 @@ namespace Demos.Demos2018
                 //new ProtoBufNetDemo().Test();
                 //new ProtobufGoogle().Test();
                 //new CirculationDemo().Test();
+
+                //new ByteBase64String().Test();
 
 
                 #endregion

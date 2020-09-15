@@ -123,7 +123,7 @@ namespace Demos.OpenResource.DotNettyDemo.Echo
 
             //_clientChannel.WriteAndFlushAsync(data);
 
-            MessageInfo messageInfo = new MessageInfo() { messageType = MessageType.HeartBeat };
+            MessageInfo messageInfo = new MessageInfo() { MessageType = MessageType.HeartBeat };
             _clientChannel.WriteAndFlushAsync(messageInfo);
 
 
