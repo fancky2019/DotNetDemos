@@ -417,6 +417,7 @@
     <Compile Include="Demos2019\UDPServerDemo.cs" />
     <Compile Include="Demos2020\AssemblyDemo.cs" />
     <Compile Include="Demos2020\BitConverterDemo.cs" />
+    <Compile Include="Demos2020\ByteBase64String.cs" />
     <Compile Include="Demos2020\CirculationDemo.cs" />
     <Compile Include="Demos2020\ClassMember.cs" />
     <Compile Include="Demos2020\ConcurrentDictionaryDemo.cs" />

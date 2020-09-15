@@ -10,6 +10,9 @@ namespace Demos.OpenResource.MessagePackDemo
 {
     /// <summary>
     /// GitHub:https://github.com/neuecc/MessagePack-CSharp
+    /// MessagePackCli 性能不如MessagePack
+    /// 
+    /// 可跨平台通信。java和C#测试。
     /// </summary>
     public class MessagePackDemo
     {
