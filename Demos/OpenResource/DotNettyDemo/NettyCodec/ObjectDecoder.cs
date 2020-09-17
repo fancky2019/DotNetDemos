@@ -1,4 +1,5 @@
-﻿using DotNetty.Buffers;
+﻿using Demos.Demos2020;
+using DotNetty.Buffers;
 using DotNetty.Codecs;
 using DotNetty.Transport.Channels;
 using Google.Protobuf;
@@ -29,6 +30,10 @@ namespace Demos.OpenResource.DotNettyDemo.Protobuf
 
                     var bytes = new byte[readableBytes];
                     message.GetBytes(0, bytes);
+
+                    //二进制字符的换打印
+                    //string byteStr = BitConverter.ToString(bytes, 0).Replace("-", " ");
+                    //var str = Hex.HexString(bytes);
                     var t = MessagePackSerializer.Deserialize<T>(bytes);
 
                     if (t != null)

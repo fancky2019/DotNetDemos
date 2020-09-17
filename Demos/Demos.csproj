@@ -422,6 +422,7 @@
     <Compile Include="Demos2020\ClassMember.cs" />
     <Compile Include="Demos2020\ConcurrentDictionaryDemo.cs" />
     <Compile Include="Demos2020\CSVComma.cs" />
+    <Compile Include="Demos2020\Hex.cs" />
     <Compile Include="Demos2020\InterfaceDemo.cs" />
     <Compile Include="Demos2020\YieldReturnDemo.cs" />
     <Compile Include="OpenResource\Compression\CompressionDemo.cs" />
