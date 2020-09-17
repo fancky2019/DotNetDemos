@@ -9,7 +9,22 @@ namespace Demos.Demos2020
 {
     public class BitConverterDemo
     {
-        public void Test()
+
+        public void  Test()
+        {
+            ByteConvert();
+        }
+
+        private void ByteConvert()
+        {
+            var msg = "test";
+            var bytes = Encoding.UTF8.GetBytes(msg);
+            var receivedBytes = new byte[bytes.Length];
+            Array.Copy(bytes, receivedBytes, bytes.Length);
+            string byteStr = BitConverter.ToString(receivedBytes, 0);
+            var hexStr = Hex.HexString(receivedBytes);
+        }
+        public void Fun()
         {
 
             string s = "";
@@ -30,6 +45,8 @@ namespace Demos.Demos2020
             char sex = mo.Sex;
             var re = string.IsNullOrEmpty(mo.Name);
         }
+
+
     }
 
     public class BitConverterModel
