@@ -72,7 +72,7 @@ namespace Demos.OpenResource.DotNettyDemo.Echo
                         //pipeline.AddLast("ProtobufEncoder", new ProtobufEncoder());
 
 
-                        pipeline.AddLast("ObjectDecoder", new ObjectDecoder<MessageInfo>());
+                        pipeline.AddLast("ObjectDecoder", new ObjectDecoder<Person>());
                         pipeline.AddLast("ObjectEncoder", new ObjectEncoder());
 
                         EchoClientHandler echoClientHandler = new EchoClientHandler();
@@ -115,16 +115,16 @@ namespace Demos.OpenResource.DotNettyDemo.Echo
             //_clientChannel.WriteAndFlushAsync(msg);
 
 
-            //Person data = new Person
-            //{
-            //    Name = "rui",
-            //    Age = 6
-            //};
+            Person data = new Person
+            {
+                Name = "rui",
+                Age = 6
+            };
 
-            //_clientChannel.WriteAndFlushAsync(data);
+            _clientChannel.WriteAndFlushAsync(data);
 
-            MessageInfo messageInfo = new MessageInfo() { MessageType = MessageType.HeartBeat };
-            _clientChannel.WriteAndFlushAsync(messageInfo);
+            //MessageInfo messageInfo = new MessageInfo() { MessageType = MessageType.HeartBeat };
+            //_clientChannel.WriteAndFlushAsync(messageInfo);
 
 
             //Job job = new Job() { Name = "chengxuyuan", Salary = 700 };

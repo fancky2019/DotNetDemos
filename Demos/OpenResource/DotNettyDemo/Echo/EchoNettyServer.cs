@@ -92,7 +92,7 @@ namespace Demos.OpenResource.DotNettyDemo.Echo
                         //pipeline.AddLast("ProtobufEncoder", new ProtobufEncoder());
 
 
-                        pipeline.AddLast("ObjectDecoder", new ObjectDecoder<MessageInfo>());
+                        pipeline.AddLast("ObjectDecoder", new ObjectDecoder<Person>());
                         pipeline.AddLast("ObjectEncoder", new ObjectEncoder());
 
 
