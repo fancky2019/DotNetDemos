@@ -25,7 +25,7 @@ namespace Demos.OpenResource.DotNettyDemo.Protobuf
 
                 try
                 {
-
+                    //model需要使用特性时候注释，如果model加了特性会用model的特性
                     MessagePackSerializer.DefaultOptions = ContractlessStandardResolver.Options;
 
                     var bytes = new byte[readableBytes];

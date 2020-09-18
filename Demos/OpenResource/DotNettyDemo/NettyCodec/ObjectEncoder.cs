@@ -21,7 +21,7 @@ namespace Demos.OpenResource.DotNettyDemo.Protobuf
             //    Name = "rui",
             //    Age = 6
             //};
-
+            //model需要使用特性时候注释，如果model加了特性会用model的特性
             MessagePackSerializer.DefaultOptions = ContractlessStandardResolver.Options;
 
             // Now serializable...

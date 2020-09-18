@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Demos.OpenResource.DotNettyDemo.Model
 {
     /// <summary>
-    /// C#属性首字母大写，java字段首字母是小写的。否则反序列化报错。
+    /// C#属性首字母大写，java字段首字母是小写的。加特性做匹配，否则反序列化报错。
     /// </summary>
     //[MessagePackObject(keyAsPropertyName: true)]
     [MessagePackObject]
