@@ -101,7 +101,7 @@ namespace Demos.Demos2018
                 //new StringDemo().Test();
 
                 // new HPSocketDemo().Test();
-                //   new CharDemo().Test();
+                new CharDemo().Test();
 
                 //new SubjectTest().Test();
                 //new DivisionDemo().Test();
@@ -212,7 +212,7 @@ namespace Demos.Demos2018
 
                 //new Demos.Demos2020.CSVComma().Test();
 
-                new NettyTest().Test();
+                //new NettyTest().Test();
 
                 //new MessagePackDemo().Test();
 
