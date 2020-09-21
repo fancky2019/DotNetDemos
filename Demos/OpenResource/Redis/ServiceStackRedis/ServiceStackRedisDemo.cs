@@ -180,14 +180,14 @@ namespace Demos.OpenResource.Redis.ServiceStackRedis
             //ReadOnlyRedisClient.Db = 1;
             //StringTest();
             //ListTest();
-            HashTest();
+            //HashTest();
             //SetTest();
             //SortedSetTest();
             //ExpiryKey();
             //TransactionTest();
             //LockTest();
             //BatchInsert();
-            //RedisQueue();
+            RedisQueue();
             //PubSub();
             //ExpireCallBack();
         }
@@ -245,6 +245,8 @@ namespace Demos.OpenResource.Redis.ServiceStackRedis
             long re = WriteReadRedisClient.Del("StringKey1");
             //remove 内部调用的是Del。
             bool re1 = WriteReadRedisClient.Remove("StringKey2");
+
+            var len = WriteReadRedisClient.StrLen("StringKey2");
         }
         #endregion
 
@@ -288,7 +290,7 @@ namespace Demos.OpenResource.Redis.ServiceStackRedis
             //FIFO  右出队  队列
             string listRightValue = Encoding.UTF8.GetString(WriteReadRedisClient.RPop("ListKey1"));
             //WriteReadRedisClient.BlockingPopItemFromList("ListKey1", TimeSpan.FromSeconds(2));
-
+            var len = WriteReadRedisClient.LLen("ListKey1");
             //删除
             WriteReadRedisClient.Remove("ListKey1");
             WriteReadRedisClient.Remove("ListKey2");
@@ -619,7 +621,7 @@ namespace Demos.OpenResource.Redis.ServiceStackRedis
                     producerClient.FlushDb();
                     var message = "message";
                     StopwatchHelper.Instance.Start();
-                    for (int i = 0; i < 100000; i++)
+                    for (int i = 0; i < 100; i++)
                     {
                         message = $"message - {i}";
                         producerClient.LPush(listKey, Encoding.UTF8.GetBytes(message));
@@ -635,9 +637,11 @@ namespace Demos.OpenResource.Redis.ServiceStackRedis
                     consumerClient.Db = 13;
                     while (true)
                     {
+
+                        var len = consumerClient.LLen(listKey);
                         //没有数据就阻塞
                         var re = consumerClient.BRPop(listKey, 0);
-                        var key = Encoding.UTF8.GetString(re[0]);
+                        var key = Encoding.UTF8.GetString(re[0]);//listKey
                         var value = Encoding.UTF8.GetString(re[1]);
                         Console.WriteLine($"{value}");
                     }
