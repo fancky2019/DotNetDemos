@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ServiceStack.Text;
 using StackExchange.Redis;
+using ServiceStack;
 
 namespace Demos.OpenResource.Redis.ServiceStackRedis
 {
@@ -179,6 +180,7 @@ namespace Demos.OpenResource.Redis.ServiceStackRedis
             //Utility();
             //ReadOnlyRedisClient.Db = 1;
             //StringTest();
+            BitMap();
             //ListTest();
             //HashTest();
             //SetTest();
@@ -187,7 +189,7 @@ namespace Demos.OpenResource.Redis.ServiceStackRedis
             //TransactionTest();
             //LockTest();
             //BatchInsert();
-            RedisQueue();
+            //RedisQueue();
             //PubSub();
             //ExpireCallBack();
         }
@@ -228,12 +230,42 @@ namespace Demos.OpenResource.Redis.ServiceStackRedis
             //写
             WriteReadRedisClient.Set<string>("StringKey1", "StringValue1");
             WriteReadRedisClient.SetValue("StringKey2", "StringValue2");
+            //更新：覆盖原有值
+            WriteReadRedisClient.SetValue("StringKey2", "StringValue3");
+
+            WriteReadRedisClient.SetValue("StringExpireKey", "StringExpireValue", new TimeSpan(0, 0, 30));
+            //Thread.Sleep(10 * 1000);
+            WriteReadRedisClient.SetValue("StringExpireKey", "StringExpireValue1");//key存在且无过期时间返回-1
+            //返回time to live 单位ms
+            /*
+             * 如果key不存在返回-2
+               如果key存在且无过期时间返回-1
+             * */
+            var ttl1 = WriteReadRedisClient.PTtl("StringExpireKey");
+            //返回time to live 单位s
+            WriteReadRedisClient.Ttl("StringExpireKey");
+
+
+            WriteReadRedisClient.SetValue("StringExpireKey1", "StringExpireValue1", new TimeSpan(0, 0, 30));
+            Thread.Sleep(10 * 1000);
+            //覆盖key的值：不会更新过期时间
+            WriteReadRedisClient.SetRange("StringExpireKey1", 0, "StringExpireValue2".ToUtf8Bytes());
+            var ttl2 = WriteReadRedisClient.PTtl("StringExpireKey1");
+
+
             //如果key 不存在就设置值返回true，如果key存在就返回false也不更新值。
             var reee = WriteReadRedisClient.SetValueIfNotExists("ktttttt", "ddddd");
             Dictionary<string, string> keyValuePairs = new Dictionary<string, string>();
             WriteReadRedisClient.SetValues(keyValuePairs);
             WriteReadRedisClient.SetAll(keyValuePairs);
+
+            //不会更新过期时间
+            WriteReadRedisClient.SetRange("StringSetRangeKey", 0, "StringSetRangeKeyValue".ToUtf8Bytes());
+
             string val = ReadOnlyRedisClient.Get<string>("StringKey2");
+
+
+
 
             //设置key 并设定过期时间
             WriteReadRedisClient.SetValue("StringExpiryKey1", "StringExpiryValue1", TimeSpan.FromSeconds(20));
@@ -247,6 +279,24 @@ namespace Demos.OpenResource.Redis.ServiceStackRedis
             bool re1 = WriteReadRedisClient.Remove("StringKey2");
 
             var len = WriteReadRedisClient.StrLen("StringKey2");
+        }
+        #endregion
+
+        #region BitMap
+
+        private void BitMap()
+        {
+            //活动签到记录可以用BitMap表示,key(userID)、距离活动开始天数（offset）、签到天数（value 1)
+            /*
+             * BitMap 实际还是string类型的存储结构
+             * 初始最小1个Byte 8位
+             * 
+             * offset:>=1
+             * value:1
+             */
+            WriteReadRedisClient.SetBit("BitMapKey11", 3, 1);//在二进制的第三个位置设置1
+            long b = WriteReadRedisClient.GetBit("BitMapKey11", 3);//获取偏移位置上的bit
+            long bitCount = WriteReadRedisClient.BitCount("BitMapKey11");
         }
         #endregion
 

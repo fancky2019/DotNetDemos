@@ -101,7 +101,7 @@ namespace Demos.Demos2018
                 //new StringDemo().Test();
 
                 // new HPSocketDemo().Test();
-                new CharDemo().Test();
+                //new CharDemo().Test();
 
                 //new SubjectTest().Test();
                 //new DivisionDemo().Test();
@@ -170,7 +170,7 @@ namespace Demos.Demos2018
 
                 //new TimerDemo().Test();
 
-                //new NLogDemo().Test();
+                new NLogDemo().Test();
 
                 //Task.Run(() =>
                 //{
