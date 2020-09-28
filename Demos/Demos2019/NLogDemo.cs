@@ -18,6 +18,7 @@ namespace Demos.Demos2019
     ///查看wiki
     /// 配置：https://nlog-project.org/config/
     /// 
+    ///文件配置参数： https://github.com/NLog/NLog/wiki/File-target
     /// 
     /// Nlog只能按照日志等级分文件，不能自定义文件名，Info 分类可在message 前加前缀，方便过滤查找。
     /// </summary>
@@ -37,16 +38,16 @@ namespace Demos.Demos2019
             //NLog.LogManager.Shutdown();
             //Fun1();
             //Fun();
-            new NLogTestClass().Fun();
+            //new NLogTestClass().Fun();
 
             new NLogSyncClass().Fun();
 
             //ThroughputTest();
         }
 
-        private void  Fun1()
+        private void Fun1()
         {
-            for(int i=0;i<1000000;i++)
+            for (int i = 0; i < 1000000; i++)
             {
                 nLog.Info($"Debug-{i} {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}");
             }
@@ -73,7 +74,7 @@ namespace Demos.Demos2019
             LogManager.Configuration = config;
         }
 
-        public  void Fun()
+        public void Fun()
         {
             nLog.Debug("Debug1");
             nLog.Info("NLogDemo info ");
@@ -93,13 +94,13 @@ namespace Demos.Demos2019
         public void ThroughputTest()
         {
             ConcurrentQueue<string> pool = new ConcurrentQueue<string>();
-            for(int i =0;i<5000000;i++)
+            for (int i = 0; i < 5000000; i++)
             {
                 string str = $"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}";
                 pool.Enqueue(str);
             }
 
-            while(!pool.IsEmpty)
+            while (!pool.IsEmpty)
             {
                 string msg;
                 pool.TryDequeue(out msg);
@@ -113,7 +114,7 @@ namespace Demos.Demos2019
 
         private static readonly NLog.Logger nLog = NLog.LogManager.GetCurrentClassLogger();
 
-   
+
         public void Fun()
         {
             nLog.Debug("Debug1");
@@ -140,13 +141,16 @@ namespace Demos.Demos2019
         }
     }
 
-
+    /*
+     * 注意添加配置：
+     <!--https://github.com/NLog/NLog/wiki/Time-Source-->
+     <!--FastLocal默认性能最好,AccurateLocal:本地精确时间，性能最差。同步情况下40条/ms-->
+     <time type = "AccurateLocal" />
+    */
     public class NLogSyncClass
     {
 
         private static readonly NLog.Logger nLog = NLog.LogManager.GetCurrentClassLogger();
-
-
         public void Fun()
         {
             nLog.Debug("Debug1");
@@ -167,6 +171,7 @@ namespace Demos.Demos2019
             for (int i = 0; i < 9999; i++)
             {
                 nLog.Info($"Debug-{i} {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}");
+
             }
 
             NLog.LogManager.Shutdown();
