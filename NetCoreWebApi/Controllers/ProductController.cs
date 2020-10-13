@@ -12,6 +12,19 @@ using Microsoft.EntityFrameworkCore;
 
 namespace NetCoreWebApi.Controllers
 {
+    /*.net framwwork 
+     * webapi继承ValuesController : ApiController
+     * 
+     * .NetCore
+     *Api 继承ControllerBase,官方Api 模板继承ControllerBase
+     *
+     *Controller会渲染视图，Controller继承ControllerBase
+     *加ApiController特性，继承ControllerBase只返回数据，一般json。
+     *
+     *类似SpingBoot的@Controller------>Controller
+     *               @RestController-->ControllerBase
+     */
+
     /*
      * 访问Swagger
      * https://localhost:8464/swagger
