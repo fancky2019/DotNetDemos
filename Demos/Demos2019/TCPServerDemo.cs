@@ -55,10 +55,14 @@ namespace Demos.Demos2019
                     Console.WriteLine("Connected!");
 
                     data = null;
+                    //生产环境此处要开启一个线程取接收,每个TCP连接都会有一个线程负责接收，这就比NIO的一个
+                    //线程维护多个Chanel的方式性能差。
 
+                    //由于read是阻塞，第一个建立连接的socket会一直占用此线程。其他socket就不能建立连接
+                    //因此单开一个线程进行IO处理而不影响Accept线程。
                     // Get a stream object for reading and writing
                     NetworkStream stream = client.GetStream();
-
+    
                     int i;
                     while (true)
                     {
