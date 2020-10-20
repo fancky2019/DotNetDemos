@@ -47,6 +47,7 @@ namespace NetCoreWebApi
              //            .AddJsonFile("Ocelot.json");
              //})
              .UseSetting("https_port", "8080")
+             //           .UseUrls("http://*:5000");
              .UseStartup<Startup>();
         //指定端口，不然在centos中部署外网访问不到
         //    .UseStartup<Startup>().UseUrls("http://*:5000;https://*:5001");
