@@ -11,6 +11,9 @@ namespace Demos.Demos2019
     /// 对于预定义的值类型，如果操作数的值相等，则相等运算符 (==) 返回 true，否则返回 false。 
     /// 对于 string 以外的引用类型，如果两个操作数引用同一个对象，则 == 返回 true。
     /// 对于 string 类型，== 比较字符串的值。
+    /// 
+    /// 
+    /// == 比较地址，如果没重写equal 则对象地址比较，否则调用equal
     /// </summary>
     class EqualsOperatorDemo
     {
