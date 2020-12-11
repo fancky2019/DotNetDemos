@@ -63,6 +63,7 @@ namespace Demos.Demos2018
         {
             try
             {
+                ParameterCommand();
                 // Procedure();
                 //ProcedureSingle();
                 // ProcedureOutPutParam();
@@ -70,7 +71,7 @@ namespace Demos.Demos2018
 
                 //SqlBulkCopyTest();
                 //PrepareCommand();
-                ConnectionPool();
+                //ConnectionPool();
             }
             catch (Exception ex)
             {
@@ -79,6 +80,22 @@ namespace Demos.Demos2018
 
         }
 
+        private void ParameterCommand()
+        {
+
+            string insertCommand = $@"INSERT INTO [Demo].[dbo].[Person]([Name],[Age])
+                                      VALUES (@Name,@Age)";
+            var conString = "server=.;database=Demo;user=sa;pwd=123456";
+            using (SqlConnection sqlConnection =new SqlConnection (conString))
+            {
+
+                SqlCommand sqlCommand = new SqlCommand(insertCommand, sqlConnection);
+                sqlCommand.Parameters.AddWithValue("@Name", "fancky");
+                sqlCommand.Parameters.AddWithValue("@Age", 27);
+                sqlConnection.Open();
+                int result= sqlCommand.ExecuteNonQuery();
+            }
+        }
         
         /// <summary>
         /// 连接池默认开启
@@ -116,6 +133,7 @@ namespace Demos.Demos2018
                 Console.WriteLine(stopwatch.ElapsedMilliseconds);
             }
         }
+
         /// <summary>
         /// command.Prepare() 效果明显，减少耗时
         ///尽管command.Prepare()， 插入还是在100-200ms
