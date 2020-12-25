@@ -111,7 +111,10 @@ namespace Demos.Demos2019
 
         private void Fun()
         {
-
+            /*
+             * 日期占位符：
+             * (y、M、d、h、m、s、f) 分别代替(年、月、日、时、分、秒、毫秒)来自由组合日期时间格式。
+             */
             var yearMonth = "1908";
             //19
             var yearNumber = yearMonth.Substring(0, 2);
