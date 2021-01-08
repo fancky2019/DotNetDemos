@@ -377,6 +377,7 @@
   <ItemGroup>
     <Compile Include="Common\BufferLog.cs" />
     <Compile Include="Common\DailyFile.cs" />
+    <Compile Include="Common\DataTableExtension.cs" />
     <Compile Include="Common\DataTableModels.cs" />
     <Compile Include="Common\InterLockedExtention.cs" />
     <Compile Include="Common\Log.cs" />
