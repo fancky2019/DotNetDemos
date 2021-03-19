@@ -13,6 +13,8 @@ namespace Demos.Demos2019
     /// 参见Common目录下InterLockedExtention类中使用
     /// 
     /// Volatile保证字段不缓存在CPU的寄存器中，而直接操作RAM（内存）
+    /// 
+    /// 如果你有多个线程对变量写入，volatile 无法解决你的问题，并且你必须使用 lock 来防止竞争条件。
     /// </summary>
     class VolatileDemo
     {
