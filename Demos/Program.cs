@@ -8,6 +8,7 @@ using Demos.Demos2019.Forms;
 using Demos.Demos2019.Proxy;
 using Demos.Demos2019.Subjects;
 using Demos.Demos2020;
+using Demos.Demos2021;
 using Demos.Model;
 using Demos.OpenResource.Dapper;
 using Demos.OpenResource.DotNettyDemo;
@@ -22,6 +23,7 @@ using Demos.OpenResource.Redis.ServiceStackRedis;
 using Demos.OpenResource.Redis.StackExchangeRedis;
 using Demos.OpenResource.SnowFlakeDemo;
 using Demos.OpenResource.SQLite;
+using Demos.Demos2021.ExtendImplement;
 using Microsoft.Win32;
 using System;
 using System.Collections;
@@ -241,6 +243,12 @@ namespace Demos.Demos2018
 
                 //new ByteBase64String().Test();
 
+
+                #endregion
+
+                #region Demos2021
+                //new ThreadExceptionDemo().Test();
+                new ExtendImplementDemo().Test();
 
                 #endregion
 

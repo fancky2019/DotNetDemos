@@ -426,6 +426,12 @@
     <Compile Include="Demos2020\Hex.cs" />
     <Compile Include="Demos2020\InterfaceDemo.cs" />
     <Compile Include="Demos2020\YieldReturnDemo.cs" />
+    <Compile Include="Demos2021\ExtendImplement\BaseClass.cs" />
+    <Compile Include="Demos2021\ExtendImplement\ChildrenClassA.cs" />
+    <Compile Include="Demos2021\ExtendImplement\ChildrenClassB.cs" />
+    <Compile Include="Demos2021\ExtendImplement\ExtendImplementDemo.cs" />
+    <Compile Include="Demos2021\ExtendImplement\InterfaceA.cs" />
+    <Compile Include="Demos2021\ThreadExceptionDemo.cs" />
     <Compile Include="OpenResource\Compression\CompressionDemo.cs" />
     <Compile Include="OpenResource\Dapper\DapperDemo.cs" />
     <Compile Include="OpenResource\DistributedTranscation\DistributedTranscationDemo.cs" />
