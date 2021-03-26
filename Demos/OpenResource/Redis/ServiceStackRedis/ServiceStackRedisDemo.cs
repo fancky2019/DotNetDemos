@@ -68,6 +68,16 @@ namespace Demos.OpenResource.Redis.ServiceStackRedis
             //PooledRedisClientManager.PoolTimeout  默认两秒 上面改成4秒
         }
 
+        void WriteSixThoundsPerHourLimitTest()
+        {
+            var redis = ServiceStackRedisDemo.Instance.WriteReadRedisClient;
+            // 6000上线测试
+            for (int i = 0; i < 100000; i++)
+            {
+                //redis.Add<string>($"String{i}", i.ToString());
+                redis.SetValue($"String{i}", i.ToString());
+            }
+        }
         void ServiceStackTest()
         {
 
@@ -177,10 +187,11 @@ namespace Demos.OpenResource.Redis.ServiceStackRedis
         /// </summary>
         public void Test()
         {
+            WriteSixThoundsPerHourLimitTest();
             //Utility();
             //ReadOnlyRedisClient.Db = 1;
             //StringTest();
-            BitMap();
+            //BitMap();
             //ListTest();
             //HashTest();
             //SetTest();
