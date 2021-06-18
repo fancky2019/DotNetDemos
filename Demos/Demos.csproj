@@ -426,6 +426,7 @@
     <Compile Include="Demos2020\Hex.cs" />
     <Compile Include="Demos2020\InterfaceDemo.cs" />
     <Compile Include="Demos2020\YieldReturnDemo.cs" />
+    <Compile Include="Demos2021\DataTableDemo.cs" />
     <Compile Include="Demos2021\ExtendImplement\BaseClass.cs" />
     <Compile Include="Demos2021\ExtendImplement\ChildrenClassA.cs" />
     <Compile Include="Demos2021\ExtendImplement\ChildrenClassB.cs" />
@@ -601,6 +602,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <Content Include="Dll\Netty\libuv.dll" />
+    <Content Include="Dll\Redis\ServiceStack.Common.dll" />
+    <Content Include="Dll\Redis\ServiceStack.Common.xml" />
+    <Content Include="Dll\Redis\ServiceStack.Interfaces.dll" />
+    <Content Include="Dll\Redis\ServiceStack.Interfaces.xml" />
+    <Content Include="Dll\Redis\ServiceStack.Redis.dll" />
+    <Content Include="Dll\Redis\ServiceStack.Redis.xml" />
     <Content Include="Dll\Redis\ServiceStack.Text.dll" />
     <Content Include="Dll\Redis\ServiceStack.Text.xml" />
     <Content Include="NLog - Test.config">
