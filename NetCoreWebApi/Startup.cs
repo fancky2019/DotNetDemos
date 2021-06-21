@@ -46,10 +46,16 @@ namespace NetCoreWebApi
                 options.UseSqlServer(Configuration["ConnectionStrings:WMSConnectionString:ConnectionString"]);
             });
             //注入接口及实现类
+            //.NetCore中三种依赖注入方式：AddTransient、AddScoped、AddSingleton bean作用域
+            /* AddTransient：（prototype原型模式）每次获取实例请求，都获取一个新的实例。即使同一个httprequest请求获取多次也会是不同的实例
+               AddScoped：每次httprequest请求，都获取一个新的实例。同一个请求获取多次会得到相同的实例。
+                          请求开始-请求结束  在这次请求中获取的对象都是同一个 
+               AddSingleton：每次都获取同一个实例。
+            */
             //services.AddSingleton<IConfig, Config>(p => new Config(Configuration));
             //services.AddSingleton<IConfig, Config>(p => typeof(Config));
-
-
+            //services.AddTransient<IConfig, Config>();
+            //services.AddScoped<IConfig, Config>();
 
             //CS1591 缺少对公共可见类型或成员的 XML 注释
             //
