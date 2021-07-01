@@ -93,7 +93,7 @@ namespace Demos.Demos2018
                 //new TryCatchFinallyReturnDemo().Test();
 
                 //  new CollectionDemo().Test();
-                new RedisDemo().Test();
+                //new RedisDemo().Test();
 
                 #endregion
 
@@ -249,7 +249,7 @@ namespace Demos.Demos2018
                 #region Demos2021
                 //new ThreadExceptionDemo().Test();
                 //new ExtendImplementDemo().Test();
-
+                new ModRemDemo().Test();
                 #endregion
 
                 Console.WriteLine("Completed!");
