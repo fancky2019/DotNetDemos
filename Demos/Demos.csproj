@@ -432,6 +432,7 @@
     <Compile Include="Demos2021\ExtendImplement\ChildrenClassB.cs" />
     <Compile Include="Demos2021\ExtendImplement\ExtendImplementDemo.cs" />
     <Compile Include="Demos2021\ExtendImplement\InterfaceA.cs" />
+    <Compile Include="Demos2021\ModRemDemo.cs" />
     <Compile Include="Demos2021\ThreadExceptionDemo.cs" />
     <Compile Include="OpenResource\Compression\CompressionDemo.cs" />
     <Compile Include="OpenResource\Dapper\DapperDemo.cs" />
