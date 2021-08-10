@@ -7,6 +7,8 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Demos.Demos2018
 {
@@ -63,7 +65,9 @@ namespace Demos.Demos2018
         {
             try
             {
-                ParameterCommand();
+                //ConcurrentTransactionTest();
+                ConcurrentTransactionException();
+                //ParameterCommand();
                 // Procedure();
                 //ProcedureSingle();
                 // ProcedureOutPutParam();
@@ -80,23 +84,102 @@ namespace Demos.Demos2018
 
         }
 
+        private void ConcurrentTransactionTest()
+        {
+            Task.Run(() =>
+            {
+                ConcurrentTransaction();
+            });
+            Thread.Sleep(1000);
+            Task.Run(() =>
+            {
+                ConcurrentTransaction(); 
+            });
+
+        }
+        private void ConcurrentTransaction()
+        {
+            string insertCommand = $@"INSERT INTO [Demo].[dbo].[Person]([Name],[Age])
+                                      VALUES (@Name,@Age)";
+            var conString = "server=.;database=Demo;user=sa;pwd=123456";
+            using (SqlConnection sqlConnection = new SqlConnection(conString))
+            {
+                SqlCommand sqlCommand = null;
+                try
+                {
+                    Console.WriteLine($"Thread - {Thread.CurrentThread.ManagedThreadId} enter.");
+                    Thread.Sleep(3000);
+                    sqlCommand = new SqlCommand(insertCommand, sqlConnection);
+                    sqlCommand.Parameters.AddWithValue("@Name", "fancky");
+                    sqlCommand.Parameters.AddWithValue("@Age", 27);
+                    sqlConnection.Open();
+                    sqlCommand.Transaction = sqlConnection.BeginTransaction();
+                    int result = sqlCommand.ExecuteNonQuery();
+                    sqlCommand.Transaction.Commit();
+                    Console.WriteLine($"Thread - {Thread.CurrentThread.ManagedThreadId} done.");
+                }
+                catch (Exception ex)
+                {
+                    sqlCommand?.Transaction?.Rollback();
+                    Console.WriteLine(ex.ToString());
+                }
+
+            }
+        }
+
+
+        private void ConcurrentTransactionException()
+        {
+            string insertCommand = $@"INSERT INTO [Demo].[dbo].[Person]([Name],[Age])
+                                      VALUES (@Name,@Age)";
+            var conString = "server=.;database=Demo;user=sa;pwd=123456";
+            using (SqlConnection sqlConnection = new SqlConnection(conString))
+            {
+                SqlCommand sqlCommand = null;
+                try
+                {
+                    Console.WriteLine($"Thread - {Thread.CurrentThread.ManagedThreadId} enter.");
+                    Thread.Sleep(3000);
+                    sqlCommand = new SqlCommand(insertCommand, sqlConnection);
+                    sqlCommand.Parameters.AddWithValue("@Name", "fancky");
+                    sqlCommand.Parameters.AddWithValue("@Age", 27);
+                    sqlConnection.Open();
+                    sqlCommand.Transaction = sqlConnection.BeginTransaction();
+                    int result = sqlCommand.ExecuteNonQuery();
+                    sqlCommand.Transaction.Commit();//Commit 之后 Transaction=null
+                    Console.WriteLine($"Thread - {Thread.CurrentThread.ManagedThreadId} done.");
+
+                    // result = sqlCommand.ExecuteNonQuery();
+                    //sqlCommand.Transaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    sqlCommand?.Transaction?.Rollback();
+                    Console.WriteLine(ex.ToString());
+                }
+
+            }
+        }
+
+
+
         private void ParameterCommand()
         {
 
             string insertCommand = $@"INSERT INTO [Demo].[dbo].[Person]([Name],[Age])
                                       VALUES (@Name,@Age)";
             var conString = "server=.;database=Demo;user=sa;pwd=123456";
-            using (SqlConnection sqlConnection =new SqlConnection (conString))
+            using (SqlConnection sqlConnection = new SqlConnection(conString))
             {
 
                 SqlCommand sqlCommand = new SqlCommand(insertCommand, sqlConnection);
                 sqlCommand.Parameters.AddWithValue("@Name", "fancky");
                 sqlCommand.Parameters.AddWithValue("@Age", 27);
                 sqlConnection.Open();
-                int result= sqlCommand.ExecuteNonQuery();
+                int result = sqlCommand.ExecuteNonQuery();
             }
         }
-        
+
         /// <summary>
         /// 连接池默认开启
         /// 开启连接池会快几毫秒
@@ -119,13 +202,13 @@ namespace Demos.Demos2018
                     using (SqlCommand mycommand = new SqlCommand())
                     {
                         mycommand.Connection = connection;
-       
+
                         mycommand.CommandText = $"insert into Person (name,age) values ('message - {1}',3);";
                         //速度是快了
                         mycommand.Prepare();
                         mycommand.ExecuteNonQuery();
 
-                
+
                     }
                 }
 
