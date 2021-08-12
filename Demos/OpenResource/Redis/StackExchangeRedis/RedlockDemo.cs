@@ -17,6 +17,12 @@ namespace Demos.OpenResource.Redis.StackExchangeRedis
     /// </summary>
     public class RedlockDemo
     {
+
+        /*
+         * 加锁的时候往redis 数据库写入 string key   key:strKey ,value:Guid.NewGuid().ToByteArray();
+         */
+        const string key = "key";
+
         //StackExchange.Redis
         //github:https://github.com/ServiceStack/ServiceStack.Redis
         public void Test()
@@ -35,7 +41,7 @@ namespace Demos.OpenResource.Redis.StackExchangeRedis
             TestWhenLockedAnotherLockRequestIsRejected();
             // TestThatSequenceLockedUnlockedAndLockedAgainIsSuccessfull();
         }
-        const string key = "key";
+
         public void TestWhenLockedAnotherLockRequestIsRejected()
         {
             ////单服务器
@@ -63,7 +69,7 @@ namespace Demos.OpenResource.Redis.StackExchangeRedis
             Thread.Sleep(3);
             //3s秒后Key过期释放锁
             //RedLock 内部调用： redis.GetDatabase().StringSet(resource, val, ttl, When.NotExists);
-            locked = dlm.Lock(key, new TimeSpan(0, 0, 3), out newLockObject);
+            locked = dlm.Lock(key, new TimeSpan(0, 0, 30), out newLockObject);
             dlm.Unlock(lockObject);
         }
 
