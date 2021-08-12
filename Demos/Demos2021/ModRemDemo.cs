@@ -9,7 +9,7 @@ namespace Demos.Demos2021
     /**
      *C#、java里： 取模=取余。获取余数
      */
-    class ModRemDemo
+    class RedlockDemo
     {
         public void Test()
         {

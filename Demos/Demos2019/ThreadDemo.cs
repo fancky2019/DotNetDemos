@@ -33,6 +33,7 @@ namespace Demos.Demos2019
         }
         private void ThreadDemo1(ThreadDemo threadDemo)
         {
+          
 
         }
 
@@ -411,12 +412,55 @@ namespace Demos.Demos2019
         #region 线程状态
         private void ThreadState()
         {
-            /*
-             *ThreadState: Unstarted
-             *ThreadState: WaitSleepJoin
-             *ThreadState: Stopped
-             */
-            Thread newThread = new Thread(()=>
+            //ThreadState
+
+        ////
+        //// 摘要:
+        ////     A state that indicates the thread has been initialized, but has not yet started.
+        //Initialized,
+        ////
+        //// 摘要:
+        ////     A state that indicates the thread is waiting to use a processor because no processor
+        ////     is free. The thread is prepared to run on the next available processor.
+        //Ready,
+        ////
+        //// 摘要:
+        ////     A state that indicates the thread is currently using a processor.
+        //Running,
+        ////
+        //// 摘要:
+        ////     A state that indicates the thread is about to use a processor. Only one thread
+        ////     can be in this state at a time.
+        //Standby,
+        ////
+        //// 摘要:
+        ////     A state that indicates the thread has finished executing and has exited.
+        //Terminated,
+        ////
+        //// 摘要:
+        ////     A state that indicates the thread is not ready to use the processor because it
+        ////     is waiting for a peripheral operation to complete or a resource to become free.
+        ////     When the thread is ready, it will be rescheduled.
+        //Wait,
+        ////
+        //// 摘要:
+        ////     A state that indicates the thread is waiting for a resource, other than the processor,
+        ////     before it can execute. For example, it might be waiting for its execution stack
+        ////     to be paged in from disk.
+        //Transition,
+        ////
+        //// 摘要:
+        ////     The state of the thread is unknown.
+        //Unknown
+
+
+
+          /*
+           *ThreadState: Unstarted
+           *ThreadState: WaitSleepJoin
+           *ThreadState: Stopped
+           */
+          Thread newThread = new Thread(()=>
             {
                 Thread.Sleep(1000);
             });
