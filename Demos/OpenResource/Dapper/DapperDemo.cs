@@ -45,7 +45,9 @@ namespace Demos.OpenResource.Dapper
             //String insertCommand = "insert into Person(name)values('fancky1');";
             using (SQLiteConnection connection = new SQLiteConnection(_conString_SQLite))
             {
+                //参数赋值
                 //connection.Execute("insert into Person(Name,Remark) values(@Name,@Remark)", person);
+                //connection.Execute("insert into Person(Name,Remark) values(@Name,@Remark)", new { Name="fancky", Remark = "Remark" });
                 var insertCommand = $"insert into Person (Name) values ('message - {1}');";
                 connection.Execute(insertCommand);
 
