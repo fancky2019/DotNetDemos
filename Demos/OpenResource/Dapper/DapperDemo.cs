@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Data.SqlClient;
 using System.Data.SQLite;
 using System.Diagnostics;
@@ -57,6 +58,24 @@ namespace Demos.OpenResource.Dapper
             stopwatch.Stop();
             Console.WriteLine(stopwatch.ElapsedMilliseconds);
         }
+
+        private void Query()
+        {
+            DataTable dataTable = new DataTable();
+            var param = new
+            {
+                UserName =""
+            };
+            var conString = "server=.;database=Demo;user=sa;pwd=123456";
+            using (SqlConnection connection = new SqlConnection(conString))
+            {
+               int count = connection.QuerySingle<int>("select  count(*) from table", param);
+                var dataReader = connection.ExecuteReader("select  * from table", param);
+                //connection.Query<Person>("select *  from Person");
+                dataTable.Load(dataReader);
+            }
+        }
+
 
         private void ParameterCommand()
         {
