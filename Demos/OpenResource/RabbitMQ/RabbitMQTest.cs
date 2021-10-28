@@ -15,9 +15,9 @@ namespace Demos.Demos2018.RabbitMQ
     /// </summary>
     class RabbitMQTest
     {
-        public void  Test()
+        public void Test()
         {
-    
+           // rabbitMQ集群采用镜像模式
 
             Task.Run(() =>
             {
@@ -83,7 +83,7 @@ namespace Demos.Demos2018.RabbitMQ
                 //    //Thread.Sleep(100);
                 //}
             });
- 
+
         }
     }
 }

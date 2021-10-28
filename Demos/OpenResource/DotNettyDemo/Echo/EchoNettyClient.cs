@@ -62,6 +62,7 @@ namespace Demos.OpenResource.DotNettyDemo.Echo
                         IdleStateHandler idleStateHandler = new IdleStateHandler(2, 2, 6);
 
                         pipeline.AddLast("timeout", idleStateHandler);
+                        //框架解码器：防止TCP粘包。 FixedLengthFrameDecoder、LineBasedFrameDecoder、DelimiterBasedFrameDecoder和LengthFieldBasedFrameDecoder
                         pipeline.AddLast("framing-enc", new LengthFieldPrepender(2));
                         pipeline.AddLast("framing-dec", new LengthFieldBasedFrameDecoder(ushort.MaxValue, 0, 2, 0, 2));
 
