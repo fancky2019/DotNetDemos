@@ -9,9 +9,13 @@ using System.Threading.Tasks;
 namespace Demos.Demos2019
 {
     /*
+     * 
+     * 用户数据报协议（UDP，User Datagram Protocol）
+     * 
+     * 
     * UDP 包的大小就应该是 1500 - IP头(20) - UDP头(8) = 1472(Bytes)
     * TCP 包的大小就应该是 1500 - IP头(20) - TCP头(20) = 1460 (Bytes)
-    * MTC:1500,分片，组包
+    * MTU:1500,分片，组包
     * UPD:于Internet(非局域网)上的标准MTU值为576字节，最好548字节 (576-8-20)以内。
     */
     public class UDPClientDemo
@@ -35,7 +39,7 @@ namespace Demos.Demos2019
             //udpClient.Connect("127.0.0.1", 7777);
             ////Sends a message to the host to which you have connected.
             //udpClient.Send(sendBytes, sendBytes.Length);
-            //或者
+            //或者 直接往目标 ip+端口扔数据
             udpClient.Send(sendBytes, sendBytes.Length, "127.0.0.1", 7777);
 
             IPEndPoint remoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
