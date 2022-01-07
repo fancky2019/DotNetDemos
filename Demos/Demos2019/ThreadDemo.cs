@@ -168,6 +168,7 @@ namespace Demos.Demos2019
 
         private void RunLockMethod1()
         {
+            Monitor.Enter(_lockObj1);
             lock (_lockObj1)
             {
                 Console.WriteLine($"RunMethod1:{Thread.CurrentThread.ManagedThreadId}");
