@@ -12,7 +12,8 @@ namespace Demos.Demos2019
         {
             // Sort();
             //  DictionaryTest();
-            SetTest();
+            //SetTest();
+            Delete();
         }
 
         private void Sort()
@@ -70,6 +71,23 @@ namespace Demos.Demos2019
             hashSet.Add("li");//没有添加进去
            // SortedSet
           
+        }
+
+        private void Delete()
+        {
+
+            List<int> list = new List<int> { 6, 7, 23, 2, 6, 8 };
+            for(int i=list.Count-1; i>=0; i--)
+            {
+                int num = list[i];
+                if(num==6)
+                {
+                    //内部调用RemoveAt
+                    //list.Remove(i);
+                    list.RemoveAt(i);
+                }
+            }
+
         }
     }
 }
