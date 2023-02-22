@@ -72,7 +72,7 @@ namespace Demos.Demos2018
                 // string str = Test().Result;
                 //new AdoTest().Test();
                 new LambdaTest().Test();
-                
+
                 //new TClassTest<Product>().Test();
                 //new LockDemo().Test();
 
@@ -85,7 +85,7 @@ namespace Demos.Demos2018
                 //   new ProducerConsumerTPSDemo().Test();
                 #endregion
 
-                //  new BlockingCollectionDemo().Test();
+                //new BlockingCollectionDemo().Test();
 
                 // new AttributeDemo().Test();
                 //new ImplicitExplicitDemo().Test();
@@ -93,7 +93,7 @@ namespace Demos.Demos2018
                 //new RabbitMQTest().Test();
                 //new TryCatchFinallyReturnDemo().Test();
 
-                //  new CollectionDemo().Test();
+
                 //new RedisDemo().Test();
 
                 #endregion
@@ -102,7 +102,7 @@ namespace Demos.Demos2018
                 //new EqualsOperatorDemo().Test();
                 //new ThreadDemo().Test();
                 //new StringDemo().Test();
-
+                new CollectionDemo().Test();
                 // new HPSocketDemo().Test();
                 //new CharDemo().Test();
 
