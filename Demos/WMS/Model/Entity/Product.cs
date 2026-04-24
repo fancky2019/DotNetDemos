@@ -6,6 +6,13 @@ namespace CRM.Model.EntityModels.WMS
 {
     public class Product
     {
+
+
+     public   Product()
+        {
+            ID = 1;
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -58,5 +65,6 @@ namespace CRM.Model.EntityModels.WMS
         /// 
         /// </summary>
         public byte[] TimeStamp { get; set; }
+
     }
 }
