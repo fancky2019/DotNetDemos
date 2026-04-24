@@ -17,6 +17,7 @@ namespace NetCoreWebApi
     /// </summary>
     public class Log
     {
+  
         static ILoggerRepository _loggerRepository;
         static Log()
         {

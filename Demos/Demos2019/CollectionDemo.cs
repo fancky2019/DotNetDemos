@@ -11,9 +11,9 @@ namespace Demos.Demos2019
         public void Test()
         {
             // Sort();
-            //  DictionaryTest();
+            DictionaryTest();
             //SetTest();
-            Delete();
+            //Delete();
         }
 
         private void Sort()
@@ -53,7 +53,27 @@ namespace Demos.Demos2019
 
         private void DictionaryTest()
         {
+            Dictionary<string, string> strDic = new Dictionary<string, string>();
+            //key 不能=null 
+            //var val1 = strDic[null];
+            //key要存在
+            //var val2 = strDic["1"];
+
+            //key 不能=null 
+            //if (strDic.TryGetValue(null,out string str))
+            //{
+
+            //}
+
+            //key 不存在返回false
+            if (strDic.TryGetValue("1", out string str1))
+            {
+
+            }
+
             Dictionary<string, string> dic = new Dictionary<string, string>();
+
+
             dic.Add("li", "rui");
             //如果添加了重复Key报错，java  不报错，添加不进去
            // dic.Add("li", "fancky");

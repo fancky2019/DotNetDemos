@@ -36,7 +36,27 @@ namespace Demos.OpenResource.Dapper
         {
             //Insert();
 
-            ParameterCommand();
+            //  ParameterCommand();
+          for(int i = 0; i < 10; i++)
+            {
+                queryTest();
+            }
+         
+        }
+
+
+        private void queryTest() {
+            Stopwatch stopwatch = Stopwatch.StartNew();
+            string conStr = "Server=60.174.197.249,13999;Database=GensongWms3DB_test05;User=sa; Password=gen@song123;TrustServerCertificate=True;MultipleActiveResultSets=true";
+
+          var  connectionString = "Server=60.174.197.249,13999;Database=GensongWms3DB_test05;User=sa; Password=gen@song123;persist security info=True;Connect Timeout=90;Connection Lifetime=30;Max Pool Size=100;Min Pool Size=0;Pooling=True;MultipleActiveResultSets=true";
+            using (IDbConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = "select *  from  WaveShipOrderItemRelation where id=460417335808069;";
+                var re= connection.Query<WaveShipOrderItemRelation>(sql).SingleOrDefault();
+            }
+            stopwatch.Stop();
+            Console.WriteLine(stopwatch.ElapsedMilliseconds);
         }
 
         private void Insert()

@@ -140,6 +140,7 @@ namespace Demos.Common
             TimeSpan ts = dateTime - new DateTime(1970, 1, 1, 0, 0, 0, 0);
             return Convert.ToUInt64(ts.TotalMilliseconds);
         }
+   
 
     }
 }

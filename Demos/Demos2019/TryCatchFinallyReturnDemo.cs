@@ -11,18 +11,37 @@ namespace Demos.Demos2019
     {
         public void Test()
         {
-            //  finally没return: try、catch有return 执行return之后再执行finally块，try、catch内return的值如果
-            //                        是基本数据类型不受finally语句影响，如果是引用类型将改变暂存值。
-            Console.WriteLine($"Get()={Get()}");//异常：0，正常：1。
-            Console.WriteLine($"a={a}");//异常：2，正常：1。
+            ////  finally没return: try、catch有return 执行return之后再执行finally块，try、catch内return的值如果
+            ////                        是基本数据类型不受finally语句影响，如果是引用类型将改变暂存值。
+            //Console.WriteLine($"Get()={Get()}");//异常：0，正常：1。
+            //Console.WriteLine($"a={a}");//异常：2，正常：1。
 
-            string str = GetString();
-            Console.WriteLine(str);
+            //string str = GetString();
+            //Console.WriteLine(str);
 
-            Person person = GetPerson();
-            Console.WriteLine(person.Name);
+            //Person person = GetPerson();
+            //Console.WriteLine(person.Name);
 
 
+            UsingTest();
+
+        }
+
+        private void UsingTest()
+        {
+            try
+            {
+                //会限制性using 的Dispose方法，然后将异常抛出去
+                using (UsingModel usingModel = new UsingModel())
+                {
+                    int m = int.Parse("ds");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception");
+            }
+          
         }
         int a = 1;
 
@@ -103,6 +122,14 @@ namespace Demos.Demos2019
             }
 
 
+        }
+    }
+
+    public class UsingModel : IDisposable
+    {
+        public void Dispose()
+        {
+            Console.WriteLine("Call UsingModel Dispose method.");
         }
     }
 }

@@ -32,6 +32,9 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Wms;
+using System.Linq;
+using Demos.Demos2023;
 
 namespace Demos.Demos2018
 {
@@ -44,8 +47,7 @@ namespace Demos.Demos2018
 
             try
             {
-
-
+                _nLog.Info("start");
                 //AutoStart(true);
                 //new AutoStartProgramDemo().Test();
                 //Console.WriteLine(Thread.CurrentThread.ManagedThreadId);
@@ -65,13 +67,14 @@ namespace Demos.Demos2018
                           _nLog.Error(e.ToString());
                       };
 
-
+                decimal num1 = (decimal)1.500000;
+                string strNum = num1.ToString("0.######");//0.5
 
                 #region Demos2018
                 //new ParamsDemo().Test();
                 // string str = Test().Result;
                 //new AdoTest().Test();
-                new LambdaTest().Test();
+                //new LambdaTest().Test();
 
                 //new TClassTest<Product>().Test();
                 //new LockDemo().Test();
@@ -102,7 +105,7 @@ namespace Demos.Demos2018
                 //new EqualsOperatorDemo().Test();
                 //new ThreadDemo().Test();
                 //new StringDemo().Test();
-                new CollectionDemo().Test();
+                //new CollectionDemo().Test();
                 // new HPSocketDemo().Test();
                 //new CharDemo().Test();
 
@@ -226,11 +229,12 @@ namespace Demos.Demos2018
 
                 //new NettyUDPServer().Test();
                 //new NettyUDPClient().Test();
-                //new YieldReturnDemo().Test();
+                new YieldReturnDemo().Test();
                 //var id1 = new SnowFlake(1, 0).Test();
-                //var id2 = new FanckySnowFlake(1, DateTime.Parse("2020-01-01")).Test();
-                //var id2 = new WorkerIDSnowFlake(1, DateTime.Parse("2020-01-01")).Test();
-                //var id2 = new ConfiguredSequenceSnowFlake(1, 12, DateTime.Parse("2020-01-01")).Test();
+              var id2 = new FanckySnowFlake(1, DateTime.Parse("2020-01-01")).Test();
+                int m1 = 0;
+                //  var id2 = new WorkerIDSnowFlake(1, DateTime.Parse("2020-01-01")).Test();
+                //  var id2 = new ConfiguredSequenceSnowFlake(1, 12, DateTime.Parse("2020-01-01")).Test();
 
                 //new SQLiteDemo().Test();
                 //new DapperDemo().Test();
@@ -253,6 +257,11 @@ namespace Demos.Demos2018
                 //new ModRemDemo().Test();
                 //new Demos.OpenResource.Redis.StackExchangeRedis.RedlockDemo().Test();
 
+                #endregion
+
+                #region Demos2023
+                //TxtLogger.Test();
+                //new EnumReflection().Test();
                 #endregion
 
 

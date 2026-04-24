@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NLog;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -122,7 +123,10 @@ namespace NetCoreWebApi.Controllers
         [HttpGet("SyncTest")]
         public IActionResult SyncTest()
         {
-            Thread.Sleep(10 * 1000);
+
+            Console.WriteLine("IActionResult SyncTest()");
+            //Thread.Sleep(10 * 1000);
+
             return Json("Sync");
         }
 
@@ -131,6 +135,31 @@ namespace NetCoreWebApi.Controllers
         {
             Thread.Sleep(10 * 1000);
             return Json("Sync1");
+        }
+
+        public IActionResult Tran()
+        {
+            var context = _WMSDbContext;
+                using (var dbContextTransaction = context.Database.BeginTransaction())
+                {
+                    context.Database.ExecuteSqlCommand(
+                        @"UPDATE Blogs SET Rating = 5" +
+                            " WHERE Name LIKE '%Entity Framework%'"
+                        );
+
+                    //var query = context.Posts.Where(p => p.Blog.Rating >= 5);
+                    //foreach (var post in query)
+                    //{
+                    //    post.Title += "[Cool Blog]";
+                    //}
+
+                    context.SaveChanges();
+
+                    dbContextTransaction.Commit();
+                }
+            
+            return Json("Tran");
+
         }
 
     }

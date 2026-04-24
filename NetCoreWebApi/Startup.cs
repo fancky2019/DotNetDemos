@@ -17,6 +17,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using NetCoreWebApi.Filter;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace NetCoreWebApi
@@ -113,6 +114,9 @@ namespace NetCoreWebApi
                    //};
 
                });
+            services.AddMvc(option => {
+                option.Filters.Add(typeof(TraceFilter));
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
